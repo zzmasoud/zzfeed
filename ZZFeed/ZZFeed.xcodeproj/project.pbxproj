@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		047868DD289A91CC0013E8DB /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047868DC289A91CC0013E8DB /* FeedLoader.swift */; };
 		04789989289AB19B00A38697 /* RemoteFeedLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04789988289AB19B00A38697 /* RemoteFeedLoaderTests.swift */; };
+		0478998C289ABDB300A38697 /* FeedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0478998B289ABDB300A38697 /* FeedAPI.swift */; };
 		04871BED289924B9006BCEB4 /* ZZFeed.docc in Sources */ = {isa = PBXBuildFile; fileRef = 04871BEC289924B9006BCEB4 /* ZZFeed.docc */; };
 		04871BF3289924B9006BCEB4 /* ZZFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04871BE8289924B9006BCEB4 /* ZZFeed.framework */; };
 		04871BF8289924B9006BCEB4 /* ZZFeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04871BF7289924B9006BCEB4 /* ZZFeedTests.swift */; };
@@ -29,6 +30,7 @@
 /* Begin PBXFileReference section */
 		047868DC289A91CC0013E8DB /* FeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoader.swift; sourceTree = "<group>"; };
 		04789988289AB19B00A38697 /* RemoteFeedLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoaderTests.swift; sourceTree = "<group>"; };
+		0478998B289ABDB300A38697 /* FeedAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAPI.swift; sourceTree = "<group>"; };
 		04871BE8289924B9006BCEB4 /* ZZFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZZFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04871BEB289924B9006BCEB4 /* ZZFeed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZFeed.h; sourceTree = "<group>"; };
 		04871BEC289924B9006BCEB4 /* ZZFeed.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ZZFeed.docc; sourceTree = "<group>"; };
@@ -65,6 +67,14 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
+		0478998A289ABD9B00A38697 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				0478998B289ABDB300A38697 /* FeedAPI.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		04871BDE289924B9006BCEB4 = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +96,7 @@
 		04871BEA289924B9006BCEB4 /* ZZFeed */ = {
 			isa = PBXGroup;
 			children = (
+				0478998A289ABD9B00A38697 /* API */,
 				04871BEB289924B9006BCEB4 /* ZZFeed.h */,
 				04871BEC289924B9006BCEB4 /* ZZFeed.docc */,
 				047868DE289A92260013E8DB /* Feed */,
@@ -213,6 +224,7 @@
 			files = (
 				047868DD289A91CC0013E8DB /* FeedLoader.swift in Sources */,
 				04871C03289924C9006BCEB4 /* FeedItem.swift in Sources */,
+				0478998C289ABDB300A38697 /* FeedAPI.swift in Sources */,
 				04871BED289924B9006BCEB4 /* ZZFeed.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
