@@ -7,6 +7,11 @@
 
 import Foundation
 
+public enum HttpClientResult {
+    case failure(Error)
+    case success(HTTPURLResponse)
+}
+
 public protocol HttpClient {
     func get(from url: URL)
 }
