@@ -35,10 +35,23 @@ class RemoteFeedLoaderTests: XCTestCase {
     }
     
     private class TestHttpClient: HttpClient {
-        var requestedURLs = [URL]()
+        var messages = [(url: URL, completion: (HttpClientResult)->Void)]()
+        
+        var requestedURLs: [URL] {
+            return messages.map { $0.url }
+        }
         
         func get(from url: URL, completion: @escaping (HttpClientResult) -> Void) {
-            requestedURLs.append(url)
+            messages.append((url, completion))
+        }
+        
+        func complete(with error: Error, at index: Int = 0) {
+            messages[index].completion(.failure(error))
+        }
+        
+        func complete(withStatusCode code: Int, at index: Int = 0) {
+            let response = HTTPURLResponse(url: requestedURLs[index], statusCode: code, httpVersion: nil, headerFields: nil)!
+            messages[index].completion(.success(response))
         }
     }
 }
