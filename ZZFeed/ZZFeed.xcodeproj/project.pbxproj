@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		047868DD289A91CC0013E8DB /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047868DC289A91CC0013E8DB /* FeedLoader.swift */; };
 		04871BED289924B9006BCEB4 /* ZZFeed.docc in Sources */ = {isa = PBXBuildFile; fileRef = 04871BEC289924B9006BCEB4 /* ZZFeed.docc */; };
 		04871BF3289924B9006BCEB4 /* ZZFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04871BE8289924B9006BCEB4 /* ZZFeed.framework */; };
 		04871BF8289924B9006BCEB4 /* ZZFeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04871BF7289924B9006BCEB4 /* ZZFeedTests.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		047868DC289A91CC0013E8DB /* FeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoader.swift; sourceTree = "<group>"; };
 		04871BE8289924B9006BCEB4 /* ZZFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZZFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04871BEB289924B9006BCEB4 /* ZZFeed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZFeed.h; sourceTree = "<group>"; };
 		04871BEC289924B9006BCEB4 /* ZZFeed.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ZZFeed.docc; sourceTree = "<group>"; };
@@ -52,6 +54,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		047868DE289A92260013E8DB /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				04871C02289924C9006BCEB4 /* FeedItem.swift */,
+				047868DC289A91CC0013E8DB /* FeedLoader.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
 		04871BDE289924B9006BCEB4 = {
 			isa = PBXGroup;
 			children = (
@@ -75,7 +86,7 @@
 			children = (
 				04871BEB289924B9006BCEB4 /* ZZFeed.h */,
 				04871BEC289924B9006BCEB4 /* ZZFeed.docc */,
-				04871C02289924C9006BCEB4 /* FeedItem.swift */,
+				047868DE289A92260013E8DB /* Feed */,
 			);
 			path = ZZFeed;
 			sourceTree = "<group>";
@@ -197,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				047868DD289A91CC0013E8DB /* FeedLoader.swift in Sources */,
 				04871C03289924C9006BCEB4 /* FeedItem.swift in Sources */,
 				04871BED289924B9006BCEB4 /* ZZFeed.docc in Sources */,
 			);
