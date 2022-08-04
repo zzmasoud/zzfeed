@@ -29,7 +29,7 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_load_deliversErrorOnClientError() {
         let (client, sut) = makeSUT()
 
-        except(sut, toCompleteWithError: .connectivity) {
+        except(sut, toCompleteWithResult: .failure(.connectivity)) {
             let clientError = NSError(domain: "ClientError", code: -1)
             client.complete(with: clientError)
         }
@@ -41,7 +41,7 @@ class RemoteFeedLoaderTests: XCTestCase {
         let codes = [199, 204, 291, 300, 400, 500]
         
         codes.enumerated().forEach { index, code in
-            except(sut, toCompleteWithError: .invalidData) {
+            except(sut, toCompleteWithResult: .failure(.invalidData)) {
                 client.complete(withStatusCode: code, at: index)
             }
         }
@@ -50,20 +50,16 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_load_deliversNoItemsOn200HttpResponseWithEmptyJson() {
         let (client, sut) = makeSUT()
         
-        var capturedResults = [RemoteFeedLoader.Result]()
-        sut.load { capturedResults.append($0) }
-
-        let emptyJson = Data("{ \"items\": [] }".utf8)
-        client.complete(withStatusCode: 200, data: emptyJson)
-        
-        XCTAssertEqual(capturedResults, [.success([])])
-        
+        except(sut, toCompleteWithResult: .success([])) {
+            let emptyJson = Data("{ \"items\": [] }".utf8)
+            client.complete(withStatusCode: 200, data: emptyJson)
+        }
     }
     
     func test_load_deliversErrorOn200HttpResponseWithInvalidJson() {
         let (client, sut) = makeSUT()
         
-        except(sut, toCompleteWithError: .invalidData) {
+        except(sut, toCompleteWithResult: .failure(.invalidData)) {
             let invalidJson = Data("wrong data".utf8)
             client.complete(withStatusCode: 200, data: invalidJson)
         }
@@ -77,13 +73,13 @@ class RemoteFeedLoaderTests: XCTestCase {
         return (client, sut)
     }
     
-    private func except(_ sut: RemoteFeedLoader, toCompleteWithError error: RemoteFeedLoader.FeedLoadError, when action: ()->Void, file: StaticString = #file, line: UInt = #line) {
+    private func except(_ sut: RemoteFeedLoader, toCompleteWithResult result: RemoteFeedLoader.Result, when action: ()->Void, file: StaticString = #file, line: UInt = #line) {
         var capturedResults = [RemoteFeedLoader.Result]()
         sut.load { capturedResults.append($0) }
         
         action()
         
-        XCTAssertEqual(capturedResults, [.failure(error)], file: file, line: line)
+        XCTAssertEqual(capturedResults, [result], file: file, line: line)
     }
     
     private class TestHttpClient: HttpClient {
