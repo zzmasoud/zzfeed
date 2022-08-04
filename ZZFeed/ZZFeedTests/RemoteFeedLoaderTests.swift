@@ -59,35 +59,20 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_load_deliverItemsOn200HttpResponseWithJson() {
         let (client, sut) = makeSUT()
         
-        let obj1 = FeedItem(
-            description: nil,
-            location: nil,
+        let obj1 = makeFeedItem(
             imageURL: URL(string: "http://foo.bar")!
         )
         
-        let obj1Json = [
-            "id": obj1.id.uuidString,
-            "image": obj1.imageURL.absoluteString
-        ]
-        
-        let obj2 = FeedItem(
+        let obj2 = makeFeedItem(
             description: "+ description",
             location: "+ location",
             imageURL: URL(string: "http://bar.foo")!
         )
         
-        let obj2Json = [
-            "id": obj2.id.uuidString,
-            "description": obj2.description,
-            "location": obj2.location,
-            "image": obj2.imageURL.absoluteString
-        ]
+        let itemsJson = ["items": [obj1.json, obj2.json]]
+        let items = [obj1.model, obj2.model]
         
-        let itemsJson = [
-            "items": [obj1Json, obj2Json]
-        ]
-        
-        except(sut, toCompleteWithResult: .success([obj1, obj2])) {
+        except(sut, toCompleteWithResult: .success(items)) {
             let jsonData = try! JSONSerialization.data(withJSONObject: itemsJson)
             client.complete(withStatusCode: 200, data: jsonData)
         }
@@ -117,6 +102,19 @@ class RemoteFeedLoaderTests: XCTestCase {
         action()
         
         XCTAssertEqual(capturedResults, [result], file: file, line: line)
+    }
+    
+    private func makeFeedItem(description: String? = nil, location: String? = nil, imageURL: URL) -> (json: [String: Any], model: FeedItem) {
+        let item = FeedItem(description: description, location: location, imageURL: imageURL)
+        let json = [
+            "id": item.id.uuidString,
+            "description": item.description,
+            "location": item.location,
+            "image": item.imageURL.absoluteString
+        ].reduce(into: [String: Any](), { acc, e in
+            if let value = e.value { acc[e.key] = value }
+        })
+        return (json, item)
     }
     
     private class TestHttpClient: HttpClient {
