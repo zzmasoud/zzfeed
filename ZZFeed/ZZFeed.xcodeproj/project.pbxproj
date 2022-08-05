@@ -114,9 +114,17 @@
 			isa = PBXGroup;
 			children = (
 				04871BF7289924B9006BCEB4 /* ZZFeedTests.swift */,
-				04789988289AB19B00A38697 /* RemoteFeedLoaderTests.swift */,
+				04B94DC4289C9DF2002C18B3 /* API */,
 			);
 			path = ZZFeedTests;
+			sourceTree = "<group>";
+		};
+		04B94DC4289C9DF2002C18B3 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				04789988289AB19B00A38697 /* RemoteFeedLoaderTests.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
