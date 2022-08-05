@@ -32,16 +32,8 @@ public class RemoteFeedLoader {
             case .failure:
                 completion(.failure(.connectivity))
             case let .success(data, response):
-                if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
-                    completion(.success(root.items))
-                } else {
-                    completion(.failure(.invalidData))
-                }
+                completion(FeedItemsMapper.map(data: data, from: response))
             }
         }
     }
-}
-
-private struct Root: Decodable {
-    let items: [FeedItem]
 }

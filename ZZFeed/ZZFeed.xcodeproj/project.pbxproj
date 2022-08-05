@@ -16,6 +16,7 @@
 		04871BF9289924B9006BCEB4 /* ZZFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = 04871BEB289924B9006BCEB4 /* ZZFeed.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04871C03289924C9006BCEB4 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04871C02289924C9006BCEB4 /* FeedItem.swift */; };
 		04B94DC1289C9587002C18B3 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B94DC0289C9587002C18B3 /* HttpClient.swift */; };
+		04B94DC3289C9985002C18B3 /* FeedItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B94DC2289C9985002C18B3 /* FeedItemsMapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		04871BF7289924B9006BCEB4 /* ZZFeedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZFeedTests.swift; sourceTree = "<group>"; };
 		04871C02289924C9006BCEB4 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		04B94DC0289C9587002C18B3 /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
+		04B94DC2289C9985002C18B3 /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 			children = (
 				0478998B289ABDB300A38697 /* FeedAPI.swift */,
 				04B94DC0289C9587002C18B3 /* HttpClient.swift */,
+				04B94DC2289C9985002C18B3 /* FeedItemsMapper.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 				04B94DC1289C9587002C18B3 /* HttpClient.swift in Sources */,
 				047868DD289A91CC0013E8DB /* FeedLoader.swift in Sources */,
 				04871C03289924C9006BCEB4 /* FeedItem.swift in Sources */,
+				04B94DC3289C9985002C18B3 /* FeedItemsMapper.swift in Sources */,
 				0478998C289ABDB300A38697 /* FeedAPI.swift in Sources */,
 				04871BED289924B9006BCEB4 /* ZZFeed.docc in Sources */,
 			);
