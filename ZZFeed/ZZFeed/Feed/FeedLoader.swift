@@ -12,7 +12,7 @@ public enum FeedLoaderResult<Error: Swift.Error> {
     case failure(Error)
 }
 
-protocol Feedloader {
+public protocol Feedloader {
     associatedtype Error: Swift.Error
     func load(completion: @escaping (FeedLoaderResult<Error>)->Void)
 }
