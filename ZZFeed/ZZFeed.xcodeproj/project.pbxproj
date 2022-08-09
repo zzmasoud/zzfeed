@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		040A9393289CF4D300BF46B2 /* URLSessionHttpClientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040A9392289CF4D300BF46B2 /* URLSessionHttpClientTest.swift */; };
+		0424C45628A28BA900675D4F /* ZZFeedAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0424C45528A28BA900675D4F /* ZZFeedAPIEndToEndTests.swift */; };
+		0424C45728A28BA900675D4F /* ZZFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04871BE8289924B9006BCEB4 /* ZZFeed.framework */; };
 		047868DD289A91CC0013E8DB /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047868DC289A91CC0013E8DB /* FeedLoader.swift */; };
 		04789989289AB19B00A38697 /* RemoteFeedLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04789988289AB19B00A38697 /* RemoteFeedLoaderTests.swift */; };
 		0478998C289ABDB300A38697 /* FeedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0478998B289ABDB300A38697 /* FeedAPI.swift */; };
@@ -23,6 +25,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0424C45828A28BA900675D4F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04871BDF289924B9006BCEB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04871BE7289924B9006BCEB4;
+			remoteInfo = ZZFeed;
+		};
 		04871BF4289924B9006BCEB4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04871BDF289924B9006BCEB4 /* Project object */;
@@ -34,6 +43,8 @@
 
 /* Begin PBXFileReference section */
 		040A9392289CF4D300BF46B2 /* URLSessionHttpClientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHttpClientTest.swift; sourceTree = "<group>"; };
+		0424C45328A28BA900675D4F /* ZZFeedAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZZFeedAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0424C45528A28BA900675D4F /* ZZFeedAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZFeedAPIEndToEndTests.swift; sourceTree = "<group>"; };
 		047868DC289A91CC0013E8DB /* FeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoader.swift; sourceTree = "<group>"; };
 		04789988289AB19B00A38697 /* RemoteFeedLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoaderTests.swift; sourceTree = "<group>"; };
 		0478998B289ABDB300A38697 /* FeedAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAPI.swift; sourceTree = "<group>"; };
@@ -50,6 +61,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0424C45028A28BA900675D4F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0424C45728A28BA900675D4F /* ZZFeed.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04871BE5289924B9006BCEB4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -68,6 +87,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0424C45428A28BA900675D4F /* ZZFeedAPIEndToEndTests */ = {
+			isa = PBXGroup;
+			children = (
+				0424C45528A28BA900675D4F /* ZZFeedAPIEndToEndTests.swift */,
+			);
+			path = ZZFeedAPIEndToEndTests;
+			sourceTree = "<group>";
+		};
 		047868DE289A92260013E8DB /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +120,7 @@
 			children = (
 				04871BEA289924B9006BCEB4 /* ZZFeed */,
 				04871BF6289924B9006BCEB4 /* ZZFeedTests */,
+				0424C45428A28BA900675D4F /* ZZFeedAPIEndToEndTests */,
 				04871BE9289924B9006BCEB4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -102,6 +130,7 @@
 			children = (
 				04871BE8289924B9006BCEB4 /* ZZFeed.framework */,
 				04871BF2289924B9006BCEB4 /* ZZFeedTests.xctest */,
+				0424C45328A28BA900675D4F /* ZZFeedAPIEndToEndTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -158,6 +187,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		0424C45228A28BA900675D4F /* ZZFeedAPIEndToEndTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0424C45C28A28BA900675D4F /* Build configuration list for PBXNativeTarget "ZZFeedAPIEndToEndTests" */;
+			buildPhases = (
+				0424C44F28A28BA900675D4F /* Sources */,
+				0424C45028A28BA900675D4F /* Frameworks */,
+				0424C45128A28BA900675D4F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0424C45928A28BA900675D4F /* PBXTargetDependency */,
+			);
+			name = ZZFeedAPIEndToEndTests;
+			productName = ZZFeedAPIEndToEndTests;
+			productReference = 0424C45328A28BA900675D4F /* ZZFeedAPIEndToEndTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		04871BE7289924B9006BCEB4 /* ZZFeed */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04871BFC289924B9006BCEB4 /* Build configuration list for PBXNativeTarget "ZZFeed" */;
@@ -204,6 +251,9 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					0424C45228A28BA900675D4F = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
 					04871BE7289924B9006BCEB4 = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -227,11 +277,19 @@
 			targets = (
 				04871BE7289924B9006BCEB4 /* ZZFeed */,
 				04871BF1289924B9006BCEB4 /* ZZFeedTests */,
+				0424C45228A28BA900675D4F /* ZZFeedAPIEndToEndTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0424C45128A28BA900675D4F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04871BE6289924B9006BCEB4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -249,6 +307,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0424C44F28A28BA900675D4F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0424C45628A28BA900675D4F /* ZZFeedAPIEndToEndTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04871BE4289924B9006BCEB4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -277,6 +343,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0424C45928A28BA900675D4F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04871BE7289924B9006BCEB4 /* ZZFeed */;
+			targetProxy = 0424C45828A28BA900675D4F /* PBXContainerItemProxy */;
+		};
 		04871BF5289924B9006BCEB4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 04871BE7289924B9006BCEB4 /* ZZFeed */;
@@ -285,6 +356,34 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0424C45A28A28BA900675D4F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zzmasoud.ZZFeedAPIEndToEndTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		0424C45B28A28BA900675D4F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zzmasoud.ZZFeedAPIEndToEndTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		04871BFA289924B9006BCEB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -491,6 +590,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0424C45C28A28BA900675D4F /* Build configuration list for PBXNativeTarget "ZZFeedAPIEndToEndTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0424C45A28A28BA900675D4F /* Debug */,
+				0424C45B28A28BA900675D4F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		04871BE2289924B9006BCEB4 /* Build configuration list for PBXProject "ZZFeed" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
