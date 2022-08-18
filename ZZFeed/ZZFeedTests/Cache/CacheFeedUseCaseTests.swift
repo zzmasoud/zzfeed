@@ -30,6 +30,10 @@ class FeedStore {
     
     func completeDeletion(with error: Error) {
     }
+    
+    func completeDeletionSuccessfully() {
+        insertCallCount += 1
+    }
 }
 
 class CacheFeedUseCaseTests: XCTestCase {
@@ -57,6 +61,16 @@ class CacheFeedUseCaseTests: XCTestCase {
         store.completeDeletion(with: error)
         
         XCTAssertEqual(store.insertCallCount, 0)
+    }
+    
+    func test_save_requestNewTaskInsertionOnSuccessfulDeletion() {
+        let items = [uniqueFeedItem(), uniqueFeedItem()]
+        let (sut, store) = makeSUT()
+        
+        sut.save(items)
+        store.completeDeletionSuccessfully()
+        
+        XCTAssertEqual(store.insertCallCount, 1)
     }
     
     // - MARK: Helpers
