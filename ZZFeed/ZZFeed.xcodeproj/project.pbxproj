@@ -24,6 +24,7 @@
 		04B94DC1289C9587002C18B3 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B94DC0289C9587002C18B3 /* HttpClient.swift */; };
 		04B94DC3289C9985002C18B3 /* FeedItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B94DC2289C9985002C18B3 /* FeedItemsMapper.swift */; };
 		04BCA14428B249690076A760 /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BCA14328B249690076A760 /* LocalFeedLoader.swift */; };
+		04BCA14628B249C20076A760 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BCA14528B249C20076A760 /* FeedStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		04B94DC0289C9587002C18B3 /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
 		04B94DC2289C9985002C18B3 /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
 		04BCA14328B249690076A760 /* LocalFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedLoader.swift; sourceTree = "<group>"; };
+		04BCA14528B249C20076A760 /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				04BCA14328B249690076A760 /* LocalFeedLoader.swift */,
+				04BCA14528B249C20076A760 /* FeedStore.swift */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04BCA14628B249C20076A760 /* FeedStore.swift in Sources */,
 				04AC600928A2777900EC60C3 /* URLSessionHTTPClient.swift in Sources */,
 				04B94DC1289C9587002C18B3 /* HttpClient.swift in Sources */,
 				047868DD289A91CC0013E8DB /* FeedLoader.swift in Sources */,
