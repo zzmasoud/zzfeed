@@ -13,6 +13,7 @@ public protocol FeedStore {
     
     func deleteCachedFeed(completion: @escaping DeletionCompletion)
     func insert(_ items: [LocalFeedItem], timestamp: Date, completion: @escaping InsertionCompletion)
+    func retrieve()
 }
 
 public struct LocalFeedItem: Equatable {
