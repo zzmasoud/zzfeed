@@ -46,12 +46,21 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         let now = Date()
         let lessThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(1)
         let (sut, store) = makeSUT(currentDate: { now })
-        expect(sut, toCompleteWith: .success(items.models )) {
+        expect(sut, toCompleteWith: .success(items.models)) {
             store.completeRetrieval(with: items.local, timestamp: lessThanSevenDays)
         }
     }
 
-    
+    func test_load_deliversCachedItemsOnSevenDaysOldCache() {
+        let items = uniqueItems()
+        let now = Date()
+        let lessThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!
+        let (sut, store) = makeSUT(currentDate: { now })
+        expect(sut, toCompleteWith: .success([])) {
+            store.completeRetrieval(with: items.local, timestamp: lessThanSevenDays)
+        }
+    }
+
     // - MARK: Helpers
     
     private func makeSUT(currentDate: @escaping ()->Date = Date.init, file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStoreSpy) {
