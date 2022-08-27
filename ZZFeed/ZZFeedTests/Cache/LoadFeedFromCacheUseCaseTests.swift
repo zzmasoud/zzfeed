@@ -54,10 +54,10 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     func test_load_deliversCachedItemsOnSevenDaysOldCache() {
         let items = uniqueItems()
         let now = Date()
-        let lessThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!
+        let sevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!
         let (sut, store) = makeSUT(currentDate: { now })
         expect(sut, toCompleteWith: .success([])) {
-            store.completeRetrieval(with: items.local, timestamp: lessThanSevenDays)
+            store.completeRetrieval(with: items.local, timestamp: sevenDays)
         }
     }
 
