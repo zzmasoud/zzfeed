@@ -52,11 +52,16 @@ class FeedStoreSpy: FeedStore {
     }
     
     func completeRetrieval(with error: Error) {
-        retrievalCompletions.first?(error)
+        retrievalCompletions.first?(.failure(error))
     }
     
     func completeRetrievalWithEmptyCache() {
-        retrievalCompletions.first?(nil)
+        retrievalCompletions.first?(.empty)
+    }
+    
+    func completeRetrieval(with items: [LocalFeedItem], timestamp: Date) {
+        retrievalCompletions.first?(.fetched(items: items, timestamp: timestamp))
+        
     }
 }
 

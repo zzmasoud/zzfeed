@@ -27,43 +27,28 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     func test_load_failsOnRetrievalError() {
         let (sut, store) = makeSUT()
         let retrievalError = anyNSError()
-
-        let exp = expectation(description: "wait for completion...")
-        var receivedError: Error?
-        sut.load { result in
-            switch result {
-            case let .failure(error):
-                receivedError = error
-            default:
-                XCTFail("Expected failure")
-            }
-            exp.fulfill()
+        
+        expect(sut, toCompleteWith: .failure(retrievalError)) {
+            store.completeRetrieval(with: retrievalError)
         }
-        
-        store.completeRetrieval(with: retrievalError)
-        wait(for: [exp], timeout: 1)
-        
-        XCTAssertEqual(receivedError as NSError?, retrievalError)
     }
     
     func test_load_deliversNoItemsOnEmptyCache() {
         let (sut, store) = makeSUT()
 
-        let exp = expectation(description: "wait for completion...")
-        var receivedItems: [FeedItem]?
-        sut.load { result in
-            switch result {
-            case let .success(items):
-                receivedItems = items
-            default:
-                XCTFail("Expected success")
-            }
-            exp.fulfill()
+        expect(sut, toCompleteWith: .success([]) ) {
+            store.completeRetrievalWithEmptyCache()
         }
-        
-        store.completeRetrievalWithEmptyCache()
-        wait(for: [exp], timeout: 1)
-        XCTAssertEqual(receivedItems, [])
+    }
+    
+    func test_load_deliversCachedItemsOnLessThanSevenDaysOldCache() {
+        let items = uniqueItems()
+        let now = Date()
+        let lessThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(1)
+        let (sut, store) = makeSUT(currentDate: { now })
+        expect(sut, toCompleteWith: .success(items.models )) {
+            store.completeRetrieval(with: items.local, timestamp: lessThanSevenDays)
+        }
     }
 
     
