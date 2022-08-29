@@ -44,7 +44,7 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     func test_load_deliversCachedItemsOnLessThanSevenDaysOldCache() {
         let items = uniqueItems()
         let now = Date()
-        let lessThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(1)
+        let lessThanSevenDays: Date = Date().add(days: -7).addingTimeInterval(1)
         let (sut, store) = makeSUT(currentDate: { now })
         expect(sut, toCompleteWith: .success(items.models)) {
             store.completeRetrieval(with: items.local, timestamp: lessThanSevenDays)
@@ -54,7 +54,7 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     func test_load_deliversCachedItemsOnSevenDaysOldCache() {
         let items = uniqueItems()
         let now = Date()
-        let sevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!
+        let sevenDays: Date = Date().add(days: -7)
         let (sut, store) = makeSUT(currentDate: { now })
         expect(sut, toCompleteWith: .success([])) {
             store.completeRetrieval(with: items.local, timestamp: sevenDays)
@@ -64,7 +64,7 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     func test_load_deliversCachedItemsOnMoreThanSevenDaysOldCache() {
         let items = uniqueItems()
         let now = Date()
-        let moreThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(-1)
+        let moreThanSevenDays: Date = Date().add(days: -7).addingTimeInterval(-1)
         let (sut, store) = makeSUT(currentDate: { now })
         expect(sut, toCompleteWith: .success([])) {
             store.completeRetrieval(with: items.local, timestamp: moreThanSevenDays)
@@ -121,5 +121,11 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     
     private func anyURL() -> URL {
         return URL(string: "http://foo.bar")!
+    }
+}
+
+private extension Date {
+    func add(days: Int) -> Date {
+        return Calendar.current.date(byAdding: .day, value: -days, to: self)!
     }
 }
