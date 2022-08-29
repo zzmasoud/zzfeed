@@ -8,34 +8,6 @@
 import XCTest
 import ZZFeed
 
-class LocalFeedLoader {
-    private let store: FeedStore
-    private let currentDate: ()->Date
-    
-    init(store: FeedStore, currentDate: @escaping ()->Date) {
-        self.store = store
-        self.currentDate = currentDate
-    }
-    
-    func save(_ items: [FeedItem], completion: @escaping (Error?) -> Void) {
-        store.deleteCachedFeed { [unowned self]  error in
-            if let error = error {
-                completion(error)
-            } else {
-                self.store.insert(items, timestamp: currentDate(), completion: completion)
-            }
-        }
-    }
-}
-
-protocol FeedStore {
-    typealias DeletionCompletion = (Error?) -> Void
-    typealias InsertionCompletion = (Error?) -> Void
-    
-    func deleteCachedFeed(completion: @escaping DeletionCompletion)
-    func insert(_ items: [FeedItem], timestamp: Date, completion: @escaping InsertionCompletion)
-}
-
 class CacheFeedUseCaseTests: XCTestCase {
     
     func test_init_doesNotMessageStoreUponCreation() {
@@ -45,44 +17,41 @@ class CacheFeedUseCaseTests: XCTestCase {
     }
     
     func test_save_requestsCacheDeletion() {
-        let items = [uniqueFeedItem(), uniqueFeedItem()]
         let (sut, store) = makeSUT()
         
-        sut.save(items) { _ in }
+        sut.save(uniqueItems().models) { _ in }
         
         XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed])
     }
     
     func test_save_doesNotRequireCacheInsertionOnDeletionError() {
-        let items = [uniqueFeedItem(), uniqueFeedItem()]
         let error = anyNSError()
         let (sut, store) = makeSUT()
         
-        sut.save(items) { _ in }
+        sut.save(uniqueItems().models) { _ in }
         store.completeDeletion(with: error)
         
         XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed])
     }
     
     func test_save_requestsNewCacheInsertionWithTimestampOnSuccessfulDeletion() {
-        let items = [uniqueFeedItem(), uniqueFeedItem()]
         let timestamp = Date()
+        let items = uniqueItems()
         let (sut, store) = makeSUT(currentDate: { timestamp })
         
-        sut.save(items) { _ in }
+        sut.save(items.models) { _ in }
         store.completeDeletionSuccessfully()
         
-        XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed, .insert(items, timestamp)])
+        XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed, .insert(items.local, timestamp)])
     }
     
     func test_save_failsOnDeletionError() {
-        let items = [uniqueFeedItem(), uniqueFeedItem()]
         let deletionError = anyNSError()
         let (sut, store) = makeSUT()
         
         var receivedError: Error?
         let exp = expectation(description: "waiting for completion...")
-        sut.save(items) { error in
+        sut.save(uniqueItems().models) { error in
             receivedError = error
             exp.fulfill()
         }
@@ -94,13 +63,12 @@ class CacheFeedUseCaseTests: XCTestCase {
     }
     
     func test_save_failsOnInsertionError() {
-        let items = [uniqueFeedItem(), uniqueFeedItem()]
         let insertionError = anyNSError()
         let (sut, store) = makeSUT()
         
         var receivedError: Error?
         let exp = expectation(description: "waiting for completion...")
-        sut.save(items) { error in
+        sut.save(uniqueItems().models) { error in
             receivedError = error
             exp.fulfill()
         }
@@ -130,6 +98,37 @@ class CacheFeedUseCaseTests: XCTestCase {
         XCTAssertNil(receivedError)
     }
     
+    func test_save_doesNotDeliverDeletionErrorAfterSUTHasbeenDeallocated() {
+        let store = FeedStoreSpy()
+        var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
+        
+        var receivedErrors = [LocalFeedLoader.SaveResult]()
+        sut?.save([uniqueFeedItem()], completion: { error in
+            receivedErrors.append(error)
+        })
+        
+        sut = nil
+        store.completeDeletion(with: anyNSError())
+        
+        XCTAssertTrue(receivedErrors.isEmpty)
+    }
+    
+    func test_save_doesNotDeliverInsertionErrorAfterSUTHasbeenDeallocated() {
+        let store = FeedStoreSpy()
+        var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
+        
+        var receivedErrors = [LocalFeedLoader.SaveResult]()
+        sut?.save([uniqueFeedItem()], completion: { error in
+            receivedErrors.append(error)
+        })
+        
+        store.completeDeletionSuccessfully()
+        sut = nil
+        store.completeInsertion(with: anyNSError())
+        
+        XCTAssertTrue(receivedErrors.isEmpty)
+    }
+    
     // - MARK: Helpers
     
     private func makeSUT(currentDate: @escaping ()->Date = Date.init, file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStoreSpy) {
@@ -147,6 +146,12 @@ class CacheFeedUseCaseTests: XCTestCase {
         return FeedItem(id: UUID(), description: "description...", location: "-", imageURL: anyURL())
     }
     
+    private func uniqueItems() -> (models: [FeedItem], local: [LocalFeedItem]) {
+        let items = [uniqueFeedItem(), uniqueFeedItem()]
+        let localItems = items.map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL)}
+        return (items, localItems)
+    }
+    
     private func anyURL() -> URL {
         return URL(string: "http://foo.bar")!
     }
@@ -155,41 +160,4 @@ class CacheFeedUseCaseTests: XCTestCase {
         return NSError(domain: "any error", code: 0)
     }
     
-}
-
-class FeedStoreSpy: FeedStore {
-    enum ReceivedMessage: Equatable {
-        case deleteCachedFeed
-        case insert([FeedItem], Date)
-    }
-    
-    private(set) var receivedMessages = [ReceivedMessage]()
-    private var deletionCompletions = [DeletionCompletion]()
-    private var insertionCompletions = [InsertionCompletion]()
-    
-    func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-        deletionCompletions.append(completion)
-        receivedMessages.append(.deleteCachedFeed)
-    }
-    
-    func completeDeletion(with error: Error) {
-        deletionCompletions.first?(error)
-    }
-    
-    func completeDeletionSuccessfully() {
-        deletionCompletions.first?(nil)
-    }
-    
-    func insert(_ items: [FeedItem], timestamp: Date, completion: @escaping InsertionCompletion) {
-        insertionCompletions.append(completion)
-        receivedMessages.append(.insert(items, timestamp))
-    }
-    
-    func completeInsertion(with error: Error) {
-        insertionCompletions.first?(error)
-    }
-    
-    func completeInsertionSuccessfully() {
-        insertionCompletions.first?(nil)
-    }
 }
