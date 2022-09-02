@@ -70,6 +70,61 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
             store.completeRetrieval(with: items.local, timestamp: moreThanSevenDays)
         }
     }
+    
+    func test_load_deletesCacheOnRetrievalError() {
+        let (sut, store) = makeSUT()
+        let retrievalError = anyNSError()
+
+        sut.load {_ in }
+        store.completeRetrieval(with: retrievalError)
+  
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
+    }
+    
+    func test_load_doesNotDeleteCacheOnEmptyCache() {
+        let (sut, store) = makeSUT()
+
+        sut.load {_ in }
+        store.completeRetrievalWithEmptyCache()
+  
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+    
+    func test_load_doesNotDeleteOnLessThanSevenDaysOldCache() {
+        let items = uniqueItems()
+        let now = Date()
+        let lessThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(1)
+        let (sut, store) = makeSUT(currentDate: { now })
+        
+        sut.load { _ in }
+        store.completeRetrieval(with: items.local, timestamp: lessThanSevenDays)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+    
+    func test_load_deletesCacheOnSevenDaysOldCache() {
+        let items = uniqueItems()
+        let now = Date()
+        let sevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!
+        let (sut, store) = makeSUT(currentDate: { now })
+        
+        sut.load { _ in }
+        store.completeRetrieval(with: items.local, timestamp: sevenDays)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
+    }
+    
+    func test_load_deletesCacheOnMoreThanSevenDaysOldCache() {
+        let items = uniqueItems()
+        let now = Date()
+        let moreThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(-1)
+        let (sut, store) = makeSUT(currentDate: { now })
+        
+        sut.load { _ in }
+        store.completeRetrieval(with: items.local, timestamp: moreThanSevenDays)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
+    }
 
     
     // - MARK: Helpers

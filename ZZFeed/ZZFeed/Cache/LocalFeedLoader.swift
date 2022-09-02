@@ -10,6 +10,8 @@ import Foundation
 public final class LocalFeedLoader {
     private let store: FeedStore
     private let currentDate: ()->Date
+    private let calendar = Calendar.current
+    private var maxCacheAgeInDays: Int { return 7 }
     
     public typealias SaveResult = Error?
     public typealias LoadResut  = FeedLoaderResult<Error>
@@ -35,20 +37,24 @@ public final class LocalFeedLoader {
         store.retrieve { [unowned self] result in
             switch result {
             case let .failure(error):
+                self.store.deleteCachedFeed { _ in }
                 completion(.failure(error))
                 
             case let .fetched(items, timestamp) where self.validate(timestamp):
                 completion(.success(items.toModels()))
                 
-            case .fetched, .empty:
+            case .fetched:
+                self.store.deleteCachedFeed { _ in }
+                completion(.success([]))
+                
+            case .empty:
                 completion(.success([]))
             }
         }
     }
     
     private func validate(_ timestamp: Date) -> Bool {
-        let calendar = Calendar.current
-        guard let maxCacheAge = calendar.date(byAdding: .day, value: 7, to: timestamp) else { return false }
+        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else { return false }
         return currentDate() < maxCacheAge
     }
     
