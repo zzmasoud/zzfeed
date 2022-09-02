@@ -56,7 +56,7 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         let now = Date()
         let sevenDays: Date = Date().add(days: -7)
         let (sut, store) = makeSUT(currentDate: { now })
-        expect(sut, toCompleteWith: .success([])) {
+        expect(sut, toCompleteWith: .success(items.models)) {
             store.completeRetrieval(with: items.local, timestamp: sevenDays)
         }
     }
@@ -66,7 +66,7 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         let now = Date()
         let moreThanSevenDays: Date = Date().add(days: -7).addingTimeInterval(-1)
         let (sut, store) = makeSUT(currentDate: { now })
-        expect(sut, toCompleteWith: .success([])) {
+        expect(sut, toCompleteWith: .success(items.models)) {
             store.completeRetrieval(with: items.local, timestamp: moreThanSevenDays)
         }
     }
