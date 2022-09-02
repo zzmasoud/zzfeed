@@ -35,7 +35,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_validateCache_doesNotDeleteOnLessThanSevenDaysOldCache() {
+    func test_validateCache_hasNoSideEffectsOnLessThanSevenDaysOldCache() {
         let items = uniqueItems()
         let now = Date()
         let lessThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(1)
@@ -47,6 +47,30 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
+    func test_validateCache_deletesSevenDaysOldCache() {
+        let items = uniqueItems()
+        let now = Date()
+        let sevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!
+        let (sut, store) = makeSUT(currentDate: { now })
+        
+        sut.validateCache()
+        store.completeRetrieval(with: items.local, timestamp: sevenDays)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
+    }
+    
+    func test_validateCache_deletesMoreThanSevenDaysOldCache() {
+        let items = uniqueItems()
+        let now = Date()
+        let moreThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(-1)
+        let (sut, store) = makeSUT(currentDate: { now })
+        
+        sut.validateCache()
+        store.completeRetrieval(with: items.local, timestamp: moreThanSevenDays)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
+    }
+
 
     // - MARK: Helpers
     
