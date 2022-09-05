@@ -30,6 +30,7 @@
 		04B94DC3289C9985002C18B3 /* FeedItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B94DC2289C9985002C18B3 /* FeedItemsMapper.swift */; };
 		04BCA14428B249690076A760 /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BCA14328B249690076A760 /* LocalFeedLoader.swift */; };
 		04BCA14628B249C20076A760 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BCA14528B249C20076A760 /* FeedStore.swift */; };
+		04D12EE428C67FE400887712 /* HelperMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D12EE328C67FE400887712 /* HelperMethods.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		04B94DC2289C9985002C18B3 /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
 		04BCA14328B249690076A760 /* LocalFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedLoader.swift; sourceTree = "<group>"; };
 		04BCA14528B249C20076A760 /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
+		04D12EE328C67FE400887712 /* HelperMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperMethods.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,8 +179,8 @@
 		04871BF6289924B9006BCEB4 /* ZZFeedTests */ = {
 			isa = PBXGroup;
 			children = (
-				041F4F1028ABC530008E5440 /* Cache */,
 				04AC600A28A277C500EC60C3 /* Shared */,
+				041F4F1028ABC530008E5440 /* Cache */,
 				04B94DC4289C9DF2002C18B3 /* API */,
 			);
 			path = ZZFeedTests;
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				04AC600B28A277DB00EC60C3 /* XCTestCase+MemoryLeakTracking.swift */,
+				04D12EE328C67FE400887712 /* HelperMethods.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 			files = (
 				04634FEB28C25C0200AC05AB /* ValidateFeedCacheUseCaseTests.swift in Sources */,
 				040A9393289CF4D300BF46B2 /* URLSessionHttpClientTest.swift in Sources */,
+				04D12EE428C67FE400887712 /* HelperMethods.swift in Sources */,
 				04AC600C28A277DB00EC60C3 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 				04B1BA0128BA3B5900DDE9F5 /* FeedStoreSpy.swift in Sources */,
 				041F4F1228ABC569008E5440 /* CacheFeedUseCaseTests.swift in Sources */,
