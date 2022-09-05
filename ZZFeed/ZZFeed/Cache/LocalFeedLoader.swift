@@ -42,10 +42,7 @@ public final class LocalFeedLoader {
             case let .fetched(items, timestamp) where self.validate(timestamp):
                 completion(.success(items.toModels()))
                 
-            case .fetched:
-                completion(.success([]))
-                
-            case .empty:
+            case .fetched, .empty:
                 completion(.success([]))
             }
         }
