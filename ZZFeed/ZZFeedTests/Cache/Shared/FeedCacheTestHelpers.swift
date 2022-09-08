@@ -12,11 +12,13 @@ extension Date {
         return add(days: -feedCacheMaxAgeInDays)
     }
     
-    func add(days: Int) -> Date {
-        return Calendar.current.date(byAdding: .day, value: days, to: self)!
-    }
-    
     var feedCacheMaxAgeInDays: Int {
         return 7
+    }
+}
+
+extension Date {
+    func add(days: Int) -> Date {
+        return Calendar.current.date(byAdding: .day, value: days, to: self)!
     }
 }
