@@ -9,9 +9,14 @@ import Foundation
 
 extension Date {
     func minusFeedCacheMaxAge() -> Date {
-        return add(days: -7)
+        return add(days: -feedCacheMaxAgeInDays)
     }
+    
     func add(days: Int) -> Date {
-        return Calendar.current.date(byAdding: .day, value: -days, to: self)!
+        return Calendar.current.date(byAdding: .day, value: days, to: self)!
+    }
+    
+    var feedCacheMaxAgeInDays: Int {
+        return 7
     }
 }
