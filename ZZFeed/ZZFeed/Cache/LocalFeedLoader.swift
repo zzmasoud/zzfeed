@@ -11,7 +11,6 @@ import Foundation
 public final class LocalFeedLoader {
     private let store: FeedStore
     private let currentDate: ()->Date
-    private let cachePolicy = FeedCachePolicy()
     
     public typealias SaveResult = Error?
     public typealias LoadResut  = FeedLoaderResult<Error>
@@ -39,7 +38,7 @@ public final class LocalFeedLoader {
             case let .failure(error):
                 completion(.failure(error))
                 
-            case let .fetched(items, timestamp) where self.cachePolicy.validate(timestamp, against: currentDate()):
+            case let .fetched(items, timestamp) where FeedCachePolicy.validate(timestamp, against: currentDate()):
                 completion(.success(items.toModels()))
                 
             case .fetched, .empty:
@@ -55,7 +54,7 @@ public final class LocalFeedLoader {
             case .failure:
                 self.store.deleteCachedFeed(completion: {_ in })
                 
-            case let .fetched(_, timestamp) where !self.cachePolicy.validate(timestamp, against: self.currentDate()):
+            case let .fetched(_, timestamp) where !FeedCachePolicy.validate(timestamp, against: self.currentDate()):
                 self.store.deleteCachedFeed(completion: {_ in })
             
             case .empty, .fetched:
