@@ -44,7 +44,7 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     func test_load_deliversCachedItemsOnLessThanSevenDaysOldCache() {
         let items = uniqueItems()
         let now = Date()
-        let lessThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(1)
+        let lessThanSevenDays: Date = Date().add(days: -7).addingTimeInterval(1)
         let (sut, store) = makeSUT(currentDate: { now })
         expect(sut, toCompleteWith: .success(items.models)) {
             store.completeRetrieval(with: items.local, timestamp: lessThanSevenDays)
@@ -54,9 +54,9 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     func test_load_deliversCachedItemsOnSevenDaysOldCache() {
         let items = uniqueItems()
         let now = Date()
-        let sevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!
+        let sevenDays: Date = Date().add(days: -7)
         let (sut, store) = makeSUT(currentDate: { now })
-        expect(sut, toCompleteWith: .success([])) {
+        expect(sut, toCompleteWith: .success(items.models)) {
             store.completeRetrieval(with: items.local, timestamp: sevenDays)
         }
     }
@@ -64,11 +64,66 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     func test_load_deliversCachedItemsOnMoreThanSevenDaysOldCache() {
         let items = uniqueItems()
         let now = Date()
-        let moreThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(-1)
+        let moreThanSevenDays: Date = Date().add(days: -7).addingTimeInterval(-1)
         let (sut, store) = makeSUT(currentDate: { now })
-        expect(sut, toCompleteWith: .success([])) {
+        expect(sut, toCompleteWith: .success(items.models)) {
             store.completeRetrieval(with: items.local, timestamp: moreThanSevenDays)
         }
+    }
+    
+    func test_load_hasNoSideEffectsOnRetrievalError() {
+        let (sut, store) = makeSUT()
+        let retrievalError = anyNSError()
+
+        sut.load {_ in }
+        store.completeRetrieval(with: retrievalError)
+  
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+    
+    func test_load_hasNoSideEffectOnEmptyCache() {
+        let (sut, store) = makeSUT()
+
+        sut.load {_ in }
+        store.completeRetrievalWithEmptyCache()
+  
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+    
+    func test_load_hasNoSideEffectOnLessThanSevenDaysOldCache() {
+        let items = uniqueItems()
+        let now = Date()
+        let lessThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(1)
+        let (sut, store) = makeSUT(currentDate: { now })
+        
+        sut.load { _ in }
+        store.completeRetrieval(with: items.local, timestamp: lessThanSevenDays)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+    
+    func test_load_hasNoSideEffectOnSevenDaysOldCache() {
+        let items = uniqueItems()
+        let now = Date()
+        let sevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!
+        let (sut, store) = makeSUT(currentDate: { now })
+        
+        sut.load { _ in }
+        store.completeRetrieval(with: items.local, timestamp: sevenDays)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+    
+    func test_load_hasNoSideEffectOnMoreThanSevenDaysOldCache() {
+        let items = uniqueItems()
+        let now = Date()
+        let moreThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(-1)
+        let (sut, store) = makeSUT(currentDate: { now })
+        
+        sut.load { _ in }
+        store.completeRetrieval(with: items.local, timestamp: moreThanSevenDays)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
 
     
@@ -104,22 +159,10 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         action()
         wait(for: [exp], timeout: 1)
     }
-    
-    private func uniqueFeedItem() -> FeedItem {
-        return FeedItem(id: UUID(), description: "description...", location: "-", imageURL: anyURL())
-    }
-    
-    private func uniqueItems() -> (models: [FeedItem], local: [LocalFeedItem]) {
-        let items = [uniqueFeedItem(), uniqueFeedItem()]
-        let localItems = items.map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL)}
-        return (items, localItems)
-    }
-    
-    private func anyNSError() -> NSError {
-        return NSError(domain: "any error", code: 0)
-    }
-    
-    private func anyURL() -> URL {
-        return URL(string: "http://foo.bar")!
+}
+
+private extension Date {
+    func add(days: Int) -> Date {
+        return Calendar.current.date(byAdding: .day, value: -days, to: self)!
     }
 }

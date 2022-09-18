@@ -10,6 +10,8 @@ import Foundation
 public final class LocalFeedLoader {
     private let store: FeedStore
     private let currentDate: ()->Date
+    private let calendar = Calendar.current
+    private var maxCacheAgeInDays: Int { return 7 }
     
     public typealias SaveResult = Error?
     public typealias LoadResut  = FeedLoaderResult<Error>
@@ -41,14 +43,29 @@ public final class LocalFeedLoader {
                 completion(.success(items.toModels()))
                 
             case .fetched, .empty:
-                completion(.success([]))
+                completion(.success(.empty))
+            }
+        }
+    }
+    
+    public func validateCache() {
+        store.retrieve { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure:
+                self.store.deleteCachedFeed(completion: {_ in })
+                
+            case let .fetched(_, timestamp) where !self.validate(timestamp):
+                self.store.deleteCachedFeed(completion: {_ in })
+            
+            case .empty, .fetched:
+                break
             }
         }
     }
     
     private func validate(_ timestamp: Date) -> Bool {
-        let calendar = Calendar.current
-        guard let maxCacheAge = calendar.date(byAdding: .day, value: 7, to: timestamp) else { return false }
+        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else { return false }
         return currentDate() < maxCacheAge
     }
     
@@ -64,6 +81,8 @@ private extension Array where Element == FeedItem {
     func toLocal() -> [LocalFeedItem] {
         return map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL) }
     }
+    
+    static var empty = [FeedItem]()
 }
 
 private extension Array where Element == LocalFeedItem {
