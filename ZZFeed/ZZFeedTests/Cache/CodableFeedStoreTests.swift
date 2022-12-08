@@ -91,13 +91,8 @@ class CodableFeedStoreTests: XCTestCase {
         let sut = makeSUT()
         let feed = uniqueItems().local
         let timestamp = Date()
-        let exp = expectation(description: "wait for completion...")
         
-        sut.insert(feed, timestamp: timestamp) { insertionError in
-            XCTAssertNil(insertionError)
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1)
+        insert((feed, timestamp), to: sut)
         
         expect(sut: sut, toRetrieve: .fetched(items: feed, timestamp: timestamp))
     }
@@ -106,13 +101,8 @@ class CodableFeedStoreTests: XCTestCase {
         let sut = makeSUT()
         let feed = uniqueItems().local
         let timestamp = Date()
-        let exp = expectation(description: "wait for insertion...")
         
-        sut.insert(feed, timestamp: timestamp) { insertionError in
-            XCTAssertNil(insertionError)
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1)
+        insert((feed, timestamp), to: sut)
         
         expect(sut: sut, toRetrieveTwice: .fetched(items: feed, timestamp: timestamp))
     }
@@ -139,7 +129,7 @@ class CodableFeedStoreTests: XCTestCase {
                 
                 
             default:
-                XCTFail("expected to get \(expectedResult) but got \(retrieveResult)!")
+                XCTFail("expected to get \(expectedResult) but got \(retrieveResult)!", file: file, line: line)
             }
             
             exp.fulfill()
@@ -152,6 +142,15 @@ class CodableFeedStoreTests: XCTestCase {
     private func expect(sut: CodableFeedStore, toRetrieveTwice expectedResult: RetrievalCachedFeedResult, file: StaticString = #file, line: UInt = #line) {
         expect(sut: sut, toRetrieve: expectedResult)
         expect(sut: sut, toRetrieve: expectedResult)
+    }
+    
+    private func insert(_ cache: (feed: [LocalFeedItem], timestamp: Date), to sut: CodableFeedStore, file: StaticString = #file, line: UInt = #line) {
+        let exp = expectation(description: "waiting for insertion ...")
+        sut.insert(cache.feed, timestamp: cache.timestamp) { insertionError in
+            XCTAssertNil(insertionError, file: file, line: line)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1)
     }
 
     
