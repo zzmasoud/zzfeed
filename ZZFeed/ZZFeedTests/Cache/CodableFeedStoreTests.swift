@@ -140,12 +140,12 @@ class CodableFeedStoreTests: XCTestCase {
         let insertionError = insert((feed, Date()), to: sut)
         XCTAssertNil(insertionError, "expected to get no error for insertion.")
         
-        let newFeed = uniqueItems().local
-        let newTimestamp = Date()
-        let newInsertionError = insert((newFeed, newTimestamp), to: sut)
-        XCTAssertNil(insertionError, "expected to get no error for insertion.")
+        let latestFeed = uniqueItems().local
+        let latestTimestamp = Date()
+        let latestInsertionError = insert((latestFeed, latestTimestamp), to: sut)
+        XCTAssertNil(insertionError, "expected to get no error for the latest insertion.")
         
-        expect(sut: sut, toRetrieve: .fetched(items: newFeed, timestamp: newTimestamp))
+        expect(sut: sut, toRetrieve: .fetched(items: latestFeed, timestamp: latestTimestamp))
     }
     
     func test_insert_deliversErrorOnInsertionError() {
