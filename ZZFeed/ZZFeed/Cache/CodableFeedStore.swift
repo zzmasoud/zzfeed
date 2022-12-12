@@ -1,0 +1,82 @@
+//
+//  CodableFeedStore.swift
+//  ZZFeed
+//
+//  Created by Masoud on 12/12/22.
+//
+
+import Foundation
+
+public class CodableFeedStore: FeedStore {
+    private struct Cache: Codable {
+        let feed: [CodableFeedItem]
+        let timestamp: Date
+        
+        var localFeed: [LocalFeedItem] {
+            return feed.map { $0.local }
+        }
+    }
+    
+    private struct CodableFeedItem: Codable {
+        public let id: UUID
+        public let imageURL: URL
+        public let description: String?
+        public let location: String?
+        
+        init(_ item: LocalFeedItem) {
+            id = item.id
+            imageURL = item.imageURL
+            description = item.description
+            location = item.location
+        }
+        
+        var local: LocalFeedItem {
+            return LocalFeedItem(id: id, description: description, location: location, imageURL: imageURL)
+        }
+    }
+    
+    private let storeURL: URL
+    
+    public init(storeURL: URL) {
+        self.storeURL = storeURL
+    }
+    
+    public func retrieve(completion: @escaping RetrievalCompletion) {
+        guard let data = try? Data(contentsOf: storeURL) else {
+            return completion(.empty)
+        }
+        
+        do {
+            let decoder = JSONDecoder()
+            let decoded = try decoder.decode(Cache.self, from: data)
+            completion(.fetched(items: decoded.localFeed, timestamp: decoded.timestamp))
+        } catch {
+            completion(.failure(error))
+        }
+    }
+    
+    public func insert(_ feed: [LocalFeedItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+        do {
+            let encoder = JSONEncoder()
+            let cache = Cache(feed: feed.map(CodableFeedItem.init), timestamp: timestamp)
+            let encoded = try encoder.encode(cache)
+            try encoded.write(to: storeURL)
+            completion(nil)
+        } catch {
+            completion(error)
+        }
+    }
+    
+    public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
+        if FileManager.default.fileExists(atPath: storeURL.path) {
+            do {
+                try FileManager.default.removeItem(at: storeURL)
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        } else {
+            completion(nil)
+        }
+    }
+}
