@@ -2,7 +2,7 @@
 //  FeedCachePolicy.swift
 //  ZZFeed
 //
-//  Created by Masoud Sheikh Hosseini on 9/8/22.
+//  Created by Masoud on 9/8/22.
 //
 
 import Foundation
