@@ -100,6 +100,17 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         XCTAssertNotNil(insertionError, "expected to get error due to invalid storeURL.")
     }
     
+    func test_insert_hasNoSideEffectsOnInsertionError() {
+        let invalidURL = URL(string: "invalid-ur-l")!
+        let sut = makeSUT(storeURL: invalidURL)
+        let feed = uniqueItems().local
+        let timestamp = Date()
+        
+        insert((feed, timestamp), to: sut)
+        
+        expect(sut: sut, toRetrieve: .empty)
+    }
+    
     func test_delete_hasNoSideEffectsOnEmptyCache() {
         let sut = makeSUT()
         
@@ -126,6 +137,15 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         let deletionError = delete(from: sut)
         
         XCTAssertNotNil(deletionError, "expected to get error after deletion.")
+    }
+    
+    func test_delete_hasNoSideEffectsOnDeletionError() {
+        let storeURL = FileManager.default.homeDirectoryForCurrentUser
+        let sut = makeSUT(storeURL: storeURL)
+        
+        delete(from: sut)
+        
+        expect(sut: sut, toRetrieve: .empty)
     }
     
     func test_storeSideEffects_runSerially() {
