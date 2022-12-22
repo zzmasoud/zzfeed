@@ -2,7 +2,7 @@
 //  HelperMethods.swift
 //  ZZFeedTests
 //
-//  Created by Masoud Sheikh Hosseini on 9/5/22.
+//  Created by Masoud on 9/5/22.
 //
 
 import Foundation

@@ -38,7 +38,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
     func test_validateCache_hasNoSideEffectsOnLessThanSevenDaysOldCache() {
         let items = uniqueItems()
         let now = Date()
-        let lessThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(1)
+        let lessThanSevenDays: Date = now.minusFeedCacheMaxAge().addingTimeInterval(1)
         let (sut, store) = makeSUT(currentDate: { now })
         
         sut.validateCache()
@@ -50,7 +50,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
     func test_validateCache_deletesSevenDaysOldCache() {
         let items = uniqueItems()
         let now = Date()
-        let sevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!
+        let sevenDays: Date = now.minusFeedCacheMaxAge()
         let (sut, store) = makeSUT(currentDate: { now })
         
         sut.validateCache()
@@ -62,7 +62,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
     func test_validateCache_deletesMoreThanSevenDaysOldCache() {
         let items = uniqueItems()
         let now = Date()
-        let moreThanSevenDays: Date = Calendar.current.date(byAdding: .day, value: -7, to: now)!.addingTimeInterval(-1)
+        let moreThanSevenDays: Date = now.minusFeedCacheMaxAge().addingTimeInterval(-1)
         let (sut, store) = makeSUT(currentDate: { now })
         
         sut.validateCache()
@@ -95,10 +95,4 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         
         return (sut, store)
     }    
-}
-
-private extension Date {
-    func add(days: Int) -> Date {
-        return Calendar.current.date(byAdding: .day, value: -days, to: self)!
-    }
 }

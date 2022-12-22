@@ -139,6 +139,5 @@ class CacheFeedUseCaseTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         
         return (sut, store)
-        
-    }    
+    }
 }
