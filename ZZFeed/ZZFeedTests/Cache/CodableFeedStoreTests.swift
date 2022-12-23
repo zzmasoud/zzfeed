@@ -84,7 +84,7 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         let latestFeed = uniqueItems().local
         let latestTimestamp = Date()
         let latestInsertionError = insert((latestFeed, latestTimestamp), to: sut)
-        XCTAssertNil(insertionError, "expected to get no error for the latest insertion.")
+        XCTAssertNil(latestInsertionError, "expected to get no error for the latest insertion.")
         
         expect(sut: sut, toRetrieve: .fetched(items: latestFeed, timestamp: latestTimestamp))
     }
