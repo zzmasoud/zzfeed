@@ -29,7 +29,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     func test_load_deliversErrorOnClientError() {
         let (client, sut) = makeSUT()
 
-        expect(sut, toCompleteWithResult: .failure(.connectivity)) {
+        expect(sut, toCompleteWithResult: .failure(RemoteFeedLoader.Error.connectivity)) {
             let clientError = NSError(domain: "ClientError", code: -1)
             client.complete(with: clientError)
         }
@@ -41,7 +41,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
         let codes = [199, 204, 291, 300, 400, 500]
         
         codes.enumerated().forEach { index, code in
-            expect(sut, toCompleteWithResult: .failure(.invalidData)) {
+            expect(sut, toCompleteWithResult: .failure(RemoteFeedLoader.Error.invalidData)) {
                 let emptyJson = makeEmptyListJson()
                 client.complete(withStatusCode: code, data: emptyJson, at: index)
             }
@@ -82,7 +82,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     func test_load_deliversErrorOn200HttpResponseWithInvalidJson() {
         let (client, sut) = makeSUT()
         
-        expect(sut, toCompleteWithResult: .failure(.invalidData)) {
+        expect(sut, toCompleteWithResult: .failure(RemoteFeedLoader.Error.invalidData)) {
             let invalidJson = Data("wrong data".utf8)
             client.complete(withStatusCode: 200, data: invalidJson)
         }
@@ -106,7 +106,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
                 XCTAssertEqual(receivedItem, expectedItem, file: file, line: line)
                 
             case let (.failure(receivedError), .failure(expectedError)):
-                XCTAssertEqual(receivedError, expectedError, file: file, line: line)
+                XCTAssertEqual(receivedError as! RemoteFeedLoader.Error, expectedError as! RemoteFeedLoader.Error, file: file, line: line)
                 
             default:
                 XCTFail("Expected result: \(expectedResult) but got: \(receivedResult) instead!", file: file, line: line)
