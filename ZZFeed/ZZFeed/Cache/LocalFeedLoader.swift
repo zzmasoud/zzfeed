@@ -37,10 +37,10 @@ public final class LocalFeedLoader: Feedloader {
             case let .failure(error):
                 completion(.failure(error))
                 
-            case let .fetched(items, timestamp) where FeedCachePolicy.validate(timestamp, against: currentDate()):
+            case let .success(.fetched(items, timestamp)) where FeedCachePolicy.validate(timestamp, against: currentDate()):
                 completion(.success(items.toModels()))
                 
-            case .fetched, .empty:
+            case .success:
                 completion(.success(.empty))
             }
         }
@@ -53,10 +53,10 @@ public final class LocalFeedLoader: Feedloader {
             case .failure:
                 self.store.deleteCachedFeed(completion: {_ in })
                 
-            case let .fetched(_, timestamp) where !FeedCachePolicy.validate(timestamp, against: self.currentDate()):
+            case let .success(.fetched(_, timestamp)) where !FeedCachePolicy.validate(timestamp, against: self.currentDate()):
                 self.store.deleteCachedFeed(completion: {_ in })
             
-            case .empty, .fetched:
+            case .success:
                 break
             }
         }
