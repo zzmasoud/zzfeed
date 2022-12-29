@@ -8,13 +8,12 @@
 import Foundation
 
 
-public final class LocalFeedLoader {
+public final class LocalFeedLoader: Feedloader {
     private let store: FeedStore
     private let currentDate: ()->Date
     
     public typealias SaveResult = Error?
-    public typealias LoadResut  = FeedLoaderResult<Error>
-
+    public typealias LoadResut  = Feedloader.Result
     public init(store: FeedStore, currentDate: @escaping ()->Date) {
         self.store = store
         self.currentDate = currentDate
@@ -38,10 +37,10 @@ public final class LocalFeedLoader {
             case let .failure(error):
                 completion(.failure(error))
                 
-            case let .fetched(items, timestamp) where FeedCachePolicy.validate(timestamp, against: currentDate()):
+            case let .success(.fetched(items, timestamp)) where FeedCachePolicy.validate(timestamp, against: currentDate()):
                 completion(.success(items.toModels()))
                 
-            case .fetched, .empty:
+            case .success:
                 completion(.success(.empty))
             }
         }
@@ -54,10 +53,10 @@ public final class LocalFeedLoader {
             case .failure:
                 self.store.deleteCachedFeed(completion: {_ in })
                 
-            case let .fetched(_, timestamp) where !FeedCachePolicy.validate(timestamp, against: self.currentDate()):
+            case let .success(.fetched(_, timestamp)) where !FeedCachePolicy.validate(timestamp, against: self.currentDate()):
                 self.store.deleteCachedFeed(completion: {_ in })
             
-            case .empty, .fetched:
+            case .success:
                 break
             }
         }
