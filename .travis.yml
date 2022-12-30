@@ -1,4 +1,6 @@
 os: osx
 osx_image: xcode13.4
 language: swift
-script: xcodebuild clean build test -project ZZFeed/ZZFeed.xcodeproj -scheme "CI" CODE_SIGNING_IDENTITY=" " CODE_SIGNING_REQUIRED=NO
+script: 
+  - xcodebuild clean build test -project ZZFeed/ZZFeed.xcodeproj -scheme "CI_macOS" CODE_SIGNING_IDENTITY=" " CODE_SIGNING_REQUIRED=NO
+  - xcodebuild clean build test -project ZZFeed/ZZFeed.xcodeproj -scheme "CI_iOS" CODE_SIGNING_IDENTITY=" " CODE_SIGNING_REQUIRED=NO
