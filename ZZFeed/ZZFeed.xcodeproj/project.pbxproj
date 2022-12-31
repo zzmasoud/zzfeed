@@ -15,6 +15,7 @@
 		042704EC28BD41E5004599A7 /* LocalFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042704EB28BD41E5004599A7 /* LocalFeedItem.swift */; };
 		042704EE28BD421F004599A7 /* RemoteFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042704ED28BD421F004599A7 /* RemoteFeedItem.swift */; };
 		0438C50329497B4F001FD9BB /* XCTestCase+FeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0438C50229497B4F001FD9BB /* XCTestCase+FeedStoreSpecs.swift */; };
+		045EB247296047B400483203 /* FeedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045EB246296047B400483203 /* FeedViewControllerTests.swift */; };
 		04634FEB28C25C0200AC05AB /* ValidateFeedCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04634FEA28C25C0200AC05AB /* ValidateFeedCacheUseCaseTests.swift */; };
 		047868DD289A91CC0013E8DB /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047868DC289A91CC0013E8DB /* FeedLoader.swift */; };
 		04789989289AB19B00A38697 /* LoadFeedFromRemoteUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04789988289AB19B00A38697 /* LoadFeedFromRemoteUseCaseTests.swift */; };
@@ -72,6 +73,7 @@
 		042704EB28BD41E5004599A7 /* LocalFeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedItem.swift; sourceTree = "<group>"; };
 		042704ED28BD421F004599A7 /* RemoteFeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedItem.swift; sourceTree = "<group>"; };
 		0438C50229497B4F001FD9BB /* XCTestCase+FeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FeedStoreSpecs.swift"; sourceTree = "<group>"; };
+		045EB246296047B400483203 /* FeedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewControllerTests.swift; sourceTree = "<group>"; };
 		04634FEA28C25C0200AC05AB /* ValidateFeedCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateFeedCacheUseCaseTests.swift; sourceTree = "<group>"; };
 		047868DC289A91CC0013E8DB /* FeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoader.swift; sourceTree = "<group>"; };
 		04789988289AB19B00A38697 /* LoadFeedFromRemoteUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFeedFromRemoteUseCaseTests.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 		048FCD32295EFFD90093F747 /* ZZFeediOSTests */ = {
 			isa = PBXGroup;
 			children = (
+				045EB246296047B400483203 /* FeedViewControllerTests.swift */,
 			);
 			path = ZZFeediOSTests;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 					};
 					048FCD2D295EFFD90093F747 = {
 						CreatedOnToolsVersion = 14.0;
+						LastSwiftMigration = 1400;
 					};
 				};
 			};
@@ -541,6 +545,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				045EB247296047B400483203 /* FeedViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,15 +872,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zzmasoud.ZZFeediOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -885,10 +897,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zzmasoud.ZZFeediOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
