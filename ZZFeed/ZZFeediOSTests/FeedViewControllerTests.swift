@@ -7,11 +7,12 @@
 
 import XCTest
 import UIKit
+import ZZFeed
 
 public class FeedViewController: UIViewController {
-    private var loader: FeedViewControllerTests.LoaderSpy?
+    private var loader: Feedloader?
     
-    convenience init(loader: FeedViewControllerTests.LoaderSpy) {
+    convenience init(loader: Feedloader) {
         self.init()
         self.loader = loader
     }
@@ -19,7 +20,7 @@ public class FeedViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        loader?.load()
+        loader?.load { _ in }
     }
 }
 
@@ -42,10 +43,10 @@ final class FeedViewControllerTests: XCTestCase {
     }
     
     // MARK: - Helpers
-    class LoaderSpy {
+    class LoaderSpy: Feedloader {
         private(set) var loadCount = 0
         
-        func load() {
+        func load(completion: @escaping (Feedloader.Result) -> Void) {
             loadCount += 1
         }
     }
