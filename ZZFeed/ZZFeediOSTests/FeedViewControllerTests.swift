@@ -9,7 +9,7 @@ import XCTest
 import UIKit
 import ZZFeed
 
-public class FeedViewController: UIViewController {
+public class FeedViewController: UITableViewController {
     private var loader: Feedloader?
     
     convenience init(loader: Feedloader) {
@@ -20,6 +20,13 @@ public class FeedViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
+        
+        load()
+    }
+    
+    @objc private func load() {
         loader?.load { _ in }
     }
 }
@@ -38,6 +45,20 @@ final class FeedViewControllerTests: XCTestCase {
         sut.loadViewIfNeeded()
         
         XCTAssertEqual(loader.loadCount, 1)
+    }
+    
+    func test_pullToRefresh_loadsFeed() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        sut.refreshControl?.allTargets.forEach({ target in
+            sut.refreshControl?.actions(forTarget: target, forControlEvent: .valueChanged)?.forEach({ selector in
+                (target as NSObject).perform(Selector(selector))
+            })
+        })
+        
+        XCTAssertEqual(loader.loadCount, 2)
+
     }
     
     // MARK: - Helpers
