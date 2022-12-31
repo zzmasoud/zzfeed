@@ -8,32 +8,9 @@
 import XCTest
 import UIKit
 import ZZFeed
+import ZZFeediOS
 
-public class FeedViewController: UITableViewController {
-    private var loader: Feedloader?
-    
-    convenience init(loader: Feedloader) {
-        self.init()
-        self.loader = loader
-    }
-    
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
-        load()
-    }
-    
-    @objc private func load() {
-        refreshControl?.beginRefreshing()
-        loader?.load { [weak self] _ in
-            self?.refreshControl?.endRefreshing()
-        }
-    }
-}
-
-final class FeedViewControllerTests: XCTestCase {
+final public class FeedViewControllerTests: XCTestCase {
     
     func test_loadFeedActions_requestFeedFromLoader() {
         let (sut, loader) = makeSUT()
