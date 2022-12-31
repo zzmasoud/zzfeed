@@ -52,9 +52,10 @@ final class FeedViewControllerTests: XCTestCase {
         sut.loadViewIfNeeded()
         
         sut.refreshControl?.simulatePullToRefresh()
-        
         XCTAssertEqual(loader.loadCount, 2)
-
+        
+        sut.refreshControl?.simulatePullToRefresh()
+        XCTAssertEqual(loader.loadCount, 3)
     }
     
     // MARK: - Helpers
