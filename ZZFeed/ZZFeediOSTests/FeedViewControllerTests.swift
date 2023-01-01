@@ -53,11 +53,7 @@ final public class FeedViewControllerTests: XCTestCase {
 
         loader.completeFeedLoading(at: 0, with: feed)
         XCTAssertEqual(sut.numberOfRenderedFeedItemViews, feed.count)
-        
-        let view = sut.feedItemView(at: 0) as? FeedItemCell
-        XCTAssertNotNil(view)
-        XCTAssertEqual(view?.isShowingLocation, false)
-        XCTAssertEqual(view?.descriptionText, feed[0].description)
+        assert(sut, hasConfiguaredViewFor: feed[0], at: 0)
     }
     
     // MARK: - Helpers
@@ -70,6 +66,15 @@ final public class FeedViewControllerTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
 
         return (sut, loader)
+    }
+    
+    private func assert(_ sut: FeedViewController, hasConfiguaredViewFor feedItem: FeedItem, at index: Int, file: StaticString = #file, line: UInt = #line) {
+        let view = sut.feedItemView(at: index) as? FeedItemCell
+        
+        XCTAssertNotNil(view)
+        XCTAssertEqual(view?.isShowingLocation, feedItem.location != nil)
+        XCTAssertEqual(view?.locationText, feedItem.location)
+        XCTAssertEqual(view?.descriptionText, feedItem.description)
     }
     
     class LoaderSpy: FeedLoader {
@@ -110,6 +115,10 @@ private extension FeedViewController {
 private extension FeedItemCell {
     var isShowingLocation: Bool {
         return !locationContainer.isHidden
+    }
+    
+    var locationText: String? {
+        return locationLabel.text
     }
     
     var descriptionText: String? {
