@@ -9,9 +9,10 @@ import UIKit
 import ZZFeed
 
 public class FeedViewController: UITableViewController {
-    private var loader: Feedloader?
+    private var loader: FeedLoader?
+    private var feed: [FeedItem] = []
     
-    public convenience init(loader: Feedloader) {
+    public convenience init(loader: FeedLoader) {
         self.init()
         self.loader = loader
     }

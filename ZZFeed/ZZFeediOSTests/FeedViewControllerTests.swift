@@ -56,17 +56,17 @@ final public class FeedViewControllerTests: XCTestCase {
         return (sut, loader)
     }
     
-    class LoaderSpy: Feedloader {
-        private var completions: [(Feedloader.Result) -> Void] = []
+    class LoaderSpy: FeedLoader {
+        private var completions: [(FeedLoader.Result) -> Void] = []
         
         var loadCount: Int { completions.count }
         
-        func load(completion: @escaping (Feedloader.Result) -> Void) {
+        func load(completion: @escaping (FeedLoader.Result) -> Void) {
             completions.append(completion)
         }
         
-        func completeFeedLoading(at index: Int) {
-            completions[index](.success([]))
+        func completeFeedLoading(at index: Int, with feed: [FeedItem] = []) {
+            completions[index](.success(feed))
         }
     }
 }
@@ -78,6 +78,10 @@ private extension FeedViewController {
     
     var isShowingLoadingIndicator: Bool {
         return refreshControl?.isRefreshing ?? false
+    }
+    
+    var numberOfRenderedFeedItemViews: Int {
+        return tableView.numberOfRows(inSection: 0)
     }
 }
 

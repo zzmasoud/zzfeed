@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class RemoteFeedLoader: Feedloader {
+public class RemoteFeedLoader: FeedLoader {
     private let client: HttpClient
     private let url: URL
     
@@ -16,7 +16,7 @@ public class RemoteFeedLoader: Feedloader {
         case invalidData
     }
     
-    public typealias Result = Feedloader.Result
+    public typealias Result = FeedLoader.Result
 
     public init(url: URL, client: HttpClient) {
         self.url = url

@@ -8,12 +8,12 @@
 import Foundation
 
 
-public final class LocalFeedLoader: Feedloader {
+public final class LocalFeedLoader: FeedLoader {
     private let store: FeedStore
     private let currentDate: ()->Date
     
     public typealias SaveResult = Error?
-    public typealias LoadResut  = Feedloader.Result
+    public typealias LoadResut  = FeedLoader.Result
     public init(store: FeedStore, currentDate: @escaping ()->Date) {
         self.store = store
         self.currentDate = currentDate
