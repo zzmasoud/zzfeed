@@ -46,14 +46,24 @@ final public class FeedViewControllerTests: XCTestCase {
     
     func test_loadFeedCompletion_renderSuccessfullyLoadedFeed() {
         let (sut, loader) = makeSUT()
-        let feed = [FeedItem(description: "abcd", location: nil, imageURL: URL(string: "https://url.com")!)]
-        
+        let item0 = FeedItem(description: "abcd", location: nil, imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedItem(description: "---", location: nil, imageURL: URL(string: "https://url1.com")!)
+        let item2 = FeedItem(description: "no way", location: "locationA", imageURL: URL(string: "https://url.valid.com")!)
+        let item3 = FeedItem(description: nil, location: "locationB", imageURL: URL(string: "https://url.vaaaali.com")!)
+
         sut.loadViewIfNeeded()
         XCTAssertEqual(0, sut.numberOfRenderedFeedItemViews)
 
-        loader.completeFeedLoading(at: 0, with: feed)
-        XCTAssertEqual(sut.numberOfRenderedFeedItemViews, feed.count)
-        assert(sut, hasConfiguaredViewFor: feed[0], at: 0)
+        loader.completeFeedLoading(at: 0, with: [item0])
+        assert(sut, isRendering: [item0])
+        
+        sut.simulateUserActionFeedReload()
+        loader.completeFeedLoading(at: 1, with: [item0, item1, item2, item3])
+        assert(sut, isRendering: [item0, item1, item2, item3])
+        
+        sut.simulateUserActionFeedReload()
+        loader.completeFeedLoading(at: 2, with: [])
+        assert(sut, isRendering: [])
     }
     
     // MARK: - Helpers
@@ -66,6 +76,16 @@ final public class FeedViewControllerTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
 
         return (sut, loader)
+    }
+    
+    private func assert(_ sut: FeedViewController, isRendering feed: [FeedItem], file: StaticString = #file, line: UInt = #line) {
+        guard sut.numberOfRenderedFeedItemViews == feed.count else {
+            return XCTFail("expected \(feed.count) but got \(sut.numberOfRenderedFeedItemViews) .")
+        }
+        
+        for (index, item) in feed.enumerated() {
+            assert(sut, hasConfiguaredViewFor: item, at: index)
+        }
     }
     
     private func assert(_ sut: FeedViewController, hasConfiguaredViewFor feedItem: FeedItem, at index: Int, file: StaticString = #file, line: UInt = #line) {
