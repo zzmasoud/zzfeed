@@ -2,7 +2,7 @@
 //  FeedViewControllerTests.swift
 //  ZZFeediOSTests
 //
-//  Created by Masoud Sheikh Hosseini on 12/31/22.
+//  Created by zzmasoud on 12/31/22.
 //
 
 import XCTest

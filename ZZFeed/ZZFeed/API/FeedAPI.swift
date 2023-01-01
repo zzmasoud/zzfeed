@@ -2,7 +2,7 @@
 //  FeedAPI.swift
 //  ZZFeed
 //
-//  Created by Masoud Sheikh Hosseini on 8/3/22.
+//  Created by zzmasoud on 8/3/22.
 //
 
 import Foundation

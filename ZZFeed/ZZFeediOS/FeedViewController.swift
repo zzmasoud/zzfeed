@@ -2,7 +2,7 @@
 //  FeedViewController.swift
 //  ZZFeediOS
 //
-//  Created by Masoud Sheikh Hosseini on 12/31/22.
+//  Created by zzmasoud on 12/31/22.
 //
 
 import UIKit

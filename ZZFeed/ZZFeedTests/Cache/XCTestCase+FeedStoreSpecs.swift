@@ -2,7 +2,7 @@
 //  XCTestCase+FeedStoreSpecs.swift
 //  ZZFeedTests
 //
-//  Created by Masoud Sheikh Hosseini on 12/14/22.
+//  Created by zzmasoud on 12/14/22.
 //
 
 import XCTest
