@@ -44,6 +44,17 @@ final public class FeedViewControllerTests: XCTestCase {
         XCTAssertFalse(sut.isShowingLoadingIndicator)
     }
     
+    func test_loadFeedCompletion_renderSuccessfullyLoadedFeed() {
+        let (sut, loader) = makeSUT()
+        let feed = [FeedItem(description: "abcd", location: nil, imageURL: URL(string: "https://url.com")!)]
+        
+        sut.loadViewIfNeeded()
+        XCTAssertEqual(0, sut.numberOfRenderedFeedItemViews)
+
+        loader.completeFeedLoading(at: 0, with: feed)
+        XCTAssertEqual(sut.numberOfRenderedFeedItemViews, feed.count)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedViewController, loader: LoaderSpy) {
