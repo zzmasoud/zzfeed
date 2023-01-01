@@ -43,4 +43,15 @@ public class FeedViewController: UITableViewController {
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return feed.count
     }
+    
+    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let item = feed[indexPath.row]
+        
+        let cell = FeedItemCell()
+        cell.locationContainer.isHidden = item.location == nil
+        cell.locationLabel.text = item.location
+        cell.descriptionLabel.text = item.description
+        
+        return cell
+    }
 }

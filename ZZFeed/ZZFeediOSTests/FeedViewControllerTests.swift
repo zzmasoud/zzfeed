@@ -53,6 +53,11 @@ final public class FeedViewControllerTests: XCTestCase {
 
         loader.completeFeedLoading(at: 0, with: feed)
         XCTAssertEqual(sut.numberOfRenderedFeedItemViews, feed.count)
+        
+        let view = sut.feedItemView(at: 0) as? FeedItemCell
+        XCTAssertNotNil(view)
+        XCTAssertEqual(view?.isShowingLocation, false)
+        XCTAssertEqual(view?.descriptionText, feed[0].description)
     }
     
     // MARK: - Helpers
@@ -93,6 +98,22 @@ private extension FeedViewController {
     
     var numberOfRenderedFeedItemViews: Int {
         return tableView.numberOfRows(inSection: 0)
+    }
+    
+    func feedItemView(at row: Int) -> UITableViewCell? {
+        let dataSource = tableView.dataSource
+        let index = IndexPath(row: row, section: 0)
+        return dataSource?.tableView(tableView, cellForRowAt: index)
+    }
+}
+
+private extension FeedItemCell {
+    var isShowingLocation: Bool {
+        return !locationContainer.isHidden
+    }
+    
+    var descriptionText: String? {
+        return descriptionLabel.text
     }
 }
 
