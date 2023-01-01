@@ -95,7 +95,25 @@ final public class FeedViewControllerTests: XCTestCase {
         
         sut.simulateFeedItemViewVisible(at: 1)
         XCTAssertEqual(loader.loadedImageURLs, [item0.imageURL, item1.imageURL])
+    }
+    
+    func test_feedItemView_CancelsImageURLWhenNotVisibleAnymore() {
+        let (sut, loader) = makeSUT()
+        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedItem(imageURL: URL(string: "https://url.com")!)
 
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(at: 0, with: [item0, item1])
+        XCTAssertEqual(loader.loadedImageURLs, [])
+
+        sut.simulateFeedItemViewVisible(at: 0)
+        XCTAssertEqual(loader.loadedImageURLs, [item0.imageURL])
+        
+        sut.simulateFeedItemViewNotVisible(at: 0)
+        XCTAssertEqual(loader.cancelledImageURLs, [item0.imageURL])
+
+        sut.simulateFeedItemViewNotVisible(at: 1)
+        XCTAssertEqual(loader.cancelledImageURLs, [item0.imageURL, item1.imageURL])
     }
     
     // MARK: - Helpers
@@ -152,9 +170,14 @@ final public class FeedViewControllerTests: XCTestCase {
         // MARK: - FeedItemDataLoader
         
         private(set) var loadedImageURLs: [URL] = []
+        private(set) var cancelledImageURLs: [URL] = []
         
         func loadImageData(from url: URL) {
             loadedImageURLs.append(url)
+        }
+        
+        func cancelImageData(from url: URL) {
+            cancelledImageURLs.append(url)
         }
     }
 }
@@ -164,8 +187,16 @@ private extension FeedViewController {
         refreshControl?.simulatePullToRefresh()
     }
     
-    func simulateFeedItemViewVisible(at row: Int) {
-        _ = feedItemView(at: row)
+    @discardableResult
+    func simulateFeedItemViewVisible(at row: Int) -> UITableViewCell? {
+        return feedItemView(at: row)
+    }
+    
+    func simulateFeedItemViewNotVisible(at row: Int) {
+        let cell = simulateFeedItemViewVisible(at: row)
+        let delegate = tableView.delegate
+        let indexPath = IndexPath(row: row, section: 0)
+        delegate?.tableView?(tableView, didEndDisplaying: cell!, forRowAt: indexPath)
     }
     
     var isShowingLoadingIndicator: Bool {

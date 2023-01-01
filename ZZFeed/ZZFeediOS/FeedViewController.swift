@@ -10,6 +10,7 @@ import ZZFeed
 
 public protocol FeedItemDataLoader {
     func loadImageData(from url: URL)
+    func cancelImageData(from url: URL)
 }
 
 public class FeedViewController: UITableViewController {
@@ -62,5 +63,10 @@ public class FeedViewController: UITableViewController {
         imageLoader?.loadImageData(from: item.imageURL)
         
         return cell
+    }
+    
+    public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let item = feed[indexPath.row]
+        imageLoader?.cancelImageData(from: item.imageURL)
     }
 }
