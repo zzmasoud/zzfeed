@@ -8,13 +8,20 @@
 import UIKit
 import ZZFeed
 
+public protocol FeedItemDataLoader {
+    func loadImageData(from url: URL)
+}
+
 public class FeedViewController: UITableViewController {
-    private var loader: FeedLoader?
+    private var feedLoader: FeedLoader?
+    private var imageLoader: FeedItemDataLoader?
+
     private var feed: [FeedItem] = []
     
-    public convenience init(loader: FeedLoader) {
+    public convenience init(feedLoader: FeedLoader, imageLoader: FeedItemDataLoader) {
         self.init()
-        self.loader = loader
+        self.feedLoader = feedLoader
+        self.imageLoader = imageLoader
     }
     
     public override func viewDidLoad() {
@@ -27,7 +34,7 @@ public class FeedViewController: UITableViewController {
     
     @objc private func load() {
         refreshControl?.beginRefreshing()
-        loader?.load { [weak self] result in
+        feedLoader?.load { [weak self] result in
             if let feed = try? result.get() {
                 self?.feed = feed
                 self?.tableView.reloadData()
@@ -51,6 +58,8 @@ public class FeedViewController: UITableViewController {
         cell.locationContainer.isHidden = item.location == nil
         cell.locationLabel.text = item.location
         cell.descriptionLabel.text = item.description
+        
+        imageLoader?.loadImageData(from: item.imageURL)
         
         return cell
     }
