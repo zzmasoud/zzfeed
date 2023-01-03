@@ -84,7 +84,7 @@ final public class FeedViewControllerTests: XCTestCase {
     func test_feedItemView_loadsImageURLWhenVisible() {
         let (sut, loader) = makeSUT()
         let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
-        let item1 = FeedItem(imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedItem(imageURL: URL(string: "https://url-2nd.com")!)
 
         sut.loadViewIfNeeded()
         loader.completeFeedLoading(at: 0, with: [item0, item1])
@@ -100,7 +100,7 @@ final public class FeedViewControllerTests: XCTestCase {
     func test_feedItemView_CancelsImageURLWhenNotVisibleAnymore() {
         let (sut, loader) = makeSUT()
         let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
-        let item1 = FeedItem(imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedItem(imageURL: URL(string: "https://url-2nd.com")!)
 
         sut.loadViewIfNeeded()
         loader.completeFeedLoading(at: 0, with: [item0, item1])
