@@ -12,6 +12,7 @@ public final class FeedItemCell: UITableViewCell {
     public let locationLabel = UILabel()
     public let descriptionLabel = UILabel()
     public let container = CustomLoadableView()
+    public let feedImageView = UIImageView()
 }
 
 public final class CustomLoadableView: UIView {
