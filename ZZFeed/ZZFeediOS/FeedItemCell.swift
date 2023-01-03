@@ -13,6 +13,7 @@ public final class FeedItemCell: UITableViewCell {
     public let descriptionLabel = UILabel()
     public let container = CustomLoadableView()
     public let feedImageView = UIImageView()
+    public let retryButton = UIButton()
 }
 
 public final class CustomLoadableView: UIView {
