@@ -197,7 +197,29 @@ final public class FeedViewControllerTests: XCTestCase {
         
         loader.completeImageLoading(with: Data("Invalid data".utf8))
         XCTAssertEqual(view0?.isShowingRetryAction, true)
+    }
+    
+    func test_feedItemViewRetryAction_retriesImageLoad() {
+        let (sut, loader) = makeSUT()
+        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedItem(imageURL: URL(string: "https://url-2nd.com")!)
 
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(at: 0, with: [item0, item1])
+        
+        let view0 = sut.simulateFeedItemViewVisible(at: 0)
+        let view1 = sut.simulateFeedItemViewVisible(at: 1)
+        XCTAssertEqual(loader.loadedImageURLs, [item0.imageURL, item1.imageURL])
+        
+        loader.completeImageLoadingWithError(at: 0)
+        loader.completeImageLoadingWithError(at: 1)
+        XCTAssertEqual(loader.loadedImageURLs, [item0.imageURL, item1.imageURL])
+
+        view0?.simulateRetryAction()
+        XCTAssertEqual(loader.loadedImageURLs, [item0.imageURL, item1.imageURL, item0.imageURL])
+
+        view1?.simulateRetryAction()
+        XCTAssertEqual(loader.loadedImageURLs, [item0.imageURL, item1.imageURL, item0.imageURL, item1.imageURL])
     }
     
     // MARK: - Helpers
@@ -339,6 +361,22 @@ private extension FeedItemCell {
     
     var renderedImage: Data? {
         return feedImageView.image?.pngData()
+    }
+    
+    func simulateRetryAction() {
+        retryButton.simulateTap()
+    }
+}
+
+// MARK: - UIButton + Simulate
+
+private extension UIButton {
+    func simulateTap() {
+        self.allTargets.forEach({ target in
+            self.actions(forTarget: target, forControlEvent: .touchUpInside)?.forEach({ selector in
+                (target as NSObject).perform(Selector(selector))
+            })
+        })
     }
 }
 

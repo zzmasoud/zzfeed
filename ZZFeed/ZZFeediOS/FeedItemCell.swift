@@ -13,7 +13,18 @@ public final class FeedItemCell: UITableViewCell {
     public let descriptionLabel = UILabel()
     public let container = CustomLoadableView()
     public let feedImageView = UIImageView()
-    public let retryButton = UIButton()
+    
+    private(set) public lazy var retryButton: UIButton = {
+        let btn = UIButton()
+        btn.addTarget(self, action: #selector(retryTapped), for: .touchUpInside)
+        return btn
+    }()
+    
+    var onRetry: (()->Void)?
+    
+    @objc private func retryTapped() {
+        onRetry?()
+    }
 }
 
 public final class CustomLoadableView: UIView {
