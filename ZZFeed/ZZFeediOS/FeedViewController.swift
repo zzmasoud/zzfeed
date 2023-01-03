@@ -8,14 +8,18 @@
 import UIKit
 import ZZFeed
 
+public protocol FeedItemDataLoaderTask {
+    func cancel()
+}
+
 public protocol FeedItemDataLoader {
-    func loadImageData(from url: URL)
-    func cancelImageData(from url: URL)
+    func loadImageData(from url: URL) -> FeedItemDataLoaderTask
 }
 
 public class FeedViewController: UITableViewController {
     private var feedLoader: FeedLoader?
     private var imageLoader: FeedItemDataLoader?
+    private var tasks: [IndexPath: FeedItemDataLoaderTask] = [:]
 
     private var feed: [FeedItem] = []
     
@@ -60,13 +64,13 @@ public class FeedViewController: UITableViewController {
         cell.locationLabel.text = item.location
         cell.descriptionLabel.text = item.description
         
-        imageLoader?.loadImageData(from: item.imageURL)
+        tasks[indexPath] = imageLoader?.loadImageData(from: item.imageURL)
         
         return cell
     }
     
     public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let item = feed[indexPath.row]
-        imageLoader?.cancelImageData(from: item.imageURL)
+        tasks[indexPath]?.cancel()
+        tasks[indexPath] = nil
     }
 }
