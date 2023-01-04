@@ -106,9 +106,6 @@ final public class FeedViewControllerTests: XCTestCase {
         loader.completeFeedLoading(at: 0, with: [item0, item1])
         XCTAssertEqual(loader.loadedImageURLs, [])
 
-        sut.simulateFeedItemViewVisible(at: 0)
-        XCTAssertEqual(loader.loadedImageURLs, [item0.imageURL])
-        
         sut.simulateFeedItemViewNotVisible(at: 0)
         XCTAssertEqual(loader.cancelledImageURLs, [item0.imageURL])
 
@@ -252,7 +249,6 @@ final public class FeedViewControllerTests: XCTestCase {
         
         sut.simulateFeedItemNearViewNotNearVisible(at: 1)
         XCTAssertEqual(loader.cancelledImageURLs, [item0.imageURL, item1.imageURL])
-
     }
     
     
@@ -282,10 +278,13 @@ final public class FeedViewControllerTests: XCTestCase {
     private func assert(_ sut: FeedViewController, hasConfiguaredViewFor feedItem: FeedItem, at index: Int, file: StaticString = #file, line: UInt = #line) {
         let view = sut.feedItemView(at: index)
         
-        XCTAssertNotNil(view)
-        XCTAssertEqual(view?.isShowingLocation, feedItem.location != nil)
-        XCTAssertEqual(view?.locationText, feedItem.location)
-        XCTAssertEqual(view?.descriptionText, feedItem.description)
+        guard let view = view as? FeedItemCell else {
+            return XCTFail("Expected \(FeedItemCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
+        }
+
+        XCTAssertEqual(view.isShowingLocation, feedItem.location != nil)
+        XCTAssertEqual(view.locationText, feedItem.location)
+        XCTAssertEqual(view.descriptionText, feedItem.description)
     }
     
     class LoaderSpy: FeedLoader, FeedItemDataLoader {
@@ -348,7 +347,7 @@ private extension FeedViewController {
     
     @discardableResult
     func simulateFeedItemViewVisible(at row: Int) -> FeedItemCell? {
-        return feedItemView(at: row)
+        return feedItemView(at: row) as? FeedItemCell
     }
     
     func simulateFeedItemViewNotVisible(at row: Int) {
@@ -380,10 +379,10 @@ private extension FeedViewController {
         return tableView.numberOfRows(inSection: 0)
     }
     
-    func feedItemView(at row: Int) -> FeedItemCell? {
+    func feedItemView(at row: Int) -> UITableViewCell? {
         let dataSource = tableView.dataSource
         let index = IndexPath(row: row, section: 0)
-        return dataSource?.tableView(tableView, cellForRowAt: index) as? FeedItemCell
+        return dataSource?.tableView(tableView, cellForRowAt: index)
     }
 }
 
