@@ -18,32 +18,25 @@ public protocol FeedItemDataLoader {
 }
 
 public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    private var feedRefreshController: FeedRefreshViewController?
-    private var imageLoader: FeedItemDataLoader?
-    private var cellControllers = [IndexPath: FeedItemCellController]()
+    private var refreshController: FeedRefreshViewController?
 
-    private var feed: [FeedItem] = [] {
+    var models: [FeedItemCellController] = [] {
         didSet {
             tableView.reloadData()
         }
     }
     
-    public convenience init(feedRefreshController: FeedRefreshViewController, imageLoader: FeedItemDataLoader) {
+    convenience init(refreshController: FeedRefreshViewController) {
         self.init()
-        self.feedRefreshController = feedRefreshController
-        self.imageLoader = imageLoader
+        self.refreshController = refreshController
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        refreshControl = feedRefreshController?.view
-        feedRefreshController?.onRefresh = { [weak self] feed in
-            self?.feed = feed
-        }
-        
         tableView.prefetchDataSource = self
-        feedRefreshController?.refresh()
+        refreshControl = refreshController?.view
+        refreshController!.refresh()
     }
     
     public override func numberOfSections(in tableView: UITableView) -> Int {
@@ -51,7 +44,7 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
     }
     
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return feed.count
+        return models.count
     }
     
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -59,7 +52,7 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
     }
     
     public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        removeCellController(forRowAt: indexPath)
+        cancelCellControllerLoad(forRowAt: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
@@ -69,19 +62,16 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
     }
     
     public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach(removeCellController)
+        indexPaths.forEach(cancelCellControllerLoad)
 
     }
     
     private func cellController(forRowAt indexPath: IndexPath) -> FeedItemCellController {
-         let cellModel = feed[indexPath.row]
-         let cellController = FeedItemCellController(model: cellModel, imageLoader: imageLoader!)
-         cellControllers[indexPath] = cellController
-         return cellController
+         return models[indexPath.row]
      }
 
     
-    private func removeCellController(forRowAt indexPath: IndexPath) {
-         cellControllers[indexPath] = nil
+    private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {
+        cellController(forRowAt: indexPath).cancelLoad()
      }
 }
