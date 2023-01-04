@@ -172,6 +172,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		040A8C2C296569A60093F6E6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				045EB24F2960607A00483203 /* FeedViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		040A8C2D296569AD0093F6E6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				04CA424F2961B9B0005BC7F8 /* FeedItemCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		041F4F1028ABC530008E5440 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,8 +288,8 @@
 		048FCD28295EFFD80093F747 /* ZZFeediOS */ = {
 			isa = PBXGroup;
 			children = (
-				045EB24F2960607A00483203 /* FeedViewController.swift */,
-				04CA424F2961B9B0005BC7F8 /* FeedItemCell.swift */,
+				040A8C2C296569A60093F6E6 /* Controllers */,
+				040A8C2D296569AD0093F6E6 /* Views */,
 			);
 			path = ZZFeediOS;
 			sourceTree = "<group>";
