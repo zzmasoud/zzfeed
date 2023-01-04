@@ -18,36 +18,32 @@ public protocol FeedItemDataLoader {
 }
 
 public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    private var feedLoader: FeedLoader?
+    private var feedRefreshController: FeedRefreshViewController?
     private var imageLoader: FeedItemDataLoader?
     private var tasks: [IndexPath: FeedItemDataLoaderTask] = [:]
 
-    private var feed: [FeedItem] = []
+    private var feed: [FeedItem] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
-    public convenience init(feedLoader: FeedLoader, imageLoader: FeedItemDataLoader) {
+    public convenience init(feedRefreshController: FeedRefreshViewController, imageLoader: FeedItemDataLoader) {
         self.init()
-        self.feedLoader = feedLoader
+        self.feedRefreshController = feedRefreshController
         self.imageLoader = imageLoader
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.prefetchDataSource = self
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
-        load()
-    }
-    
-    @objc private func load() {
-        refreshControl?.beginRefreshing()
-        feedLoader?.load { [weak self] result in
-            if let feed = try? result.get() {
-                self?.feed = feed
-                self?.tableView.reloadData()
-            }
-            self?.refreshControl?.endRefreshing()
+        refreshControl = feedRefreshController?.view
+        feedRefreshController?.onRefresh = { [weak self] feed in
+            self?.feed = feed
         }
+        
+        tableView.prefetchDataSource = self
+        feedRefreshController?.refresh()
     }
     
     public override func numberOfSections(in tableView: UITableView) -> Int {
