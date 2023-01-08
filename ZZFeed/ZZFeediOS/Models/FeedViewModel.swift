@@ -14,22 +14,16 @@ final class FeedViewModel {
         self.feedLoader = feedLoader
     }
 
-    var onChange: ((FeedViewModel) -> Void)?
+    var onLoadingChange: ((Bool) -> Void)?
     var onLoad: (([FeedItem]) -> Void)?
     
-    var isLoding: Bool = false {
-        didSet {
-            onChange?(self)
-        }
-    }
-    
     func loadFeed() {
-        isLoding = true
+        onLoadingChange?(true)
         feedLoader.load { [weak self] result in
             if let feed = try? result.get() {
                 self?.onLoad?(feed)
             }
-            self?.isLoding = false
+            self?.onLoadingChange?(false)
         }
     }
 }
