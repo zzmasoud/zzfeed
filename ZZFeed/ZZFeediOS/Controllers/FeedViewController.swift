@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ZZFeed
 
 public protocol FeedItemDataLoaderTask {
     func cancel()
