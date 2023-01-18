@@ -256,6 +256,19 @@ final public class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.cancelledImageURLs, [item0.imageURL, item1.imageURL])
     }
     
+    func test_loadFeedCompletion_dispatchesfromBackgroundToMainThread() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        let exp = expectation(description: "waiting for background queue...")
+        DispatchQueue.global(qos: .background).async {
+            loader.completeFeedLoading(at: 0)
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 1)
+    }
+    
     
     // MARK: - Helpers
     
