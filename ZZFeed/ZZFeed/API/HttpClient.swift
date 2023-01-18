@@ -1,8 +1,5 @@
 //
-//  HttpClient.swift
-//  ZZFeed
-//
-//  Created by zzmasoud on 8/5/22.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import Foundation

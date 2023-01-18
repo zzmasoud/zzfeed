@@ -1,8 +1,5 @@
 //
-//  FeedLoader.swift
-//  ZZFeed
-//
-//  Created by Masoud on 3/8/22.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import Foundation

@@ -1,8 +1,5 @@
 //
-//  FeedAPI.swift
-//  ZZFeed
-//
-//  Created by zzmasoud on 8/3/22.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import Foundation

@@ -1,10 +1,6 @@
 //
-//  FeedItemViewModel.swift
-//  ZZFeediOS
-//
-//  Created by Masoud on 08.01.23.
-//
-
+//  Copyright © zzmasoud (github.com/zzmasoud).
+//  
 import ZZFeed
 import UIKit
 

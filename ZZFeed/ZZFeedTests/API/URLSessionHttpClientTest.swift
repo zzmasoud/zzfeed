@@ -1,8 +1,5 @@
 //
-//  URLSessionHttpClientTest.swift
-//  ZZFeedTests
-//
-//  Created by Masoud on 5/8/22.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import XCTest

@@ -1,8 +1,5 @@
 //
-//  FeedStoreSpecs.swift
-//  ZZFeedTests
-//
-//  Created by Masoud on 12/13/22.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import Foundation

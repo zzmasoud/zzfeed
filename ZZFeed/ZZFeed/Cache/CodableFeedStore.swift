@@ -1,8 +1,5 @@
 //
-//  CodableFeedStore.swift
-//  ZZFeed
-//
-//  Created by Masoud on 12/12/22.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import Foundation

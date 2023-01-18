@@ -1,8 +1,5 @@
 //
-//  FeedCachePolicy.swift
-//  ZZFeed
-//
-//  Created by Masoud on 9/8/22.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import Foundation

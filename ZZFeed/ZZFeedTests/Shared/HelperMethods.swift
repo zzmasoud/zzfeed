@@ -1,8 +1,5 @@
 //
-//  HelperMethods.swift
-//  ZZFeedTests
-//
-//  Created by Masoud on 9/5/22.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import Foundation

@@ -1,8 +1,5 @@
 //
-//  CacheFeedUseCaseTests.swift
-//  ZZFeedTests
-//
-//  Created by Masoud on 16/8/22.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import XCTest

@@ -1,8 +1,5 @@
 //
-//  CodableFeedStoreTests.swift
-//  ZZFeedTests
-//
-//  Created by Masoud on 12/4/22.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import XCTest
