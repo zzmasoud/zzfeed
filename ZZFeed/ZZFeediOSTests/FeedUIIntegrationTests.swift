@@ -7,7 +7,7 @@ import UIKit
 import ZZFeed
 import ZZFeediOS
 
-final public class FeedViewControllerTests: XCTestCase {
+final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedView_hasTitle() {
         let (sut, _) = makeSUT()
