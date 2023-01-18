@@ -14,9 +14,7 @@ final public class FeedViewControllerTests: XCTestCase {
         
         sut.loadViewIfNeeded()
         
-        let bundle = Bundle(for: FeedViewController.self)
-        let localizedTitle = bundle.localizedString(forKey: "FEED_VIEW_TITLE", value: nil, table: "Feed")
-        XCTAssertEqual(sut.title, localizedTitle)
+        XCTAssertEqual(sut.title, localized("FEED_VIEW_TITLE"))
     }
     
     func test_loadFeedActions_requestFeedFromLoader() {
@@ -291,6 +289,16 @@ final public class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(view.isShowingLocation, feedItem.location != nil)
         XCTAssertEqual(view.locationText, feedItem.location)
         XCTAssertEqual(view.descriptionText, feedItem.description)
+    }
+    
+    private func localized(_ key: String, file: StaticString = #file, line: UInt = #line) -> String {
+        let table = "Feed"
+        let bundle = Bundle(for: FeedViewController.self)
+        let value = bundle.localizedString(forKey: key, value: nil, table: table)
+        if value == key {
+            XCTFail("Missing string in the table \(table) for key \(key)", file: file, line: line)
+        }
+        return value
     }
     
     class LoaderSpy: FeedLoader, FeedItemDataLoader {
