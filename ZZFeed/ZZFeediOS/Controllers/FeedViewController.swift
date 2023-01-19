@@ -4,15 +4,6 @@
 
 import UIKit
 
-public protocol FeedItemDataLoaderTask {
-    func cancel()
-}
-
-public protocol FeedItemDataLoader {
-    typealias Result = Swift.Result<Data, Error>
-    func loadImageData(from url: URL, completion: @escaping (Result) -> Void) -> FeedItemDataLoaderTask
-}
-
 public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var refreshController: FeedRefreshViewController?
 
