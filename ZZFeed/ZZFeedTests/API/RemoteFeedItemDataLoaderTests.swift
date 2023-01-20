@@ -34,8 +34,11 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
         let sut = RemoteFeedItemDataLoader(client: client)
         
         sut.loadImageData(from: url)
-        
         XCTAssertEqual(client.requestedURLs, [url])
+        
+        
+        sut.loadImageData(from: url)
+        XCTAssertEqual(client.requestedURLs, [url, url])
     }
     
     private class HttpClientSpy: HttpClient {
