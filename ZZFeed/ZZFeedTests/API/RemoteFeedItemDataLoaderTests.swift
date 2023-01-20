@@ -25,17 +25,15 @@ class RemoteFeedItemDataLoader {
 class RemoteFeedItemDataLoaderTests: XCTestCase {
 
     func test_init_doesNotRequestURLRequest() {
-        let client = HttpClientSpy()
-        let _ = RemoteFeedItemDataLoader(client: client)
-        
+        let (_, client) = makeSUT()
+
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
     
     func test_loadImageDataFromURL_requestDataFromURL() {
-        let client = HttpClientSpy()
-        let url = URL(string: "https://url.com")!
-        let sut = RemoteFeedItemDataLoader(client: client)
-        
+        let url = anyURL()
+        let (sut, client) = makeSUT()
+
         sut.loadImageData(from: url, completion: {_ in })
         XCTAssertEqual(client.requestedURLs, [url])
         
@@ -45,10 +43,9 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
     }
     
     func test_loadImageDataFromURL_deliversErrorOnClientError() {
-        let client = HttpClientSpy()
         let url = anyURL()
         let expectedError = anyNSError()
-        let sut = RemoteFeedItemDataLoader(client: client)
+        let (sut, client) = makeSUT()
         
         let exp = expectation(description: "waiting for completion...")
         sut.loadImageData(from: url) { result in
@@ -64,6 +61,15 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
         exp.fulfill()
         
         wait(for: [exp], timeout: 1)
+    }
+    
+    // MARK: Helpers
+    
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: RemoteFeedItemDataLoader, client: HttpClientSpy) {
+        let client = HttpClientSpy()
+        let sut = RemoteFeedItemDataLoader(client: client)
+
+        return (sut, client)
     }
     
     private class HttpClientSpy: HttpClient {
