@@ -51,44 +51,21 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
     }
     
     func test_loadImageDataFromURL_deliversErrorOnClientError() {
-        let url = anyURL()
         let expectedError = anyNSError()
         let (sut, client) = makeSUT()
         
-        let exp = expectation(description: "waiting for completion...")
-        sut.loadImageData(from: url) { result in
-            do {
-                let _ = try result.get()
-                XCTFail("expected to get error")
-            } catch {
-                XCTAssertEqual((error as NSError), expectedError)
-            }
-            exp.fulfill()
+        expect(sut, toCompleteWith: .failure(expectedError)) {
+            client.complete(with: expectedError)
         }
-        
-        client.complete(with: expectedError)
-        
-        wait(for: [exp], timeout: 1)
     }
     
     func test_loadImageDataFromURL_deliversInvalidDataErrorOnNon200HTTPResponse() {
         let (sut, client) = makeSUT()
         let code = 404
         
-        let exp = expectation(description: "waiting for completion...")
-        sut.loadImageData(from: anyURL()) { result in
-            do {
-                let _ = try result.get()
-                XCTFail("expected to get error")
-            } catch {
-                XCTAssertEqual(error as! RemoteFeedItemDataLoader.Error, RemoteFeedItemDataLoader.Error.invalidData)
-            }
-            exp.fulfill()
+        expect(sut, toCompleteWith: .failure(RemoteFeedItemDataLoader.Error.invalidData)) {
+            client.complete(withStatusCode: code, data: anyData())
         }
-        
-        client.complete(withStatusCode: code, data: anyData())
-        
-        wait(for: [exp], timeout: 1)
     }
     
     // MARK: Helpers
@@ -101,6 +78,26 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
 
         return (sut, client)
+    }
+    
+    private func expect(_ sut: RemoteFeedItemDataLoader, toCompleteWith expectedResult: FeedItemDataLoader.Result, when action: ()->Void, file: StaticString = #file, line: UInt = #line) {
+        let exp = expectation(description: "waiting for completion....")
+        sut.loadImageData(from: anyURL()) { result in
+            switch (result, expectedResult) {
+            case let (.success(_), .success(_)): break
+            case let (.failure(error as NSError), .failure(expectedError as NSError)):
+                XCTAssertEqual(error, expectedError, file: file, line: line)
+            case let (.failure(error as RemoteFeedItemDataLoader.Error), .failure(expectedError as RemoteFeedItemDataLoader.Error)):
+                XCTAssertEqual(error, expectedError, file: file, line: line)
+            default:
+                XCTFail("expected to get \(expectedResult) but got \(result)", file: file, line: line)
+            }
+            exp.fulfill()
+        }
+        
+        action()
+        
+        wait(for: [exp], timeout: 1)
     }
     
     private func anyData() -> Data {
