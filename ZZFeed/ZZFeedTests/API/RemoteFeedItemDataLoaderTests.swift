@@ -8,6 +8,10 @@ import ZZFeed
 class RemoteFeedItemDataLoader {
     private let client: HttpClient
     
+    enum Error: Swift.Error {
+        case invalidData
+    }
+    
     init(client: HttpClient) {
         self.client = client
     }
@@ -16,7 +20,11 @@ class RemoteFeedItemDataLoader {
         client.get(from: url) { result in
             switch result {
             case .failure(let error): completion(.failure(error))
-            default: break
+            case let .success((_, response)):
+                guard (200..<300).contains(response.statusCode) else {
+                    completion(.failure(Error.invalidData))
+                    return
+                }
             }
         }
     }
@@ -55,10 +63,30 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
             } catch {
                 XCTAssertEqual((error as NSError), expectedError)
             }
+            exp.fulfill()
         }
         
         client.complete(with: expectedError)
-        exp.fulfill()
+        
+        wait(for: [exp], timeout: 1)
+    }
+    
+    func test_loadImageDataFromURL_deliversInvalidDataErrorOnNon200HTTPResponse() {
+        let (sut, client) = makeSUT()
+        let code = 404
+        
+        let exp = expectation(description: "waiting for completion...")
+        sut.loadImageData(from: anyURL()) { result in
+            do {
+                let _ = try result.get()
+                XCTFail("expected to get error")
+            } catch {
+                XCTAssertEqual(error as! RemoteFeedItemDataLoader.Error, RemoteFeedItemDataLoader.Error.invalidData)
+            }
+            exp.fulfill()
+        }
+        
+        client.complete(withStatusCode: code, data: anyData())
         
         wait(for: [exp], timeout: 1)
     }
@@ -75,6 +103,10 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
         return (sut, client)
     }
     
+    private func anyData() -> Data {
+        return Data()
+    }
+    
     private class HttpClientSpy: HttpClient {
         var messages = [(url: URL, completion: (HttpClient.Result)->Void)]()
         
@@ -88,6 +120,11 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
         
         func complete(with error: Error, at index: Int = 0) {
             messages[index].completion(.failure(error))
+        }
+
+        func complete(withStatusCode code: Int, data: Data, at index: Int = 0) {
+            let response = HTTPURLResponse(url: requestedURLs[index], statusCode: code, httpVersion: nil, headerFields: nil)!
+            messages[index].completion(.success((data, response)))
         }
     }
 }
