@@ -20,11 +20,8 @@ class RemoteFeedItemDataLoader {
         client.get(from: url) { result in
             switch result {
             case .failure(let error): completion(.failure(error))
-            case let .success((_, response)):
-                guard (200..<300).contains(response.statusCode) else {
-                    completion(.failure(Error.invalidData))
-                    return
-                }
+            case .success:
+                completion(.failure(Error.invalidData))
             }
         }
     }
@@ -61,10 +58,12 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
     
     func test_loadImageDataFromURL_deliversInvalidDataErrorOnNon200HTTPResponse() {
         let (sut, client) = makeSUT()
-        let code = 404
+        let codes = [190, 200, 203, 404, 500]
         
-        expect(sut, toCompleteWith: .failure(RemoteFeedItemDataLoader.Error.invalidData)) {
-            client.complete(withStatusCode: code, data: anyData())
+        codes.enumerated().forEach { index, code in
+            expect(sut, toCompleteWith: .failure(RemoteFeedItemDataLoader.Error.invalidData)) {
+                client.complete(withStatusCode: code, data: anyData(), at: index)
+            }
         }
     }
     
