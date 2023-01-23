@@ -154,8 +154,9 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
             return messages.map { $0.url }
         }
         
-        func get(from url: URL, completion: @escaping (HttpClient.Result) -> Void) {
+        func get(from url: URL, completion: @escaping (HttpClient.Result) -> Void) -> HttpClientTask {
             messages.append((url, completion))
+            return Task()
         }
         
         func complete(with error: Error, at index: Int = 0) {
@@ -165,6 +166,10 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
         func complete(withStatusCode code: Int, data: Data, at index: Int = 0) {
             let response = HTTPURLResponse(url: requestedURLs[index], statusCode: code, httpVersion: nil, headerFields: nil)!
             messages[index].completion(.success((data, response)))
+        }
+        
+        private struct Task: HttpClientTask {
+            func cancel() {}
         }
     }
 }
