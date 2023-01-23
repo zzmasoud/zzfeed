@@ -198,17 +198,11 @@ class URLSessionHttpClientTests: XCTestCase {
             
             if let data = stub.data {
                 client?.urlProtocol(self, didLoad: data)
-            }
-            
-            if let response = stub.response {
+            } if let response = stub.response {
                 client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
-            }
-            
-            if let error = stub.error {
+            } if let error = stub.error {
                 client?.urlProtocol(self, didFailWithError: error)
-            }
-            
-            else {
+            } else {
                 client?.urlProtocolDidFinishLoading(self)
             }
             
