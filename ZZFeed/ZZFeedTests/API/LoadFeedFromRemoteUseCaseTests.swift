@@ -87,8 +87,8 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(url: URL = URL(string: "https://foo.bar")!, file: StaticString = #file, line: UInt = #line) -> (client: TestHttpClient, sut: RemoteFeedLoader)  {
-        let client = TestHttpClient()
+    private func makeSUT(url: URL = URL(string: "https://foo.bar")!, file: StaticString = #file, line: UInt = #line) -> (client: HttpClientSpy, sut: RemoteFeedLoader)  {
+        let client = HttpClientSpy()
         let sut = RemoteFeedLoader(url: url, client: client)
         trackForMemoryLeaks(client, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
@@ -132,31 +132,5 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     
     private func makeEmptyListJson() -> Data {
         return Data("{ \"items\": [] }".utf8)
-    }
-    
-    private class TestHttpClient: HttpClient {
-        var messages = [(url: URL, completion: (HttpClient.Result)->Void)]()
-        
-        var requestedURLs: [URL] {
-            return messages.map { $0.url }
-        }
-        
-        func get(from url: URL, completion: @escaping (HttpClient.Result) -> Void) -> HttpClientTask {
-            messages.append((url, completion))
-            return Task()
-        }
-        
-        func complete(with error: Error, at index: Int = 0) {
-            messages[index].completion(.failure(error))
-        }
-        
-        func complete(withStatusCode code: Int, data: Data, at index: Int = 0) {
-            let response = HTTPURLResponse(url: requestedURLs[index], statusCode: code, httpVersion: nil, headerFields: nil)!
-            messages[index].completion(.success((data, response)))
-        }
-        
-        private struct Task: HttpClientTask {
-            func cancel() {}
-        }
     }
 }
