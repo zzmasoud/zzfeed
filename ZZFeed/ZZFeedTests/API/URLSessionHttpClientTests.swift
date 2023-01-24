@@ -6,15 +6,11 @@ import XCTest
 import ZZFeed
 
 class URLSessionHttpClientTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        URLProtocolStub.startInterceptingRequests()
-    }
-    
+
     override func tearDown() {
         super.tearDown()
-        URLProtocolStub.stopInterceptingRequests()
+        
+        URLProtocolStub.removeStub()
     }
     
     func test_getFromURL_performsGETRequestWithURL() {
@@ -96,8 +92,14 @@ class URLSessionHttpClientTests: XCTestCase {
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> HttpClient {
-        let sut = URLSessionHTTPClient()
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [URLProtocolStub.self]
+        let session = URLSession(configuration: config)
+        
+        let sut = URLSessionHTTPClient(session: session)
+        
         trackForMemoryLeaks(sut, file: file, line: line)
+        
         return sut
     }
     
@@ -176,12 +178,7 @@ class URLSessionHttpClientTests: XCTestCase {
             stub = Stub(data: nil, response: nil, error: nil, requestObserver: observer)
         }
         
-        static func startInterceptingRequests() {
-            URLProtocol.registerClass(URLProtocolStub.self)
-        }
-        
-        static func stopInterceptingRequests() {
-            URLProtocol.unregisterClass(URLProtocolStub.self)
+        static func removeStub() {
             stub = nil
         }
         
@@ -198,11 +195,17 @@ class URLSessionHttpClientTests: XCTestCase {
             
             if let data = stub.data {
                 client?.urlProtocol(self, didLoad: data)
-            } if let response = stub.response {
+            }
+            
+            if let response = stub.response {
                 client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
-            } if let error = stub.error {
+            }
+            
+            if let error = stub.error {
                 client?.urlProtocol(self, didFailWithError: error)
-            } else {
+            }
+            
+            else {
                 client?.urlProtocolDidFinishLoading(self)
             }
             
