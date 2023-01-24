@@ -16,8 +16,9 @@ class RemoteFeedItemDataLoader {
         self.client = client
     }
     
-    func loadImageData(from url: URL, completion: @escaping (FeedItemDataLoader.Result) -> Void) {
-        client.get(from: url) { [weak self] result in
+    @discardableResult
+    func loadImageData(from url: URL, completion: @escaping (FeedItemDataLoader.Result) -> Void) -> FeedItemDataLoaderTask {
+        let task = client.get(from: url) { [weak self] result in
             guard self != nil else { return}
             
             switch result {
@@ -30,21 +31,31 @@ class RemoteFeedItemDataLoader {
                 }
             }
         }
+        
+        return URLSessionTaskWrapper(wrapped: task)
+    }
+    
+    private struct URLSessionTaskWrapper: FeedItemDataLoaderTask {
+        let wrapped: HttpClientTask
+        
+        func cancel() {
+            wrapped.cancel()
+        }
     }
 }
 
 class RemoteFeedItemDataLoaderTests: XCTestCase {
-
+    
     func test_init_doesNotRequestURLRequest() {
         let (_, client) = makeSUT()
-
+        
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
     
     func test_loadImageDataFromURL_requestDataFromURL() {
         let url = anyURL()
         let (sut, client) = makeSUT()
-
+        
         sut.loadImageData(from: url, completion: {_ in })
         XCTAssertEqual(client.requestedURLs, [url])
         
@@ -76,7 +87,7 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
     func test_loadImageDataFromURL_deliversInvalidDataErrorOn200HTTPResponseWithEmptyData() {
         let (sut, client) = makeSUT()
         let code = 200
-
+        
         expect(sut, toCompleteWith: .failure(RemoteFeedItemDataLoader.Error.invalidData)) {
             client.complete(withStatusCode: code, data: anyData())
         }
@@ -86,7 +97,7 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
         let (sut, client) = makeSUT()
         let code = 200
         let expectedData = Data("this is a data".utf8)
-
+        
         expect(sut, toCompleteWith: .success(expectedData)) {
             client.complete(withStatusCode: code, data: expectedData)
         }
@@ -107,6 +118,18 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
         XCTAssertTrue(results.isEmpty)
     }
     
+    func test_cancelLoadImageDataURLTask_cancelsClientURLRequest() {
+        let (sut, client) = makeSUT()
+        let url = anyURL()
+        
+        let task = sut.loadImageData(from: url, completion: { _ in })
+        XCTAssertTrue(client.cancelledTasks.isEmpty)
+
+        
+        task.cancel()
+        XCTAssertEqual(client.cancelledTasks, [url])
+    }
+    
     // MARK: Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: RemoteFeedItemDataLoader, client: HttpClientSpy) {
@@ -115,7 +138,7 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
         
         trackForMemoryLeaks(client, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
-
+        
         return (sut, client)
     }
     
@@ -154,22 +177,32 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
             return messages.map { $0.url }
         }
         
+        var cancelledTasks: [URL] = []
+        
         func get(from url: URL, completion: @escaping (HttpClient.Result) -> Void) -> HttpClientTask {
             messages.append((url, completion))
-            return Task()
+            let task =  Task { [weak self] in
+                self?.cancelledTasks.append(url)
+            }
+            
+            return task
         }
         
         func complete(with error: Error, at index: Int = 0) {
             messages[index].completion(.failure(error))
         }
-
+        
         func complete(withStatusCode code: Int, data: Data, at index: Int = 0) {
             let response = HTTPURLResponse(url: requestedURLs[index], statusCode: code, httpVersion: nil, headerFields: nil)!
             messages[index].completion(.success((data, response)))
         }
-        
+       
         private struct Task: HttpClientTask {
-            func cancel() {}
+            let callback: () -> Void
+            
+            func cancel() {
+                callback()
+            }
         }
     }
 }
