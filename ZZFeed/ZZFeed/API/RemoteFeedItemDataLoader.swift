@@ -9,6 +9,7 @@ public final class RemoteFeedItemDataLoader: FeedItemDataLoader {
     
     public enum Error: Swift.Error {
         case invalidData
+        case connectivity
     }
     
     public init(client: HttpClient) {

@@ -25,8 +25,8 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
     
-    func test_loadImageDataFromURL_deliversErrorOnClientError() {
-        let expectedError = anyNSError()
+    func test_loadImageDataFromURL_deliversConnectivityErrorOnClientError() {
+        let expectedError = RemoteFeedItemDataLoader.Error.connectivity
         let (sut, client) = makeSUT()
         
         expect(sut, toCompleteWith: .failure(expectedError)) {
@@ -119,7 +119,7 @@ class RemoteFeedItemDataLoaderTests: XCTestCase {
         return (sut, client)
     }
     
-    private func expect(_ sut: RemoteFeedItemDataLoader, toCompleteWith expectedResult: FeedItemDataLoader.Result, when action: ()->Void, file: StaticString = #file, line: UInt = #line) {
+    private func expect(_ sut: RemoteFeedItemDataLoader, toCompleteWith expectedResult: RemoteFeedItemDataLoader.Result, when action: ()->Void, file: StaticString = #file, line: UInt = #line) {
         let exp = expectation(description: "waiting for completion....")
         sut.loadImageData(from: anyURL()) { result in
             switch (result, expectedResult) {
