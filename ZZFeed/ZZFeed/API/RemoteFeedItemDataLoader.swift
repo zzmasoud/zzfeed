@@ -4,7 +4,7 @@
 
 import Foundation
 
-public final class RemoteFeedItemDataLoader {
+public final class RemoteFeedItemDataLoader: FeedItemDataLoader {
     private let client: HttpClient
     
     public enum Error: Swift.Error {
