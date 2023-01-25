@@ -5,7 +5,7 @@
 import XCTest
 import ZZFeed
 
-class RemoteFeedItemDataLoaderTests: XCTestCase {
+class LoadFeedItemImageDataFromRemoteUseCaseTests: XCTestCase {
     
     func test_init_doesNotRequestURLRequest() {
         let (_, client) = makeSUT()
