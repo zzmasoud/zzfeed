@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040603D0298295420061D6CD /* LocalFeedImageDataLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040603CF298295420061D6CD /* LocalFeedImageDataLoaderTests.swift */; };
 		040A8C2F29656C670093F6E6 /* FeedRefreshViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040A8C2E29656C670093F6E6 /* FeedRefreshViewController.swift */; };
 		040A8C3129659E260093F6E6 /* FeedItemCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040A8C3029659E260093F6E6 /* FeedItemCellController.swift */; };
 		040A8C342965A30F0093F6E6 /* FeedUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040A8C332965A30F0093F6E6 /* FeedUIComposer.swift */; };
@@ -102,6 +103,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		040603CF298295420061D6CD /* LocalFeedImageDataLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedImageDataLoaderTests.swift; sourceTree = "<group>"; };
 		040A8C2E29656C670093F6E6 /* FeedRefreshViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedRefreshViewController.swift; sourceTree = "<group>"; };
 		040A8C3029659E260093F6E6 /* FeedItemCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemCellController.swift; sourceTree = "<group>"; };
 		040A8C332965A30F0093F6E6 /* FeedUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUIComposer.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				041F4F1128ABC569008E5440 /* CacheFeedUseCaseTests.swift */,
 				04634FEA28C25C0200AC05AB /* ValidateFeedCacheUseCaseTests.swift */,
 				04A18AE028B7F96B00242DAA /* LoadFeedFromCacheUseCaseTests.swift */,
+				040603CF298295420061D6CD /* LocalFeedImageDataLoaderTests.swift */,
 				04C347C4293D006400DC1D29 /* CodableFeedStoreTests.swift */,
 				04CC87C42948F48900B84748 /* FeedStoreSpecs.swift */,
 				0438C50229497B4F001FD9BB /* XCTestCase+FeedStoreSpecs.swift */,
@@ -645,6 +648,7 @@
 				04A2EC70298002BD00D93403 /* HttpClientSpy.swift in Sources */,
 				04634FEB28C25C0200AC05AB /* ValidateFeedCacheUseCaseTests.swift in Sources */,
 				040A9393289CF4D300BF46B2 /* URLSessionHttpClientTests.swift in Sources */,
+				040603D0298295420061D6CD /* LocalFeedImageDataLoaderTests.swift in Sources */,
 				04A2EC7B298186A000D93403 /* URLProtocolStub.swift in Sources */,
 				04D12EE428C67FE400887712 /* HelperMethods.swift in Sources */,
 				04AC600C28A277DB00EC60C3 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
