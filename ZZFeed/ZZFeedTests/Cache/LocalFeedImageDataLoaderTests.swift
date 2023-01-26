@@ -26,7 +26,9 @@ class LocalFeedItemDataLoader: FeedItemDataLoader {
         store.retrieve(dataForURL: url, completion: { result in
             completion(result
                 .mapError { _ in Error.failed }
-                .flatMap { _ in .failure(Error.notFound) }
+                .flatMap { data in
+                    data == nil ? .failure(Error.notFound) : .success(data!)
+                }
             )}
         )
         return Task()
@@ -71,6 +73,15 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
         }
     }
     
+    func test_loadImageDataFromURL_deliversDataOnStoreFindsData() {
+        let (sut, store) = makeSUT()
+        let data = Data()
+        
+        expect(sut, toCompleteWith: found(data)) {
+            store.complete(with: data)
+        }
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedItemDataLoader, store: StoreSpy) {
@@ -91,14 +102,20 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
         return .failure(LocalFeedItemDataLoader.Error.notFound)
     }
     
+    private func found(_ data: Data) -> FeedItemDataLoader.Result {
+        return .success(data)
+    }
+    
     private func expect(_ sut: LocalFeedItemDataLoader, toCompleteWith expectedResult: LocalFeedItemDataLoader.Result, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
         let exp = expectation(description: "waiting for completion...")
         _ = sut.loadImageData(from: anyURL(), completion: { result in
             switch (result, expectedResult) {
             case let (.failure(error), .failure(expectedError)):
                 XCTAssertEqual(error as! LocalFeedItemDataLoader.Error , expectedError as! LocalFeedItemDataLoader.Error, file: file, line: line)
+                
             case let (.success(data), .success(expectedData)):
-                break
+                XCTAssertEqual(data, expectedData)
+                
             default:
                 XCTFail("expected to get \(expectedResult) but got \(result)", file: file, line: line)
             }
