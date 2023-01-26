@@ -13,7 +13,7 @@ protocol FeedItemDataStore {
 
 class LocalFeedItemDataLoader: FeedItemDataLoader {
     public enum Error: Swift.Error {
-        case failed
+        case failed, notFound
     }
     
     private let store: FeedItemDataStore
@@ -23,9 +23,12 @@ class LocalFeedItemDataLoader: FeedItemDataLoader {
     }
 
     func loadImageData(from url: URL, completion: @escaping (FeedItemDataLoader.Result) -> Void) -> FeedItemDataLoaderTask {
-        store.retrieve(dataForURL: url, completion: { _ in
-            completion(.failure(Error.failed))
-        })
+        store.retrieve(dataForURL: url, completion: { result in
+            completion(result
+                .mapError { _ in Error.failed }
+                .flatMap { _ in .failure(Error.notFound) }
+            )}
+        )
         return Task()
     }
     
@@ -60,6 +63,14 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
         }
     }
     
+    func test_loadImageDataFromURL_deliversNotFoundErrorOnNotFound() {
+        let (sut, store) = makeSUT()
+        
+        expect(sut, toCompleteWith: notFound()) {
+            store.complete(with: .none)
+        }
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedItemDataLoader, store: StoreSpy) {
@@ -76,14 +87,20 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
         return .failure(LocalFeedItemDataLoader.Error.failed)
     }
     
+    private func notFound() -> FeedItemDataLoader.Result {
+        return .failure(LocalFeedItemDataLoader.Error.notFound)
+    }
+    
     private func expect(_ sut: LocalFeedItemDataLoader, toCompleteWith expectedResult: LocalFeedItemDataLoader.Result, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
         let exp = expectation(description: "waiting for completion...")
         _ = sut.loadImageData(from: anyURL(), completion: { result in
-            switch result {
-            case .failure:
+            switch (result, expectedResult) {
+            case let (.failure(error), .failure(expectedError)):
+                XCTAssertEqual(error as! LocalFeedItemDataLoader.Error , expectedError as! LocalFeedItemDataLoader.Error, file: file, line: line)
+            case let (.success(data), .success(expectedData)):
                 break
             default:
-                XCTFail("expected to get failure error but got \(result)")
+                XCTFail("expected to get \(expectedResult) but got \(result)", file: file, line: line)
             }
             
             exp.fulfill()
@@ -109,6 +126,10 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
         
         func complete(with error: NSError, at index: Int = 0) {
             completions[index](.failure(error))
+        }
+        
+        func complete(with data: Data?, at index: Int = 0) {
+            completions[index](.success(data))
         }
     }
 }
