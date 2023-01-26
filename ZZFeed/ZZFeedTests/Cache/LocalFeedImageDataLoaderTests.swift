@@ -49,6 +49,9 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedItemDataLoader, store: StoreSpy) {
         let store = StoreSpy()
         let sut = LocalFeedItemDataLoader(store: store)
+
+        trackForMemoryLeaks(store)
+        trackForMemoryLeaks(sut)
         
         return (sut, store)
     }
