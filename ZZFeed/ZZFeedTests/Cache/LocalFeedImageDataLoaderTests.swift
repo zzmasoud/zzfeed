@@ -23,19 +23,37 @@ class LocalFeedItemDataLoader: FeedItemDataLoader {
     }
 
     func loadImageData(from url: URL, completion: @escaping (FeedItemDataLoader.Result) -> Void) -> FeedItemDataLoaderTask {
+        let task = Task(completion: completion)
         store.retrieve(dataForURL: url, completion: { result in
-            completion(result
+            task.complete(with: result
                 .mapError { _ in Error.failed }
                 .flatMap { data in
                     data == nil ? .failure(Error.notFound) : .success(data!)
                 }
-            )}
-        )
-        return Task()
+            )
+        })
+        
+        return task
     }
     
-    private struct Task: FeedItemDataLoaderTask {
-        func cancel() {}
+    private final class Task: FeedItemDataLoaderTask {
+        private var completion: ((FeedItemDataLoader.Result) -> Void)?
+        
+        init(completion: @escaping (FeedItemDataLoader.Result) -> Void) {
+            self.completion = completion
+        }
+        
+        func complete(with result: FeedItemDataLoader.Result) {
+            completion?(result)
+        }
+        
+        func cancel() {
+            preventFurtherCompletions()
+        }
+        
+        private func preventFurtherCompletions() {
+            completion = nil
+        }
     }
 }
 
@@ -80,6 +98,21 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
         expect(sut, toCompleteWith: found(data)) {
             store.complete(with: data)
         }
+    }
+    
+    func test_loadImageDataFromURL_doesNotDeliverResultAfterCancellingTask() {
+        let (sut, store) = makeSUT()
+        let data = Data()
+        
+        var capturedResults = [FeedItemDataLoader.Result]()
+        let task = sut.loadImageData(from: anyURL(), completion: { capturedResults.append($0)} )
+        task.cancel()
+        
+        store.complete(with: .none)
+        store.complete(with: anyNSError())
+        store.complete(with: data)
+
+        XCTAssertTrue(capturedResults.isEmpty)
     }
     
     // MARK: - Helpers
