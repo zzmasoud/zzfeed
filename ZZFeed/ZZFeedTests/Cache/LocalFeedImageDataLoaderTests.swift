@@ -44,24 +44,11 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
     
     func test_loadImageDataFromURL_requestsStoreDataForURL() {
         let (sut, store) = makeSUT()
-        let url = anyURL()
-        let retrievalError = anyNSError()
         
-        let exp = expectation(description: "waiting for completion...")
-        _ = sut.loadImageData(from: url, completion: { result in
-            switch result {
-            case .failure:
-                break
-            default:
-                XCTFail("expected to get failure error but got \(result)")
-            }
-            
-            exp.fulfill()
-        })
-        
-        store.complete(with: retrievalError)
-        
-        wait(for: [exp], timeout: 1)
+        expect(sut, toCompleteWith: failed()) {
+            let retrievalError = anyNSError()
+            store.complete(with: retrievalError)
+        }
     }
     
     // MARK: - Helpers
@@ -74,6 +61,28 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
         trackForMemoryLeaks(sut)
         
         return (sut, store)
+    }
+    
+    private func failed() -> FeedItemDataLoader.Result {
+        return .failure(LocalFeedItemDataLoader.Error.failed)
+    }
+    
+    private func expect(_ sut: LocalFeedItemDataLoader, toCompleteWith expectedResult: LocalFeedItemDataLoader.Result, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
+        let exp = expectation(description: "waiting for completion...")
+        _ = sut.loadImageData(from: anyURL(), completion: { result in
+            switch result {
+            case .failure:
+                break
+            default:
+                XCTFail("expected to get failure error but got \(result)")
+            }
+            
+            exp.fulfill()
+        })
+        
+        action()
+        
+        wait(for: [exp], timeout: 1)
     }
     
     private class StoreSpy: FeedItemDataStore {
