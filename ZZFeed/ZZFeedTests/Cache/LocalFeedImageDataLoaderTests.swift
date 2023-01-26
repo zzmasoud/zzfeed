@@ -44,6 +44,15 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
     
     func test_loadImageDataFromURL_requestsStoreDataForURL() {
         let (sut, store) = makeSUT()
+        let url = anyURL()
+        
+        _ = sut.loadImageData(from: url, completion: {_ in })
+        
+        XCTAssertEqual(store.receivedMessages, [.retrieve(dataForURL: url)])
+    }
+    
+    func test_loadImageDataFromURL_failsOnStoreError() {
+        let (sut, store) = makeSUT()
         
         expect(sut, toCompleteWith: failed()) {
             let retrievalError = anyNSError()
