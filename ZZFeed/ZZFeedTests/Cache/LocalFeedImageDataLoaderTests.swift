@@ -61,7 +61,7 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
             case retrieve(dataForURL: URL)
         }
         
-        var receivedMessages = [Message]()
+        private(set) var receivedMessages = [Message]()
         
         func retrieve(dataForURL url: URL) {
             receivedMessages.append(.retrieve(dataForURL: url))
