@@ -30,16 +30,14 @@ class LocalFeedItemDataLoader: FeedItemDataLoader {
 class LocalFeedItemDataLoaderTests: XCTestCase {
     
     func test_init_doesNotMessageStoreUponRequest() {
-        let store = StoreSpy()
-        let _ = LocalFeedItemDataLoader(store: store)
+        let (_ , store) = makeSUT()
         
         XCTAssertTrue(store.receivedMessages.isEmpty)
     }
     
     func test_loadImageDataFromURL_requestsStoreDataForURL() {
-        let store = StoreSpy()
+        let (sut, store) = makeSUT()
         let url = anyURL()
-        let sut = LocalFeedItemDataLoader(store: store)
         
         _ = sut.loadImageData(from: url, completion: { _ in })
         
@@ -47,6 +45,13 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedItemDataLoader, store: StoreSpy) {
+        let store = StoreSpy()
+        let sut = LocalFeedItemDataLoader(store: store)
+        
+        return (sut, store)
+    }
     
     private class StoreSpy: FeedItemDataStore {
         enum Message: Equatable {
