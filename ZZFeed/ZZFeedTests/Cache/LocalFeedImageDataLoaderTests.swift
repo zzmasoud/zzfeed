@@ -101,11 +101,11 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
     }
     
     private func failed() -> FeedItemDataLoader.Result {
-        return .failure(LocalFeedItemDataLoader.Error.failed)
+        return .failure(LocalFeedItemDataLoader.LoadError.failed)
     }
     
     private func notFound() -> FeedItemDataLoader.Result {
-        return .failure(LocalFeedItemDataLoader.Error.notFound)
+        return .failure(LocalFeedItemDataLoader.LoadError.notFound)
     }
     
     private func found(_ data: Data) -> FeedItemDataLoader.Result {
@@ -117,7 +117,7 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
         _ = sut.loadImageData(from: anyURL(), completion: { result in
             switch (result, expectedResult) {
             case let (.failure(error), .failure(expectedError)):
-                XCTAssertEqual(error as! LocalFeedItemDataLoader.Error , expectedError as! LocalFeedItemDataLoader.Error, file: file, line: line)
+                XCTAssertEqual(error as! LocalFeedItemDataLoader.LoadError , expectedError as! LocalFeedItemDataLoader.LoadError, file: file, line: line)
                 
             case let (.success(data), .success(expectedData)):
                 XCTAssertEqual(data, expectedData)
@@ -140,10 +140,10 @@ class LocalFeedItemDataLoaderTests: XCTestCase {
             case insert(data: Data, for: URL)
         }
         
-        private var completions = [(FeedItemDataStore.Result) -> Void]()
+        private var completions = [(FeedItemDataStore.RetrievalResult) -> Void]()
         private(set) var receivedMessages = [Message]()
         
-        func retrieve(dataForURL url: URL, completion: @escaping (FeedItemDataStore.Result) -> Void) {
+        func retrieve(dataForURL url: URL, completion: @escaping (FeedItemDataStore.RetrievalResult) -> Void) {
             receivedMessages.append(.retrieve(dataForURL: url))
             completions.append(completion)
         }
