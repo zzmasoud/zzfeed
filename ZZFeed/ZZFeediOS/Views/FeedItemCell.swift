@@ -1,8 +1,5 @@
 //
-//  FeedItemCell.swift
-//  ZZFeediOS
-//
-//  Created by zzmasoud on 1/1/23.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import UIKit

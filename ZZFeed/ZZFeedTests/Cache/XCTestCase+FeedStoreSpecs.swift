@@ -1,8 +1,5 @@
 //
-//  XCTestCase+FeedStoreSpecs.swift
-//  ZZFeedTests
-//
-//  Created by zzmasoud on 12/14/22.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import XCTest

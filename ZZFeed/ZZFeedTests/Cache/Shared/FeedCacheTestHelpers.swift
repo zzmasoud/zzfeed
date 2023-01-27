@@ -1,8 +1,5 @@
 //
-//  FeedCacheTestHelpers.swift
-//  ZZFeedTests
-//
-//  Created by zzmasoud on 9/8/22.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import Foundation
