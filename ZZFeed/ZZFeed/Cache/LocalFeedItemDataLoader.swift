@@ -6,8 +6,10 @@ import Foundation
 
 public protocol FeedItemDataStore {
     typealias Result = Swift.Result<Data?, Error>
+    typealias InsertionResult = Swift.Result<Void, Error>
 
     func retrieve(dataForURL url: URL, completion: @escaping (Result) -> Void)
+    func insert(data: Data, for url: URL, completion: @escaping(InsertionResult) -> Void)
 }
 
 public final class LocalFeedItemDataLoader: FeedItemDataLoader {
@@ -35,6 +37,10 @@ public final class LocalFeedItemDataLoader: FeedItemDataLoader {
         })
         
         return task
+    }
+    
+    public func save(data: Data, for url: URL) {
+        store.insert(data: data, for: url, completion: {_ in })
     }
     
     private final class Task: FeedItemDataLoaderTask {
