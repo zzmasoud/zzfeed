@@ -6,7 +6,7 @@ import XCTest
 import ZZFeed
 
 
-class LocalFeedItemDataLoaderTests: XCTestCase {
+class LocalFeedItemDataFromCacheUseCaseTest: XCTestCase {
     
     func test_init_doesNotMessageStoreUponRequest() {
         let (_ , store) = makeSUT()
