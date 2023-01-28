@@ -21,8 +21,16 @@ public final class LocalFeedItemDataLoader {
 }
 
 extension LocalFeedItemDataLoader {
-    public func save(data: Data, for url: URL) {
-        store.insert(data: data, for: url, completion: {_ in })
+    public typealias SaveResult = Result<Void, Error>
+    
+    public enum SaveError: Swift.Error {
+        case failed
+    }
+
+    public func save(data: Data, for url: URL, completion: @escaping (SaveResult) -> Void) {
+        store.insert(data: data, for: url, completion: {_ in
+            completion(.failure(SaveError.failed))
+        })
     }
 }
 

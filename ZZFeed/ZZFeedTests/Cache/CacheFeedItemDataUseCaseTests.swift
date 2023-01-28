@@ -18,9 +18,28 @@ class CacheFeedItemDataUseCaseTests: XCTestCase {
         let data = Data()
         let url = anyURL()
         
-        sut.save(data: data, for: url)
+        sut.save(data: data, for: url, completion: {_ in })
 
         XCTAssertEqual(store.receivedMessages, [.insert(data: data, for: url)])
+    }
+    
+    func test_saveImageDataForURL_failsOnInsertionError() {
+        let (sut, store) = makeSUT()
+
+        let exp = expectation(description: "waiting for completion...")
+        sut.save(data: Data(), for: anyURL(), completion: { result in
+            do {
+                try result.get()
+                XCTFail("expected to get error")
+            } catch {
+                XCTAssertEqual(error as! LocalFeedItemDataLoader.SaveError , LocalFeedItemDataLoader.SaveError.failed)
+            }
+            exp.fulfill()
+        })
+        
+        store.completeInsertion(with: anyNSError())
+        
+        wait(for: [exp], timeout: 1)
     }
     
     // MARK: - Helpers
@@ -34,5 +53,4 @@ class CacheFeedItemDataUseCaseTests: XCTestCase {
         
         return (sut, store)
     }
-
 }
