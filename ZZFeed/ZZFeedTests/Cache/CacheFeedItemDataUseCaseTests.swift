@@ -60,6 +60,22 @@ class CacheFeedItemDataUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 1)
     }
     
+    func test_saveImageDataForURL_doesNotDeliverResultAfterInstanceIsDeallocate() {
+        let store = FeedItemDataStoreSpy()
+        var sut: LocalFeedItemDataLoader? = LocalFeedItemDataLoader(store: store)
+        
+        var capturedResults = [LocalFeedItemDataLoader.SaveResult]()
+        sut?.save(data: Data(), for: anyURL(), completion: { capturedResults.append($0)
+        })
+        
+        sut = nil
+        
+        store.completeInsertion(with: anyNSError())
+        store.completeInsertionSuccessfully()
+        
+        XCTAssertTrue(capturedResults.isEmpty)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedItemDataLoader, store: FeedItemDataStoreSpy) {
