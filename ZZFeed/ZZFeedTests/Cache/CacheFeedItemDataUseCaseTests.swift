@@ -42,6 +42,24 @@ class CacheFeedItemDataUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 1)
     }
     
+    func test_saveImageDataForURL_succeedsOnSuccessfulStoreInsertion() {
+        let (sut, store) = makeSUT()
+
+        let exp = expectation(description: "waiting for completion...")
+        sut.save(data: Data(), for: anyURL(), completion: { result in
+            do {
+                try result.get()
+            } catch {
+                XCTFail("expected successful result")
+            }
+            exp.fulfill()
+        })
+        
+        store.completeInsertionSuccessfully()
+        
+        wait(for: [exp], timeout: 1)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedItemDataLoader, store: FeedItemDataStoreSpy) {

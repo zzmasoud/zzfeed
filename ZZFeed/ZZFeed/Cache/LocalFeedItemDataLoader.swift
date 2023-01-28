@@ -28,8 +28,8 @@ extension LocalFeedItemDataLoader {
     }
 
     public func save(data: Data, for url: URL, completion: @escaping (SaveResult) -> Void) {
-        store.insert(data: data, for: url, completion: {_ in
-            completion(.failure(SaveError.failed))
+        store.insert(data: data, for: url, completion: { result in
+            completion(result.mapError { _ in SaveError.failed})
         })
     }
 }

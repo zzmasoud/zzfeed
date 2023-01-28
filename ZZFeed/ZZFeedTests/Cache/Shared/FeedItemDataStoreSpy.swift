@@ -36,4 +36,8 @@ class FeedItemDataStoreSpy: FeedItemDataStore {
     func completeInsertion(with error: NSError, at index: Int = 0) {
         insertionCompletions[index](.failure(error))
     }
+    
+    func completeInsertionSuccessfully(at index: Int = 0) {
+        insertionCompletions[index](.success(()))
+    }
 }
