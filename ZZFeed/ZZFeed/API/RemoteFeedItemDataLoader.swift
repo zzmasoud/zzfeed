@@ -16,7 +16,7 @@ public final class RemoteFeedItemDataLoader: FeedItemDataLoader {
         self.client = client
     }
     
-    public func loadImageData(from url: URL, completion: @escaping (FeedItemDataLoader.Result) -> Void) -> FeedItemDataLoaderTask {
+    public func loadImageData(from url: URL, completion: @escaping (FeedItemDataLoader.LoadResult) -> Void) -> FeedItemDataLoaderTask {
         let task = HttpClientTaskWrapper(completion)
         task.wrapped = client.get(from: url) { [weak self] result in
             guard self != nil else { return}
@@ -35,14 +35,14 @@ public final class RemoteFeedItemDataLoader: FeedItemDataLoader {
     // MARK: - HttpClientTaskWrapper
     
     private final class HttpClientTaskWrapper: FeedItemDataLoaderTask {
-        private var completion: ((FeedItemDataLoader.Result) -> Void)?
+        private var completion: ((FeedItemDataLoader.LoadResult) -> Void)?
         var wrapped: HttpClientTask?
         
-        init(_ completion: @escaping (FeedItemDataLoader.Result) -> Void) {
+        init(_ completion: @escaping (FeedItemDataLoader.LoadResult) -> Void) {
             self.completion = completion
         }
         
-        func complete(with result: FeedItemDataLoader.Result) {
+        func complete(with result: FeedItemDataLoader.LoadResult) {
             completion?(result)
         }
         

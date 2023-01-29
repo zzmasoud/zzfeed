@@ -68,7 +68,7 @@ class LoadFeedItemImageDataFromRemoteUseCaseTests: XCTestCase {
         let client = HttpClientSpy()
         var sut: RemoteFeedItemDataLoader? = RemoteFeedItemDataLoader(client: client)
 
-        var results: [FeedItemDataLoader.Result] = []
+        var results: [FeedItemDataLoader.LoadResult] = []
         _ = sut?.loadImageData(from: anyURL(), completion: {
             results.append($0)
         })
@@ -95,7 +95,7 @@ class LoadFeedItemImageDataFromRemoteUseCaseTests: XCTestCase {
         let (sut, client) = makeSUT()
         let nonEmptyData = Data("this is a data".utf8)
 
-        var receivedResults = [FeedItemDataLoader.Result]()
+        var receivedResults = [FeedItemDataLoader.LoadResult]()
         
         let task = sut.loadImageData(from: anyURL(), completion: { receivedResults.append($0) })
         task.cancel()
@@ -119,7 +119,7 @@ class LoadFeedItemImageDataFromRemoteUseCaseTests: XCTestCase {
         return (sut, client)
     }
     
-    private func expect(_ sut: RemoteFeedItemDataLoader, toCompleteWith expectedResult: RemoteFeedItemDataLoader.Result, when action: ()->Void, file: StaticString = #file, line: UInt = #line) {
+    private func expect(_ sut: RemoteFeedItemDataLoader, toCompleteWith expectedResult: RemoteFeedItemDataLoader.LoadResult, when action: ()->Void, file: StaticString = #file, line: UInt = #line) {
         let exp = expectation(description: "waiting for completion....")
         _ = sut.loadImageData(from: anyURL()) { result in
             switch (result, expectedResult) {

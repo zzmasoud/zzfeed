@@ -53,7 +53,7 @@ class LoadFeedItemDataFromCacheUseCaseTests: XCTestCase {
         let (sut, store) = makeSUT()
         let data = Data()
         
-        var capturedResults = [FeedItemDataLoader.Result]()
+        var capturedResults = [FeedItemDataLoader.LoadResult]()
         let task = sut.loadImageData(from: anyURL(), completion: { capturedResults.append($0)} )
         task.cancel()
         
@@ -68,7 +68,7 @@ class LoadFeedItemDataFromCacheUseCaseTests: XCTestCase {
         let store = FeedItemDataStoreSpy()
         var sut: LocalFeedItemDataLoader? = LocalFeedItemDataLoader(store: store)
         
-        var capturedResults = [FeedItemDataLoader.Result]()
+        var capturedResults = [FeedItemDataLoader.LoadResult]()
         _ = sut?.loadImageData(from: anyURL(), completion: { capturedResults.append($0)} )
         
         sut = nil
@@ -90,19 +90,19 @@ class LoadFeedItemDataFromCacheUseCaseTests: XCTestCase {
         return (sut, store)
     }
     
-    private func failed() -> FeedItemDataLoader.Result {
+    private func failed() -> FeedItemDataLoader.LoadResult {
         return .failure(LocalFeedItemDataLoader.LoadError.failed)
     }
     
-    private func notFound() -> FeedItemDataLoader.Result {
+    private func notFound() -> FeedItemDataLoader.LoadResult {
         return .failure(LocalFeedItemDataLoader.LoadError.notFound)
     }
     
-    private func found(_ data: Data) -> FeedItemDataLoader.Result {
+    private func found(_ data: Data) -> FeedItemDataLoader.LoadResult {
         return .success(data)
     }
     
-    private func expect(_ sut: LocalFeedItemDataLoader, toCompleteWith expectedResult: LocalFeedItemDataLoader.Result, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
+    private func expect(_ sut: LocalFeedItemDataLoader, toCompleteWith expectedResult: LocalFeedItemDataLoader.LoadResult, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
         let exp = expectation(description: "waiting for completion...")
         _ = sut.loadImageData(from: anyURL(), completion: { result in
             switch (result, expectedResult) {
