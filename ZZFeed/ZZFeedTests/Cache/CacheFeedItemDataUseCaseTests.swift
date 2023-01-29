@@ -25,39 +25,18 @@ class CacheFeedItemDataUseCaseTests: XCTestCase {
     
     func test_saveImageDataForURL_failsOnInsertionError() {
         let (sut, store) = makeSUT()
-
-        let exp = expectation(description: "waiting for completion...")
-        sut.save(data: Data(), for: anyURL(), completion: { result in
-            do {
-                try result.get()
-                XCTFail("expected to get error")
-            } catch {
-                XCTAssertEqual(error as! LocalFeedItemDataLoader.SaveError , LocalFeedItemDataLoader.SaveError.failed)
-            }
-            exp.fulfill()
-        })
         
-        store.completeInsertion(with: anyNSError())
-        
-        wait(for: [exp], timeout: 1)
+        expect(sut, toCompleteWith: .failure(LocalFeedItemDataLoader.SaveError.failed)) {
+            store.completeInsertion(with: anyNSError())
+        }
     }
     
     func test_saveImageDataForURL_succeedsOnSuccessfulStoreInsertion() {
         let (sut, store) = makeSUT()
 
-        let exp = expectation(description: "waiting for completion...")
-        sut.save(data: Data(), for: anyURL(), completion: { result in
-            do {
-                try result.get()
-            } catch {
-                XCTFail("expected successful result")
-            }
-            exp.fulfill()
-        })
-        
-        store.completeInsertionSuccessfully()
-        
-        wait(for: [exp], timeout: 1)
+        expect(sut, toCompleteWith: .success(())) {
+            store.completeInsertionSuccessfully()
+        }
     }
     
     func test_saveImageDataForURL_doesNotDeliverResultAfterInstanceIsDeallocate() {
@@ -86,5 +65,27 @@ class CacheFeedItemDataUseCaseTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         
         return (sut, store)
+    }
+    
+    private func expect(_ sut: LocalFeedItemDataLoader, toCompleteWith expectedResult: LocalFeedItemDataLoader.SaveResult, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
+        let exp = expectation(description: "waiting for completion...")
+        sut.save(data: Data(), for: anyURL(), completion: { result in
+            switch (result, expectedResult) {
+            case let (.failure(error), .failure(expectedError)):
+                XCTAssertEqual(error as! LocalFeedItemDataLoader.SaveError , expectedError as! LocalFeedItemDataLoader.SaveError, file: file, line: line)
+                
+            case (.success, .success):
+                break
+                
+            default:
+                XCTFail("expected to get \(expectedResult) but got \(result)", file: file, line: line)
+            }
+            
+            exp.fulfill()
+        })
+        
+        action()
+        
+        wait(for: [exp], timeout: 1)
     }
 }
