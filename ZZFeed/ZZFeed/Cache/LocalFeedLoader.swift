@@ -36,6 +36,12 @@ extension LocalFeedLoader {
     }
 }
 
+private extension Array where Element == LocalFeedItem {
+    func toModels() -> [FeedItem] {
+        return map { FeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL) }
+    }
+}
+
 // MARK: - Save
 
 extension LocalFeedLoader {
@@ -61,6 +67,14 @@ extension LocalFeedLoader {
     }
 }
 
+private extension Array where Element == FeedItem {
+    func toLocal() -> [LocalFeedItem] {
+        return map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL) }
+    }
+    
+    static var empty = [FeedItem]()
+}
+
 // MARK: - Validation
 
 extension LocalFeedLoader {
@@ -80,19 +94,5 @@ extension LocalFeedLoader {
                 completion(.success(()))
             }
         }
-    }
-}
-
-private extension Array where Element == FeedItem {
-    func toLocal() -> [LocalFeedItem] {
-        return map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL) }
-    }
-    
-    static var empty = [FeedItem]()
-}
-
-private extension Array where Element == LocalFeedItem {
-    func toModels() -> [FeedItem] {
-        return map { FeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL) }
     }
 }
