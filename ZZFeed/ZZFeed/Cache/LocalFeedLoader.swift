@@ -11,6 +11,8 @@ public final class LocalFeedLoader: FeedLoader {
     
     public typealias SaveResult = Error?
     public typealias LoadResut  = FeedLoader.Result
+    public typealias ValidationResult = Result<Void, Error>
+
     public init(store: FeedStore, currentDate: @escaping ()->Date) {
         self.store = store
         self.currentDate = currentDate
@@ -43,18 +45,18 @@ public final class LocalFeedLoader: FeedLoader {
         }
     }
     
-    public func validateCache() {
+    public func validateCache(completion: @escaping (ValidationResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure:
-                self.store.deleteCachedFeed(completion: {_ in })
+                self.store.deleteCachedFeed(completion: {_ in completion(.success(())) })
                 
             case let .success(.fetched(_, timestamp)) where !FeedCachePolicy.validate(timestamp, against: self.currentDate()):
-                self.store.deleteCachedFeed(completion: {_ in })
+                self.store.deleteCachedFeed(completion: {_ in completion(.success(())) })
             
             case .success:
-                break
+                completion(.success(()))
             }
         }
     }
