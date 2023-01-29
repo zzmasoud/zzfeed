@@ -77,12 +77,12 @@ public class CodableFeedStore: FeedStore {
             if FileManager.default.fileExists(atPath: storeURL.path) {
                 do {
                     try FileManager.default.removeItem(at: storeURL)
-                    completion(nil)
+                    completion(.success(()))
                 } catch {
-                    completion(error)
+                    completion(.failure(error))
                 }
             } else {
-                completion(nil)
+                completion(.success(()))
             }
         }
     }

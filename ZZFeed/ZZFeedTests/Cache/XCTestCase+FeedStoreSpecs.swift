@@ -49,13 +49,18 @@ extension FeedStoreSpecs where Self: XCTestCase {
     @discardableResult
     func delete(from sut: FeedStore, file: StaticString = #file, line: UInt = #line) -> Error? {
         let exp = expectation(description: "waiting for deletion ...")
-        var error: Error?
-        sut.deleteCachedFeed { deletionError in
-            error = deletionError
+        var capturedError: Error?
+        sut.deleteCachedFeed { result in
+            switch result {
+            case let .failure(error):
+                capturedError = error
+            default:
+                break
+            }
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1)
-        return error
+        return capturedError
     }
     
 }
