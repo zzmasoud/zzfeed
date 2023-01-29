@@ -68,6 +68,27 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
     }
     
+    func test_validateCache_failsOnDeletionErrorOfFailedRetrieval() {
+        let deletionError = anyNSError()
+        let (sut, store) = makeSUT()
+        
+        let exp = expectation(description: "waiting for completion...")
+        sut.validateCache { result in
+            switch result {
+            case let .failure(error):
+                XCTAssertEqual(error as NSError, deletionError)
+            case .success:
+                XCTFail("expected to get error but got success")
+            }
+            exp.fulfill()
+        }
+        
+        store.completeRetrieval(with: anyNSError())
+        store.completeDeletion(with: deletionError)
+        
+        wait(for: [exp], timeout: 1)
+    }
+    
     func test_validateCache_doesNotDeleteInvalidCacheAfterSUTInstanceHasBeenDeallocated() {
         let store = FeedStoreSpy()
         var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
