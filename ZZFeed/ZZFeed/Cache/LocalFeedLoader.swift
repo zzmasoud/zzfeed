@@ -11,7 +11,6 @@ public final class LocalFeedLoader: FeedLoader {
     
     public typealias SaveResult = Error?
     public typealias LoadResut  = FeedLoader.Result
-    public typealias ValidationResult = Result<Void, Error>
 
     public init(store: FeedStore, currentDate: @escaping ()->Date) {
         self.store = store
@@ -44,7 +43,20 @@ public final class LocalFeedLoader: FeedLoader {
             }
         }
     }
-    
+            
+    private func cache(_ items: [FeedItem], with completion: @escaping (SaveResult) -> Void) {
+        store.insert(items.toLocal(), timestamp: self.currentDate()) { [weak self] error in
+            guard let _ = self else { return }
+            completion(error)
+        }
+    }
+}
+
+// MARK: - Validation
+
+extension LocalFeedLoader {
+    public typealias ValidationResult = Result<Void, Error>
+
     public func validateCache(completion: @escaping (ValidationResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
@@ -58,13 +70,6 @@ public final class LocalFeedLoader: FeedLoader {
             case .success:
                 completion(.success(()))
             }
-        }
-    }
-        
-    private func cache(_ items: [FeedItem], with completion: @escaping (SaveResult) -> Void) {
-        store.insert(items.toLocal(), timestamp: self.currentDate()) { [weak self] error in
-            guard let _ = self else { return }
-            completion(error)
         }
     }
 }
