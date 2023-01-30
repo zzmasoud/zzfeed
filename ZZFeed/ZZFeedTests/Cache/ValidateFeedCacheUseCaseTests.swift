@@ -71,61 +71,28 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
     func test_validateCache_failsOnDeletionErrorOfFailedRetrieval() {
         let deletionError = anyNSError()
         let (sut, store) = makeSUT()
-        
-        let exp = expectation(description: "waiting for completion...")
-        sut.validateCache { result in
-            switch result {
-            case let .failure(error):
-                XCTAssertEqual(error as NSError, deletionError)
-            case .success:
-                XCTFail("expected to get error but got success")
-            }
-            exp.fulfill()
+
+        expect(sut, toCompleteWith: .failure(deletionError)) {
+            store.completeRetrieval(with: anyNSError())
+            store.completeDeletion(with: deletionError)
         }
-        
-        store.completeRetrieval(with: anyNSError())
-        store.completeDeletion(with: deletionError)
-        
-        wait(for: [exp], timeout: 1)
     }
     
     func test_validateCache_succeedsOnSuccessfulDeletionOfFailedRetrieval() {
         let (sut, store) = makeSUT()
         
-        let exp = expectation(description: "waiting for completion...")
-        sut.validateCache { result in
-            switch result {
-            case .failure:
-                XCTFail("expected to get success but got failure")
-            case .success:
-                break
-            }
-            exp.fulfill()
+        expect(sut, toCompleteWith: .success(())) {
+            store.completeRetrieval(with: anyNSError())
+            store.completeDeletionSuccessfully()
         }
-        
-        store.completeRetrieval(with: anyNSError())
-        store.completeDeletionSuccessfully()
-        
-        wait(for: [exp], timeout: 1)
     }
     
     func test_validateCache_succeedsOnEmptyCache() {
         let (sut, store) = makeSUT()
         
-        let exp = expectation(description: "waiting for completion...")
-        sut.validateCache { result in
-            switch result {
-            case .failure:
-                XCTFail("expected to get success but got failure")
-            case .success:
-                break
-            }
-            exp.fulfill()
+        expect(sut, toCompleteWith: .success(())) {
+            store.completeRetrievalWithEmptyCache()
         }
-
-        store.completeRetrievalWithEmptyCache()
-
-        wait(for: [exp], timeout: 1)
     }
     
     func test_validateCache_doesNotDeleteInvalidCacheAfterSUTInstanceHasBeenDeallocated() {
@@ -143,7 +110,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
 
     // - MARK: Helpers
     
-    private func makeSUT(currentDate: @escaping ()->Date = Date.init, file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStoreSpy) {
+    private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStoreSpy) {
         let store = FeedStoreSpy()
         let sut = LocalFeedLoader(store: store, currentDate: currentDate)
         
@@ -151,5 +118,28 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         
         return (sut, store)
-    }    
+    }
+    
+    private func expect(_ sut: LocalFeedLoader, toCompleteWith expectedResult: LocalFeedLoader.ValidationResult, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
+        let exp = expectation(description: "waiting for completion...")
+
+        sut.validateCache { result in
+            switch (result, expectedResult) {
+            case let (.failure(error), .failure(expectedError)):
+                XCTAssertEqual(error as NSError, expectedError as NSError, file: file, line: line)
+                
+            case (.success, .success):
+                break
+                
+            default:
+                XCTFail("expected to get \(expectedResult) but got \(result)", file: file, line: line)
+            }
+            
+            
+            exp.fulfill()
+        }
+        
+        action()
+        wait(for: [exp], timeout: 1)
+    }
 }
