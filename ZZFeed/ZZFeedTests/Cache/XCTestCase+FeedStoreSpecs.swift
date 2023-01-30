@@ -38,8 +38,10 @@ extension FeedStoreSpecs where Self: XCTestCase {
     func insert(_ cache: (feed: [LocalFeedItem], timestamp: Date), to sut: FeedStore, file: StaticString = #file, line: UInt = #line) -> Error? {
         let exp = expectation(description: "waiting for insertion ...")
         var error: Error?
-        sut.insert(cache.feed, timestamp: cache.timestamp) { insertionError in
-            error = insertionError
+        sut.insert(cache.feed, timestamp: cache.timestamp) { insertionResult in
+            if case let .failure(insertionError) = insertionResult {
+                error = insertionError
+            }
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1)

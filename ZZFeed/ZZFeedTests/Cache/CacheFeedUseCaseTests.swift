@@ -48,8 +48,10 @@ class CacheFeedUseCaseTests: XCTestCase {
         
         var receivedError: Error?
         let exp = expectation(description: "waiting for completion...")
-        sut.save(uniqueItems().models) { error in
-            receivedError = error
+        sut.save(uniqueItems().models) { insertionResult in
+            if case let .failure(insertionError) = insertionResult {
+                receivedError = insertionError
+            }
             exp.fulfill()
         }
         
@@ -65,8 +67,10 @@ class CacheFeedUseCaseTests: XCTestCase {
         
         var receivedError: Error?
         let exp = expectation(description: "waiting for completion...")
-        sut.save(uniqueItems().models) { error in
-            receivedError = error
+        sut.save(uniqueItems().models) { insertionResult in
+            if case let .failure(insertionError) = insertionResult {
+                receivedError = insertionError
+            }
             exp.fulfill()
         }
         
@@ -83,8 +87,10 @@ class CacheFeedUseCaseTests: XCTestCase {
         
         var receivedError: Error?
         let exp = expectation(description: "waiting for completion...")
-        sut.save(items) { error in
-            receivedError = error
+        sut.save(items) { insertionResult in
+            if case let .failure(insertionError) = insertionResult {
+                receivedError = insertionError
+            }
             exp.fulfill()
         }
         

@@ -36,11 +36,11 @@ class FeedStoreSpy: FeedStore {
     }
     
     func completeInsertion(with error: Error) {
-        insertionCompletions.first?(error)
+        insertionCompletions.first?(.failure(error))
     }
     
     func completeInsertionSuccessfully() {
-        insertionCompletions.first?(nil)
+        insertionCompletions.first?(.success(()))
     }
     
     func retrieve(completion: @escaping RetrievalCompletion) {

@@ -45,7 +45,7 @@ private extension Array where Element == LocalFeedItem {
 // MARK: - Save
 
 extension LocalFeedLoader {
-    public typealias SaveResult = Error?
+    public typealias SaveResult = Result<Void, Error>
 
     public func save(_ items: [FeedItem], completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedFeed { [weak self]  result in
@@ -53,7 +53,7 @@ extension LocalFeedLoader {
             
             switch result {
             case let .failure(error):
-                completion(error)
+                completion(.failure(error))
 
             case .success:
                 self.cache(items, with: completion)
@@ -63,9 +63,9 @@ extension LocalFeedLoader {
     }
             
     private func cache(_ items: [FeedItem], with completion: @escaping (SaveResult) -> Void) {
-        store.insert(items.toLocal(), timestamp: self.currentDate()) { [weak self] error in
+        store.insert(items.toLocal(), timestamp: self.currentDate()) { [weak self] result in
             guard let _ = self else { return }
-            completion(error)
+            completion(result)
         }
     }
 }
