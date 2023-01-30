@@ -107,7 +107,25 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         store.completeDeletionSuccessfully()
         
         wait(for: [exp], timeout: 1)
+    }
+    
+    func test_validateCache_succeedsOnEmptyCache() {
+        let (sut, store) = makeSUT()
+        
+        let exp = expectation(description: "waiting for completion...")
+        sut.validateCache { result in
+            switch result {
+            case .failure:
+                XCTFail("expected to get success but got failure")
+            case .success:
+                break
+            }
+            exp.fulfill()
+        }
 
+        store.completeRetrievalWithEmptyCache()
+
+        wait(for: [exp], timeout: 1)
     }
     
     func test_validateCache_doesNotDeleteInvalidCacheAfterSUTInstanceHasBeenDeallocated() {
