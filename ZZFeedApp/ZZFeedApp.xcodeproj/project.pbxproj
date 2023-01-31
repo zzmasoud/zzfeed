@@ -13,7 +13,26 @@
 		0419652529893C5F00F21C50 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0419652329893C5F00F21C50 /* Main.storyboard */; };
 		0419652729893C6000F21C50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0419652629893C6000F21C50 /* Assets.xcassets */; };
 		0419652A29893C6000F21C50 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0419652829893C6000F21C50 /* LaunchScreen.storyboard */; };
+		044E68BC29894C6D00CC16F1 /* ZZFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BA29894C6D00CC16F1 /* ZZFeed.framework */; };
+		044E68BD29894C6D00CC16F1 /* ZZFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BA29894C6D00CC16F1 /* ZZFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		044E68BE29894C6D00CC16F1 /* ZZFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */; };
+		044E68BF29894C6D00CC16F1 /* ZZFeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		044E68C029894C6D00CC16F1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				044E68BF29894C6D00CC16F1 /* ZZFeediOS.framework in Embed Frameworks */,
+				044E68BD29894C6D00CC16F1 /* ZZFeed.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0419651A29893C5F00F21C50 /* ZZFeedApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZZFeedApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -24,6 +43,8 @@
 		0419652629893C6000F21C50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0419652929893C6000F21C50 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0419652B29893C6000F21C50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		044E68BA29894C6D00CC16F1 /* ZZFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ZZFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ZZFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +52,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				044E68BE29894C6D00CC16F1 /* ZZFeediOS.framework in Frameworks */,
+				044E68BC29894C6D00CC16F1 /* ZZFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +65,7 @@
 			children = (
 				0419651C29893C5F00F21C50 /* ZZFeedApp */,
 				0419651B29893C5F00F21C50 /* Products */,
+				044E68B929894C6D00CC16F1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +91,15 @@
 			path = ZZFeedApp;
 			sourceTree = "<group>";
 		};
+		044E68B929894C6D00CC16F1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				044E68BA29894C6D00CC16F1 /* ZZFeed.framework */,
+				044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -77,6 +110,7 @@
 				0419651629893C5F00F21C50 /* Sources */,
 				0419651729893C5F00F21C50 /* Frameworks */,
 				0419651829893C5F00F21C50 /* Resources */,
+				044E68C029894C6D00CC16F1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
