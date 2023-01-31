@@ -34,7 +34,7 @@ final class FeedItemViewModel<Image> {
         }
     }
     
-    private func handle(_ result: FeedItemDataLoader.Result) {
+    private func handle(_ result: FeedItemDataLoader.LoadResult) {
         if let data = try? result.get(), let image = imageTransformer(data) {
             onImageLoad?(image)
         } else {
