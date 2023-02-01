@@ -1,8 +1,5 @@
 //
-//  AppDelegate.swift
-//  ZZFeedApp
-//
-//  Created by Masoud on 31.01.23.
+//  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
 import UIKit
