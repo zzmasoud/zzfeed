@@ -361,13 +361,13 @@ final public class FeedUIIntegrationTests: XCTestCase {
             }
         }
         
-        private var imageRequests: [(url: URL, completion: (FeedItemDataLoader.Result) -> Void)] = []
+        private var imageRequests: [(url: URL, completion: (FeedItemDataLoader.LoadResult) -> Void)] = []
         private(set) var cancelledImageURLs: [URL] = []
         var loadedImageURLs: [URL] {
             imageRequests.map({ $0.url })
         }
         
-        func loadImageData(from url: URL, completion: @escaping (FeedItemDataLoader.Result) -> Void) -> FeedItemDataLoaderTask {
+        func loadImageData(from url: URL, completion: @escaping (FeedItemDataLoader.LoadResult) -> Void) -> FeedItemDataLoaderTask {
             imageRequests.append((url, completion))
             return TaskSpy { [weak self] in
                 self?.cancelledImageURLs.append(url)
