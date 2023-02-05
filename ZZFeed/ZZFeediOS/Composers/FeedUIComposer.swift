@@ -13,7 +13,7 @@ public final class FeedUIComposer {
         let refreshController = FeedRefreshViewController(presenter: feedPresenter)
         let feedController = FeedViewController(refreshController: refreshController)
         feedController.title = NSLocalizedString("FEED_VIEW_TITLE", tableName: "Feed", bundle: Bundle(for: FeedUIComposer.self), comment: "Title for the feed view")
-        feedPresenter.feedLoadingView = refreshController
+        feedPresenter.feedLoadingView = WeakRefVirtualProxy(refreshController)
         feedPresenter.feedView = FeedViewAdapter(controller: feedController, loader: imageLoader)
         return feedController
     }
@@ -33,6 +33,20 @@ private final class FeedViewAdapter: FeedView {
             let viewModel = FeedItemViewModel(model: $0, imageLoader: loader, imageTransformer: UIImage.init)
             return FeedItemCellController(viewModel: viewModel)
         }
+    }
+}
+
+private final class WeakRefVirtualProxy<T: AnyObject> {
+    private weak var object: T?
+    
+    init(_ object: T) {
+        self.object = object
+    }
+}
+
+extension WeakRefVirtualProxy: FeedLoadingView where T: FeedLoadingView {
+    func display(isLoading: Bool) {
+        object?.display(isLoading: isLoading)
     }
 }
 
