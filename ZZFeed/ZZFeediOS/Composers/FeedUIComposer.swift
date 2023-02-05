@@ -9,20 +9,29 @@ public final class FeedUIComposer {
     private init() {}
     
     public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedItemDataLoader) -> FeedViewController {
-        let feedViewModel = FeedViewModel(feedLoader: MainQueueDispatchDecoder(decoratee: feedLoader))
-        let feedRefreshController = FeedRefreshViewController(viewModel: feedViewModel)
-        let feedController = FeedViewController(refreshController: feedRefreshController)
+        let feedPresenter = FeedPresenter(feedLoader: MainQueueDispatchDecoder(decoratee: feedLoader))
+        let refreshController = FeedRefreshViewController(presenter: feedPresenter)
+        let feedController = FeedViewController(refreshController: refreshController)
         feedController.title = NSLocalizedString("FEED_VIEW_TITLE", tableName: "Feed", bundle: Bundle(for: FeedUIComposer.self), comment: "Title for the feed view")
-        feedViewModel.onLoad = adaptFeedToCellControllers(forwardingTo: feedController, loader: imageLoader)
+        feedPresenter.feedLoadingView = refreshController
+        feedPresenter.feedView = FeedViewAdapter(controller: feedController, loader: imageLoader)
         return feedController
     }
+}
+
+private final class FeedViewAdapter: FeedView {
+    private weak var controller: FeedViewController?
+    private let loader: FeedItemDataLoader
     
-    private static func adaptFeedToCellControllers(forwardingTo controller: FeedViewController, loader: FeedItemDataLoader) -> ([FeedItem]) -> Void {
-        return { [weak controller] feed in
-            controller?.models = feed.map {
-                let viewModel = FeedItemViewModel(model: $0, imageLoader: loader, imageTransformer: UIImage.init)
-                return FeedItemCellController(viewModel: viewModel)
-            }
+    internal init(controller: FeedViewController, loader: FeedItemDataLoader) {
+        self.controller = controller
+        self.loader = loader
+    }
+    
+    func display(feed: [FeedItem]) {
+        controller?.models = feed.map {
+            let viewModel = FeedItemViewModel(model: $0, imageLoader: loader, imageTransformer: UIImage.init)
+            return FeedItemCellController(viewModel: viewModel)
         }
     }
 }
