@@ -4,12 +4,20 @@
 
 import ZZFeed
 
+struct FeedLoadingViewModel {
+    let isLoading: Bool
+}
+
 protocol FeedLoadingView: AnyObject {
-    func display(isLoading: Bool)
+    func display(_ viewModel: FeedLoadingViewModel)
+}
+
+struct FeedViewModel {
+    let feed: [FeedItem]
 }
 
 protocol FeedView {
-    func display(feed: [FeedItem])
+    func display(_ viewModel: FeedViewModel)
 }
 
 final class FeedPresenter {
@@ -25,12 +33,12 @@ final class FeedPresenter {
     var feedLoadingView: FeedLoadingView?
 
     func loadFeed() {
-        feedLoadingView?.display(isLoading: true)
+        feedLoadingView?.display(FeedLoadingViewModel(isLoading: true))
         feedLoader.load { [weak self] result in
             if let feed = try? result.get() {
-                self?.feedView?.display(feed: feed)
+                self?.feedView?.display(FeedViewModel(feed: feed))
             }
-            self?.feedLoadingView?.display(isLoading: false)
+            self?.feedLoadingView?.display(FeedLoadingViewModel(isLoading: false))
         }
     }
 }

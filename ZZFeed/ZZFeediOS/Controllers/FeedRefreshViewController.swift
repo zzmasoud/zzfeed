@@ -17,8 +17,8 @@ public final class FeedRefreshViewController: NSObject, FeedLoadingView {
         presenter.loadFeed()
     }
     
-    func display(isLoading: Bool) {
-        isLoading ? view.beginRefreshing() : view.endRefreshing()
+    func display(_ viewModel: FeedLoadingViewModel) {
+        viewModel.isLoading ? view.beginRefreshing() : view.endRefreshing()
     }
     
     private func loadView() -> UIRefreshControl {
