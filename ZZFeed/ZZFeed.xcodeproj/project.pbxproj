@@ -337,8 +337,8 @@
 		048FCD28295EFFD80093F747 /* ZZFeediOS */ = {
 			isa = PBXGroup;
 			children = (
-				04AEDB01298FA3350009809E /* FeedPresenter.swift */,
 				04E57EBB2978748C0086B23F /* Feed.strings */,
+				04AEDB032990F1080009809E /* Presentation */,
 				04715F6C296AB53A006EDF65 /* Models */,
 				040A8C322965A3010093F6E6 /* Composers */,
 				040A8C2C296569A60093F6E6 /* Controllers */,
@@ -379,6 +379,14 @@
 				04D12EE328C67FE400887712 /* HelperMethods.swift */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		04AEDB032990F1080009809E /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				04AEDB01298FA3350009809E /* FeedPresenter.swift */,
+			);
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 		04B1B9FF28BA3B3E00DDE9F5 /* Shared */ = {
