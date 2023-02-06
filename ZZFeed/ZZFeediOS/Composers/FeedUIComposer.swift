@@ -10,7 +10,7 @@ public final class FeedUIComposer {
     
     public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedItemDataLoader) -> FeedViewController {
         let feedPresenter = FeedPresenter(feedLoader: MainQueueDispatchDecoder(decoratee: feedLoader))
-        let refreshController = FeedRefreshViewController(presenter: feedPresenter)
+        let refreshController = FeedRefreshViewController(loadFeed: feedPresenter.loadFeed)
         let feedController = FeedViewController(refreshController: refreshController)
         feedController.title = NSLocalizedString("FEED_VIEW_TITLE", tableName: "Feed", bundle: Bundle(for: FeedUIComposer.self), comment: "Title for the feed view")
         feedPresenter.feedLoadingView = WeakRefVirtualProxy(refreshController)
