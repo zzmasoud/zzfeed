@@ -16,8 +16,9 @@ public final class FeedUIComposer {
         let feedController = FeedViewController(refreshController: refreshController)
         feedController.title = NSLocalizedString("FEED_VIEW_TITLE", tableName: "Feed", bundle: Bundle(for: FeedUIComposer.self), comment: "Title for the feed view")
         
+        let imageLoaderDispatch = MainQueueDispatchDecoderDataLoader(decoratee: imageLoader)
         let presenter = FeedPresenter(
-            feedView: FeedViewAdapter(controller: feedController, loader: imageLoader),
+            feedView: FeedViewAdapter(controller: feedController, loader: imageLoaderDispatch),
             feedLoadingView: WeakRefVirtualProxy(refreshController)
         )
         presentationAdapter.presenter = presenter
@@ -88,6 +89,26 @@ private final class MainQueueDispatchDecoder: FeedLoader {
     
     func load(completion: @escaping (FeedLoader.Result) -> Void) {
         decoratee.load { result in
+            if Thread.isMainThread {
+                completion(result)
+            } else {
+                DispatchQueue.main.async {
+                    completion(result)
+                }
+            }
+        }
+    }
+}
+
+private final class MainQueueDispatchDecoderDataLoader: FeedItemDataLoader {
+    private let decoratee: FeedItemDataLoader
+    
+    init(decoratee: FeedItemDataLoader) {
+        self.decoratee = decoratee
+    }
+
+    func loadImageData(from url: URL, completion: @escaping (LoadResult) -> Void) -> FeedItemDataLoaderTask {
+        decoratee.loadImageData(from: url) { result in
             if Thread.isMainThread {
                 completion(result)
             } else {
