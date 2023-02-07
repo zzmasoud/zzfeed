@@ -4,47 +4,44 @@
 
 import UIKit
 
-final class FeedItemCellController {
+protocol FeedItemCellControllerDelegate {
+     func didRequestImage()
+     func didCancelImageRequest()
+ }
+
+final class FeedItemCellController: FeedItemView {
+    typealias Image = UIImage
     
-    private let viewModel: FeedItemViewModel<UIImage>
+    private let delegate: FeedItemCellControllerDelegate
+    private lazy var cell = FeedItemCell()
     
-    init(viewModel: FeedItemViewModel<UIImage>) {
-        self.viewModel = viewModel
+    init(delegate: FeedItemCellControllerDelegate) {
+        self.delegate = delegate
     }
     
     func view() -> UITableViewCell {
-        let cell = binded(FeedItemCell())
-        viewModel.loadImageData()
+        delegate.didRequestImage()
         return cell
     }
     
-    private func binded(_ cell: FeedItemCell) -> FeedItemCell {
+    func display(_ viewModel: FeedItemViewModel<Image>) {
+        cell.feedImageView.image = viewModel.image
+        cell.container.isShimmering = viewModel.isLoading
         cell.locationContainer.isHidden = !viewModel.hasLocation
         cell.locationLabel.text = viewModel.location
         cell.descriptionLabel.text = viewModel.description
-        cell.onRetry = viewModel.loadImageData
-        
-        viewModel.onImageLoad = { [weak cell] image in
-            cell?.feedImageView.image = image
+        cell.retryButton.isHidden = !viewModel.shouldRetry
+        cell.onRetry = { [weak self] in
+            self?.delegate.didRequestImage()
         }
-        
-        viewModel.onImageLoadingChange = { [weak cell] isLoading in
-            cell?.container.isShimmering = isLoading
-        }
-        
-        viewModel.onShouldRetryImageLoadChange = { [weak cell] shouldRetry in
-            cell?.retryButton.isHidden = !shouldRetry
-        }
-        
-        return cell
     }
     
     func preload() {
-        viewModel.loadImageData()
+        delegate.didRequestImage()
     }
     
     func cancelLoad() {
-        viewModel.cancelImageDataLoad()
+        delegate.didCancelImageRequest()
     }
 }
 
