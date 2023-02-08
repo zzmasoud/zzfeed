@@ -18,8 +18,11 @@ public final class FeedUIComposer {
         
         let imageLoaderDispatch = MainQueueDispatchDecoderDataLoader(decoratee: imageLoader)
         let presenter = FeedPresenter(
-            feedView: FeedViewAdapter(controller: feedController, loader: imageLoaderDispatch),
-            feedLoadingView: WeakRefVirtualProxy(refreshController)
+            feedView: FeedViewAdapter(
+                controller: feedController,
+                loader: imageLoaderDispatch),
+            feedLoadingView:
+                WeakRefVirtualProxy(refreshController)
         )
         presentationAdapter.presenter = presenter
         
@@ -38,7 +41,10 @@ private final class FeedViewAdapter: FeedView {
     
     func display(_ viewModel: FeedViewModel) {
         controller?.models = viewModel.feed.map { item in
-            let adapter = FeedItemDataLoaderPresentationAdapter<WeakRefVirtualProxy<FeedItemCellController>, UIImage>(model: item, imageLoader: loader)
+            let adapter = FeedItemDataLoaderPresentationAdapter<WeakRefVirtualProxy<FeedItemCellController>, UIImage>(
+                model: item,
+                imageLoader: loader)
+            
             let view = FeedItemCellController(delegate: adapter)
             adapter.presenter = FeedItemPresenter(
                 view: WeakRefVirtualProxy(view),
