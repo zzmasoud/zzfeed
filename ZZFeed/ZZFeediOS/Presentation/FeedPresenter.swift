@@ -4,16 +4,8 @@
 
 import ZZFeed
 
-struct FeedLoadingViewModel {
-    let isLoading: Bool
-}
-
 protocol FeedLoadingView: AnyObject {
     func display(_ viewModel: FeedLoadingViewModel)
-}
-
-struct FeedViewModel {
-    let feed: [FeedItem]
 }
 
 protocol FeedView {
