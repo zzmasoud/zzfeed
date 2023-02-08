@@ -340,11 +340,8 @@
 			isa = PBXGroup;
 			children = (
 				04E57EBB2978748C0086B23F /* Feed.strings */,
+				04AEDB062993E0D80009809E /* UI */,
 				04AEDB032990F1080009809E /* Presentation */,
-				04715F6C296AB53A006EDF65 /* Models */,
-				040A8C322965A3010093F6E6 /* Composers */,
-				040A8C2C296569A60093F6E6 /* Controllers */,
-				040A8C2D296569AD0093F6E6 /* Views */,
 			);
 			path = ZZFeediOS;
 			sourceTree = "<group>";
@@ -390,6 +387,17 @@
 				04AEDB04299255300009809E /* FeedImagePresenter.swift */,
 			);
 			path = Presentation;
+			sourceTree = "<group>";
+		};
+		04AEDB062993E0D80009809E /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				04715F6C296AB53A006EDF65 /* Models */,
+				040A8C322965A3010093F6E6 /* Composers */,
+				040A8C2C296569A60093F6E6 /* Controllers */,
+				040A8C2D296569AD0093F6E6 /* Views */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		04B1B9FF28BA3B3E00DDE9F5 /* Shared */ = {
