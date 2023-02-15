@@ -287,6 +287,18 @@ final public class FeedUIIntegrationTests: XCTestCase {
         wait(for: [exp], timeout: 1)
     }
     
+    func test_testFeedItemView_doesNotRenderLoadedImageWhenNotVisible() {
+        let (sut, loader) = makeSUT()
+        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(at: 0, with: [item0])
+
+        let view0 = sut.simulateFeedItemViewNotVisible(at: 0)
+        loader.completeImageLoading()
+        
+        XCTAssertNil(view0?.renderedImage)
+    }
+    
     
     // MARK: - Helpers
     
@@ -374,7 +386,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
             }
         }
 
-        func completeImageLoading(with imageData: Data = Data(), at index: Int = 0) {
+        func completeImageLoading(with imageData: Data = UIImage.init(color: .red)!.pngData()!, at index: Int = 0) {
             imageRequests[index].completion(.success(imageData))
         }
 
@@ -395,11 +407,13 @@ private extension FeedViewController {
         return feedItemView(at: row) as? FeedItemCell
     }
     
-    func simulateFeedItemViewNotVisible(at row: Int) {
+    @discardableResult
+    func simulateFeedItemViewNotVisible(at row: Int) -> FeedItemCell? {
         let cell = simulateFeedItemViewVisible(at: row)
         let delegate = tableView.delegate
         let indexPath = IndexPath(row: row, section: 0)
         delegate?.tableView?(tableView, didEndDisplaying: cell!, forRowAt: indexPath)
+        return cell
     }
     
     func simulateFeedItemNearViewVisible(at row: Int) {

@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="501" id="XJx-k7-8ng">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedItemCell" rowHeight="501" id="XJx-k7-8ng" customClass="FeedItemCell" customModule="ZZFeediOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44.5" width="414" height="501"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XJx-k7-8ng" id="9HU-OH-JYJ">
@@ -49,7 +49,7 @@
                                                         <constraint firstItem="uoy-GY-YY5" firstAttribute="top" secondItem="XMZ-uh-Cef" secondAttribute="top" id="h6V-12-Tqp"/>
                                                     </constraints>
                                                 </stackView>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i3k-2C-nwN">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i3k-2C-nwN" customClass="CustomLoadableView" customModule="ZZFeediOS" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="30" width="382" height="382"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="srz-6e-nRY">
@@ -64,6 +64,9 @@
                                                                     <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                                                 </preferredSymbolConfiguration>
                                                             </buttonConfiguration>
+                                                            <connections>
+                                                                <action selector="retryTapped" destination="XJx-k7-8ng" eventType="touchUpInside" id="EW2-fR-gAs"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" systemColor="systemFillColor"/>
@@ -97,6 +100,14 @@
                                         <constraint firstItem="Qcj-jw-WLH" firstAttribute="centerY" secondItem="9HU-OH-JYJ" secondAttribute="centerY" id="qVs-qg-hYl"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="container" destination="i3k-2C-nwN" id="e2j-J3-3ms"/>
+                                    <outlet property="descriptionLabel" destination="Shw-yI-3t5" id="auo-St-l9A"/>
+                                    <outlet property="feedImageView" destination="srz-6e-nRY" id="U0q-jh-p8u"/>
+                                    <outlet property="locationContainer" destination="XMZ-uh-Cef" id="eqi-oB-HhU"/>
+                                    <outlet property="locationLabel" destination="bq1-h9-qKk" id="UPa-QQ-xN9"/>
+                                    <outlet property="retryButton" destination="MMS-bi-obd" id="pbV-Gw-Gxy"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
