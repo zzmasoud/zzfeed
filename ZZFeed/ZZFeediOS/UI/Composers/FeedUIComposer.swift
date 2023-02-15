@@ -12,8 +12,12 @@ public final class FeedUIComposer {
         let feedLoaderDispatch = MainQueueDispatchDecoder(decoratee: feedLoader)
         let presentationAdapter = FeedLoaderPresentationAdapter(feedLoader: feedLoaderDispatch)
         
-        let refreshController = FeedRefreshViewController(delegate: presentationAdapter)
-        let feedController = FeedViewController(refreshController: refreshController)
+        let bundle = Bundle(for: FeedViewController.self)
+        let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
+        let feedController = storyboard.instantiateInitialViewController() as! FeedViewController
+        let refreshController = feedController.refreshController!
+        refreshController.delegate = presentationAdapter
+        
         feedController.title = NSLocalizedString("FEED_VIEW_TITLE", tableName: "Feed", bundle: Bundle(for: FeedUIComposer.self), comment: "Title for the feed view")
         
         let imageLoaderDispatch = MainQueueDispatchDecoderDataLoader(decoratee: imageLoader)

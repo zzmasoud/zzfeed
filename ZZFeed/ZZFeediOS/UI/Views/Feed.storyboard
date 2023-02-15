@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="L0b-fO-cy1">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -104,8 +104,22 @@
                             <outlet property="delegate" destination="L0b-fO-cy1" id="AuG-XI-Ma3"/>
                         </connections>
                     </tableView>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="yid-WM-xVG">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh" destination="HM8-3c-rRQ" eventType="valueChanged" id="RSa-xN-zjr"/>
+                        </connections>
+                    </refreshControl>
+                    <connections>
+                        <outlet property="refreshController" destination="HM8-3c-rRQ" id="Qj5-hf-yVo"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mQ5-6I-b0U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <customObject id="HM8-3c-rRQ" customClass="FeedRefreshViewController" customModule="ZZFeediOS" customModuleProvider="target">
+                    <connections>
+                        <outlet property="view" destination="yid-WM-xVG" id="GUp-JO-QJp"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="-1472.4637681159422" y="-48.214285714285715"/>
         </scene>
