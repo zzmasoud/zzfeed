@@ -12,23 +12,23 @@
         <scene sceneID="0Hj-0o-uge">
             <objects>
                 <tableViewController id="L0b-fO-cy1" customClass="FeedViewController" customModule="ZZFeediOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="3iZ-pw-ngd">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="3iZ-pw-ngd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedItemCell" rowHeight="501" id="XJx-k7-8ng" customClass="FeedItemCell" customModule="ZZFeediOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="501"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedItemCell" rowHeight="576" id="XJx-k7-8ng" customClass="FeedItemCell" customModule="ZZFeediOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="576"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XJx-k7-8ng" id="9HU-OH-JYJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="501"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="576"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Qcj-jw-WLH">
-                                            <rect key="frame" x="16" y="10" width="382" height="481"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Qcj-jw-WLH">
+                                            <rect key="frame" x="16" y="25" width="382" height="526"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="XMZ-uh-Cef">
-                                                    <rect key="frame" x="0.0" y="0.0" width="382" height="22"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="382" height="30.5"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mappin.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="uoy-GY-YY5">
                                                             <rect key="frame" x="0.0" y="0.5" width="20" height="19"/>
@@ -39,8 +39,8 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="location location location location locationlocation location location location" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-h9-qKk">
-                                                            <rect key="frame" x="28" y="0.0" width="354" height="22"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <rect key="frame" x="28" y="0.0" width="354" height="30.5"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" systemColor="secondaryLabelColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -49,8 +49,8 @@
                                                         <constraint firstItem="uoy-GY-YY5" firstAttribute="top" secondItem="XMZ-uh-Cef" secondAttribute="top" id="h6V-12-Tqp"/>
                                                     </constraints>
                                                 </stackView>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i3k-2C-nwN" customClass="CustomLoadableView" customModule="ZZFeediOS" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="30" width="382" height="382"/>
+                                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i3k-2C-nwN" customClass="CustomLoadableView" customModule="ZZFeediOS" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="60" width="382" height="382"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="srz-6e-nRY">
                                                             <rect key="frame" x="0.0" y="0.0" width="382" height="382"/>
@@ -83,10 +83,15 @@
                                                         <constraint firstItem="MMS-bi-obd" firstAttribute="centerY" secondItem="i3k-2C-nwN" secondAttribute="centerY" id="ccI-PW-ek9"/>
                                                         <constraint firstItem="srz-6e-nRY" firstAttribute="leading" secondItem="i3k-2C-nwN" secondAttribute="leading" id="kr9-AV-KVn"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="10"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label Label Label Label v v v v LabelLabelLabelLabelLabelLabelLabelLabelLabelLabel Label Label Label v Label Label Label v" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Shw-yI-3t5">
-                                                    <rect key="frame" x="0.0" y="420" width="382" height="61"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="0.0" y="471" width="382" height="55"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -95,7 +100,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Qcj-jw-WLH" firstAttribute="centerX" secondItem="9HU-OH-JYJ" secondAttribute="centerX" id="77L-ld-5Bc"/>
-                                        <constraint firstItem="Qcj-jw-WLH" firstAttribute="top" secondItem="9HU-OH-JYJ" secondAttribute="top" constant="10" id="HZ2-ct-msL"/>
+                                        <constraint firstItem="Qcj-jw-WLH" firstAttribute="top" secondItem="9HU-OH-JYJ" secondAttribute="top" constant="25" id="HZ2-ct-msL"/>
                                         <constraint firstItem="Qcj-jw-WLH" firstAttribute="leading" secondItem="9HU-OH-JYJ" secondAttribute="leading" constant="16" id="iCC-9l-vDu"/>
                                         <constraint firstItem="Qcj-jw-WLH" firstAttribute="centerY" secondItem="9HU-OH-JYJ" secondAttribute="centerY" id="qVs-qg-hYl"/>
                                     </constraints>
