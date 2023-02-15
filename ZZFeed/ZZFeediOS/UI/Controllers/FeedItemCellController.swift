@@ -26,7 +26,7 @@ final class FeedItemCellController: FeedItemView {
     }
     
     func display(_ viewModel: FeedItemViewModel<Image>) {
-        cell?.feedImageView.image = viewModel.image
+        cell?.feedImageView.setImageAnimated(viewModel.image)
         cell?.container.isShimmering = viewModel.isLoading
         cell?.locationContainer.isHidden = !viewModel.hasLocation
         cell?.locationLabel.text = viewModel.location
