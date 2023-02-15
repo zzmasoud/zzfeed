@@ -4,9 +4,18 @@
 
 import UIKit
 
-public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    @IBOutlet  var refreshController: FeedRefreshViewController?
+protocol FeedViewControllerDelegate {
+    func didRequestFeedRefresh()
+}
 
+public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedLoadingView {
+    
+    @IBAction private func refresh() {
+        delegate?.didRequestFeedRefresh()
+    }
+
+    var delegate: FeedViewControllerDelegate?
+    
     var models: [FeedItemCellController] = [] {
         didSet {
             tableView.reloadData()
@@ -17,7 +26,11 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
         super.viewDidLoad()
         
         tableView.prefetchDataSource = self
-        refreshController!.refresh()
+        refresh()
+    }
+    
+    func display(_ viewModel: FeedLoadingViewModel) {
+        viewModel.isLoading ? refreshControl?.beginRefreshing() : refreshControl?.endRefreshing()
     }
     
     public override func numberOfSections(in tableView: UITableView) -> Int {
