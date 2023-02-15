@@ -3,6 +3,7 @@
 //  
 
 import ZZFeed
+import Foundation
 
 protocol FeedLoadingView: AnyObject {
     func display(_ viewModel: FeedLoadingViewModel)
@@ -17,6 +18,13 @@ final class FeedPresenter {
     
     var feedView: FeedView
     var feedLoadingView: FeedLoadingView
+    
+    static var title: String {
+        return NSLocalizedString("FEED_VIEW_TITLE",
+                                 tableName: "Feed",
+                                 bundle: Bundle(for: FeedPresenter.self),
+                                 comment: "Title for the feed view")
+    }
     
     internal init(feedView: FeedView, feedLoadingView: FeedLoadingView) {
         self.feedView = feedView
