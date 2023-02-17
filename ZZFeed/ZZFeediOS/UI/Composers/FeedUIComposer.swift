@@ -16,7 +16,7 @@ public final class FeedUIComposer {
             delegate: presentationAdapter,
             title: FeedPresenter.title)
         
-        let imageLoaderDispatch = MainQueueDispatchDecoderDataLoader(decoratee: imageLoader)
+        let imageLoaderDispatch = MainQueueDispatchDecoder(decoratee: imageLoader)
         let presenter = FeedPresenter(
             feedView: FeedViewAdapter(
                 controller: feedController,
@@ -140,42 +140,34 @@ extension WeakRefVirtualProxy: FeedItemView where T: FeedItemView, T.Image == UI
     }
 }
 
-private final class MainQueueDispatchDecoder: FeedLoader {
-    private let decoratee: FeedLoader
+private final class MainQueueDispatchDecoder<T> {
+    private let decoratee: T
     
-    init(decoratee: FeedLoader) {
+    init(decoratee: T) {
         self.decoratee = decoratee
     }
     
+    func dispatch(completion: @escaping () -> Void) {
+        guard Thread.isMainThread else {
+            return DispatchQueue.main.async(execute: completion)
+        }
+        
+        completion()
+    }
+}
+
+extension MainQueueDispatchDecoder: FeedLoader where T == FeedLoader {
     func load(completion: @escaping (FeedLoader.Result) -> Void) {
-        decoratee.load { result in
-            if Thread.isMainThread {
-                completion(result)
-            } else {
-                DispatchQueue.main.async {
-                    completion(result)
-                }
-            }
+        decoratee.load { [weak self] result in
+            self?.dispatch { completion(result) }
         }
     }
 }
 
-private final class MainQueueDispatchDecoderDataLoader: FeedItemDataLoader {
-    private let decoratee: FeedItemDataLoader
-    
-    init(decoratee: FeedItemDataLoader) {
-        self.decoratee = decoratee
-    }
-
+extension MainQueueDispatchDecoder: FeedItemDataLoader where T == FeedItemDataLoader {
     func loadImageData(from url: URL, completion: @escaping (LoadResult) -> Void) -> FeedItemDataLoaderTask {
-        decoratee.loadImageData(from: url) { result in
-            if Thread.isMainThread {
-                completion(result)
-            } else {
-                DispatchQueue.main.async {
-                    completion(result)
-                }
-            }
+        decoratee.loadImageData(from: url) { [weak self] result in
+            self?.dispatch { completion(result) }
         }
     }
 }
