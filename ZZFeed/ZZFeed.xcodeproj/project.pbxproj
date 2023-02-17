@@ -14,6 +14,7 @@
 		040A9393289CF4D300BF46B2 /* URLSessionHttpClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040A9392289CF4D300BF46B2 /* URLSessionHttpClientTests.swift */; };
 		041F4F1228ABC569008E5440 /* CacheFeedUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041F4F1128ABC569008E5440 /* CacheFeedUseCaseTests.swift */; };
 		0420D38229A0113100FB9A4E /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0420D38129A0113100FB9A4E /* MainQueueDispatchDecorator.swift */; };
+		0420D38429A011FF00FB9A4E /* WeakRefVirtualProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0420D38329A011FF00FB9A4E /* WeakRefVirtualProxy.swift */; };
 		0424C45628A28BA900675D4F /* ZZFeedAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0424C45528A28BA900675D4F /* ZZFeedAPIEndToEndTests.swift */; };
 		0424C45728A28BA900675D4F /* ZZFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04871BE8289924B9006BCEB4 /* ZZFeed.framework */; };
 		0424C45D28A28D8F00675D4F /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC600B28A277DB00EC60C3 /* XCTestCase+MemoryLeakTracking.swift */; };
@@ -119,6 +120,7 @@
 		040A9392289CF4D300BF46B2 /* URLSessionHttpClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHttpClientTests.swift; sourceTree = "<group>"; };
 		041F4F1128ABC569008E5440 /* CacheFeedUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheFeedUseCaseTests.swift; sourceTree = "<group>"; };
 		0420D38129A0113100FB9A4E /* MainQueueDispatchDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueDispatchDecorator.swift; sourceTree = "<group>"; };
+		0420D38329A011FF00FB9A4E /* WeakRefVirtualProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakRefVirtualProxy.swift; sourceTree = "<group>"; };
 		0424C45328A28BA900675D4F /* ZZFeedAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZZFeedAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0424C45528A28BA900675D4F /* ZZFeedAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZFeedAPIEndToEndTests.swift; sourceTree = "<group>"; };
 		042704EB28BD41E5004599A7 /* LocalFeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedItem.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				040A8C332965A30F0093F6E6 /* FeedUIComposer.swift */,
+				0420D38329A011FF00FB9A4E /* WeakRefVirtualProxy.swift */,
 				0420D38129A0113100FB9A4E /* MainQueueDispatchDecorator.swift */,
 			);
 			path = Composers;
@@ -717,6 +720,7 @@
 				048626AC299D3F2C005B74E7 /* UITableView+dequeue.swift in Sources */,
 				04AEDB0A2993E1420009809E /* FeedViewModel.swift in Sources */,
 				04CA42502961B9B1005BC7F8 /* FeedItemCell.swift in Sources */,
+				0420D38429A011FF00FB9A4E /* WeakRefVirtualProxy.swift in Sources */,
 				048626AE299D417E005B74E7 /* UIImageView+animations.swift in Sources */,
 				0420D38229A0113100FB9A4E /* MainQueueDispatchDecorator.swift in Sources */,
 				04715F70296AC11B006EDF65 /* FeedItemViewModel.swift in Sources */,
