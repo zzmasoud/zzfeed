@@ -9,14 +9,14 @@ public final class FeedUIComposer {
     private init() {}
     
     public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedItemDataLoader) -> FeedViewController {
-        let feedLoaderDispatch = MainQueueDispatchDecoder(decoratee: feedLoader)
+        let feedLoaderDispatch = MainQueueDispatchDecorator(decoratee: feedLoader)
         let presentationAdapter = FeedLoaderPresentationAdapter(feedLoader: feedLoaderDispatch)
 
         let feedController = FeedViewController.makeWith(
             delegate: presentationAdapter,
             title: FeedPresenter.title)
         
-        let imageLoaderDispatch = MainQueueDispatchDecoder(decoratee: imageLoader)
+        let imageLoaderDispatch = MainQueueDispatchDecorator(decoratee: imageLoader)
         let presenter = FeedPresenter(
             feedView: FeedViewAdapter(
                 controller: feedController,
@@ -137,37 +137,5 @@ extension WeakRefVirtualProxy: FeedLoadingView where T: FeedLoadingView {
 extension WeakRefVirtualProxy: FeedItemView where T: FeedItemView, T.Image == UIImage {
     func display(_ item: FeedItemViewModel<UIImage>) {
         object?.display(item)
-    }
-}
-
-private final class MainQueueDispatchDecoder<T> {
-    private let decoratee: T
-    
-    init(decoratee: T) {
-        self.decoratee = decoratee
-    }
-    
-    func dispatch(completion: @escaping () -> Void) {
-        guard Thread.isMainThread else {
-            return DispatchQueue.main.async(execute: completion)
-        }
-        
-        completion()
-    }
-}
-
-extension MainQueueDispatchDecoder: FeedLoader where T == FeedLoader {
-    func load(completion: @escaping (FeedLoader.Result) -> Void) {
-        decoratee.load { [weak self] result in
-            self?.dispatch { completion(result) }
-        }
-    }
-}
-
-extension MainQueueDispatchDecoder: FeedItemDataLoader where T == FeedItemDataLoader {
-    func loadImageData(from url: URL, completion: @escaping (LoadResult) -> Void) -> FeedItemDataLoaderTask {
-        decoratee.loadImageData(from: url) { [weak self] result in
-            self?.dispatch { completion(result) }
-        }
     }
 }
