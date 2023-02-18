@@ -289,14 +289,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		047868DE289A92260013E8DB /* Feed */ = {
+		047868DE289A92260013E8DB /* Feature */ = {
 			isa = PBXGroup;
 			children = (
 				04871C02289924C9006BCEB4 /* FeedItem.swift */,
 				047868DC289A91CC0013E8DB /* FeedLoader.swift */,
 				04AD07B32979C3DA0098E9E5 /* FeedItemDataLoader.swift */,
 			);
-			path = Feed;
+			path = Feature;
 			sourceTree = "<group>";
 		};
 		0478998A289ABD9B00A38697 /* API */ = {
@@ -343,7 +343,7 @@
 			children = (
 				04BCA14228B2495D0076A760 /* Cache */,
 				0478998A289ABD9B00A38697 /* API */,
-				047868DE289A92260013E8DB /* Feed */,
+				047868DE289A92260013E8DB /* Feature */,
 				04C1D2A529A0BA480061CFEE /* Presentation */,
 			);
 			path = ZZFeed;
