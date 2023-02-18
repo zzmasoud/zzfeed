@@ -3,6 +3,7 @@
 //
 
 import UIKit
+import ZZFeed
 
 protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
@@ -28,7 +29,7 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
         refresh()
     }
     
-    func display(_ viewModel: FeedLoadingViewModel) {
+    public func display(_ viewModel: FeedLoadingViewModel) {
         viewModel.isLoading ? refreshControl?.beginRefreshing() : refreshControl?.endRefreshing()
     }
     

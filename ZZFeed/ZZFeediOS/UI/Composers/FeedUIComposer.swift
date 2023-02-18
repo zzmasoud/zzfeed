@@ -5,6 +5,12 @@
 import UIKit
 import ZZFeed
 
+private class ErrorView: FeedErrorView {
+    func display(_ viewModel: FeedErrorViewModel) {
+        
+    }
+}
+
 public final class FeedUIComposer {
     private init() {}
     
@@ -21,8 +27,8 @@ public final class FeedUIComposer {
             feedView: FeedViewAdapter(
                 controller: feedController,
                 loader: imageLoaderDispatch),
-            feedLoadingView:
-                WeakRefVirtualProxy(feedController)
+            loadingView:
+                WeakRefVirtualProxy(feedController), errorView: ErrorView()
         )
         presentationAdapter.presenter = presenter
         
