@@ -4,8 +4,16 @@
 
 import XCTest
 
+struct FeedErrorViewModel {
+    let message: String?
+    
+    static var noError: FeedErrorViewModel {
+        FeedErrorViewModel(message: .none)
+    }
+}
+
 protocol FeedErrorView {
-    func display(_ error: String?)
+    func display(_ viewModel: FeedErrorViewModel)
 }
 
 class FeedPresenter {
@@ -16,7 +24,7 @@ class FeedPresenter {
     }
     
     func didStartLoadingFeed() {
-        errorView.display(.none)
+        errorView.display(.noError)
     }
 }
 
@@ -55,8 +63,8 @@ class FeedPresentationTests: XCTestCase {
         
         private(set) var messages: [Message] = []
         
-        func display(_ error: String?) {
-            messages.append(.display(errorMessage: error))
+        func display(_ viewModel: FeedErrorViewModel) {
+            messages.append(.display(errorMessage: viewModel.message))
         }
     }
 }
