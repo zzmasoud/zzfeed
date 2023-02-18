@@ -18,6 +18,7 @@
 		044E68BE29894C6D00CC16F1 /* ZZFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */; };
 		044E68BF29894C6D00CC16F1 /* ZZFeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04C1D2B929A0C7CA0061CFEE /* FeedLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D2B829A0C7C90061CFEE /* FeedLoaderWithFallbackCompositeTests.swift */; };
+		04C1D2BC29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D2BB29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ZZFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C1D2AF29A0C7C10061CFEE /* ZZFeedAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZZFeedAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C1D2B829A0C7C90061CFEE /* FeedLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
+		04C1D2BB29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				0419652629893C6000F21C50 /* Assets.xcassets */,
 				0419652829893C6000F21C50 /* LaunchScreen.storyboard */,
 				0419652B29893C6000F21C50 /* Info.plist */,
+				04C1D2BB29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift */,
 			);
 			path = ZZFeedApp;
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 			files = (
 				0419652229893C5F00F21C50 /* ViewController.swift in Sources */,
 				0419651E29893C5F00F21C50 /* AppDelegate.swift in Sources */,
+				04C1D2BC29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift in Sources */,
 				0419652029893C5F00F21C50 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
