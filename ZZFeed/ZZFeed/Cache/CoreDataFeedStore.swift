@@ -22,6 +22,17 @@ private class ManagedFeedItem: NSManagedObject {
     @NSManaged var imageURL: URL
     @NSManaged var cache: ManagedCache
     
+    static func items(feed: [LocalFeedItem], in context: NSManagedObjectContext) -> NSOrderedSet {
+        return NSOrderedSet(array: feed.map({ local in
+            let managed = ManagedFeedItem(context: context)
+            managed.id = local.id
+            managed.imageDescription = local.description
+            managed.location = local.location
+            managed.imageURL = local.imageURL
+            return managed
+        }))
+    }
+    
     var local: LocalFeedItem {
         return LocalFeedItem(id: id, description: imageDescription, location: location, imageURL: imageURL)
     }
@@ -78,14 +89,7 @@ final public class CoreDataFeedStore: FeedStore {
             do {
                 let managedCache = ManagedCache(context: context)
                 managedCache.timestamp = timestamp
-                managedCache.feed = NSOrderedSet(array: feed.map({ local in
-                    let managed = ManagedFeedItem(context: context)
-                    managed.id = local.id
-                    managed.imageDescription = local.description
-                    managed.location = local.location
-                    managed.imageURL = local.imageURL
-                    return managed
-                }))
+                managedCache.feed = ManagedFeedItem.items(feed: feed, in: context)
                 
                 try context.save()
                 completion(.success(()))
