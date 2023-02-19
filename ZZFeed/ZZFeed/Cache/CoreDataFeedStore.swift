@@ -4,17 +4,27 @@
 
 import CoreData
 
+@objc(ManagedCache)
 private class ManagedCache: NSManagedObject {
     @NSManaged var timestamp: Date
     @NSManaged var feed: NSOrderedSet
+    
+    var localFeed: [LocalFeedItem] {
+        return feed.compactMap { ($0 as? ManagedFeedItem)?.local }
+    }
 }
 
-private class ManagedFeedImage: NSManagedObject {
+@objc(ManagedFeedItem)
+private class ManagedFeedItem: NSManagedObject {
     @NSManaged var id: UUID
     @NSManaged var imageDescription: String?
     @NSManaged var location: String?
-    @NSManaged var url: URL
+    @NSManaged var imageURL: URL
     @NSManaged var cache: ManagedCache
+    
+    var local: LocalFeedItem {
+        return LocalFeedItem(id: id, description: imageDescription, location: location, imageURL: imageURL)
+    }
 }
 
 private extension NSPersistentContainer {
@@ -62,11 +72,43 @@ final public class CoreDataFeedStore: FeedStore {
         
     }
     
-    public func insert(_ items: [ZZFeed.LocalFeedItem], timestamp: Date, completion: @escaping InsertionCompletion) {
-        
+    public func insert(_ feed: [ZZFeed.LocalFeedItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+        let context = self.context
+        context.perform {
+            do {
+                let managedCache = ManagedCache(context: context)
+                managedCache.timestamp = timestamp
+                managedCache.feed = NSOrderedSet(array: feed.map({ local in
+                    let managed = ManagedFeedItem(context: context)
+                    managed.id = local.id
+                    managed.imageDescription = local.description
+                    managed.location = local.location
+                    managed.imageURL = local.imageURL
+                    return managed
+                }))
+                
+                try context.save()
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
     }
     
     public func retrieve(completion: @escaping RetrievalCompletion) {
-        completion(.success(.empty))
+        let context = self.context
+        context.perform {
+            do {
+                let request = NSFetchRequest<ManagedCache>(entityName: ManagedCache.entity().name!)
+                request.returnsObjectsAsFaults = false
+                if let cache = try context.fetch(request).first {
+                    completion(.success(CachedFeed.fetched(items: cache.localFeed, timestamp: cache.timestamp)))
+                } else {
+                    completion(.success(.empty))
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }
     }
 }
