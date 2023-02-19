@@ -66,7 +66,8 @@ class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> FeedStore {
         let storeBundle = Bundle(for: CoreDataFeedStore.self)
-        let sut = try! CoreDataFeedStore(bundle: storeBundle)
+        let storeURL = URL(fileURLWithPath: "/dev/null") //  The `null` device discards all data written to it, but reports that the write operation was successful. The write is ignored but CoreData still works with in-memory object graph. And this is perfect for testing!
+        let sut = try! CoreDataFeedStore(storeURL: storeURL, bundle: storeBundle)
         
         trackForMemoryLeaks(sut, file: file, line: line)
         
