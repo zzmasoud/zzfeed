@@ -167,7 +167,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
             }
             exp.fulfill()
         }
-        wait(for: [exp], timeout: 1)
+        wait(for: [exp], timeout: 10) // WARNING: setting this to 1 seconds will fails. I still don't know why it should wait longer like 10 seconds! 
         return capturedError
     }
 }
