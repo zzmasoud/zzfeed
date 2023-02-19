@@ -38,36 +38,39 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         }
     }
     
-    func test_load_deliversCachedItemsOnLessThanSevenDaysOldCache() {
+    func test_load_deliversCachedImagesOnNonExpiredCache() {
         let items = uniqueItems()
         let now = Date()
         let lessThanSevenDays: Date = now.minusFeedCacheMaxAge().addingTimeInterval(1)
         let (sut, store) = makeSUT(currentDate: { now })
+        
         expect(sut, toCompleteWith: .success(items.models)) {
             store.completeRetrieval(with: items.local, timestamp: lessThanSevenDays)
         }
     }
 
-    func test_load_deliversCachedItemsOnSevenDaysOldCache() {
+    func test_load_deliversNoItemsOnCacheExpiration() {
         let items = uniqueItems()
         let now = Date()
         let sevenDays: Date = now.minusFeedCacheMaxAge()
         let (sut, store) = makeSUT(currentDate: { now })
-        expect(sut, toCompleteWith: .success(items.models)) {
-            store.completeRetrieval(with: items.local, timestamp: sevenDays)
-        }
-    }
-
-    func test_load_deliversCachedItemsOnMoreThanSevenDaysOldCache() {
-        let items = uniqueItems()
-        let now = Date()
-        let moreThanSevenDays: Date = now.minusFeedCacheMaxAge().addingTimeInterval(-1)
-        let (sut, store) = makeSUT(currentDate: { now })
-        expect(sut, toCompleteWith: .success(items.models)) {
-            store.completeRetrieval(with: items.local, timestamp: moreThanSevenDays)
+        
+        expect(sut, toCompleteWith: .success([])) {
+            store.completeRetrieval(with: [], timestamp: sevenDays)
         }
     }
     
+    func test_load_deliversNoItemsOnExpiredCache() {
+        let items = uniqueItems()
+        let now = Date()
+        let sevenDays: Date = now.minusFeedCacheMaxAge()
+        let (sut, store) = makeSUT(currentDate: { now })
+        
+        expect(sut, toCompleteWith: .success([])) {
+            store.completeRetrieval(with: [], timestamp: sevenDays)
+        }
+    }
+
     func test_load_hasNoSideEffectsOnRetrievalError() {
         let (sut, store) = makeSUT()
         let retrievalError = anyNSError()
