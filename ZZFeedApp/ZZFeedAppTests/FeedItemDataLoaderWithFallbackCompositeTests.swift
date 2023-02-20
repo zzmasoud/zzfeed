@@ -15,8 +15,23 @@ class FeedItemDataLoaderWithFallbackComposite: FeedItemDataLoader {
     }
     
     func loadImageData(from url: URL, completion: @escaping (LoadResult) -> Void) -> FeedItemDataLoaderTask {
-        var task = primary.loadImageData(from: url, completion: completion)
+        let task = TaskWrapper()
+        task.wrapped = primary.loadImageData(from: url, completion: { [weak self] result in
+            if let data = try? result.get() {
+                completion(.success(data))
+            } else {
+                task.wrapped = self?.fallback.loadImageData(from: url, completion: completion)
+            }
+        })
         return task
+    }
+    
+    private class TaskWrapper: FeedItemDataLoaderTask {
+        var wrapped: FeedItemDataLoaderTask?
+        
+        func cancel() {
+            wrapped?.cancel()
+        }
     }
 }
 
@@ -28,6 +43,13 @@ class FeedItemDataLoaderWithFallbackCompositeTests: XCTestCase {
         let sut = makeSUT(primaryResult: .success(primaryData), fallbackResult: .success(fallbackData))
         
         expect(sut, toCompleteWith: .success(primaryData))
+    }
+    
+    func test_load_deliversFallbackItemDataOnPrimaryLoaderFailure() {
+        let fallbackData = fallbackData()
+        let sut = makeSUT(primaryResult: .failure(anyNSError()), fallbackResult: .success(fallbackData))
+        
+        expect(sut, toCompleteWith: .success(fallbackData))
     }
     
     // MARK: - Helpers
@@ -77,6 +99,10 @@ class FeedItemDataLoaderWithFallbackCompositeTests: XCTestCase {
     
     private func anyURL() -> URL {
         return URL(string: "https://u.rl")!
+    }
+    
+    private func anyNSError() -> NSError {
+        return NSError(domain: "any error", code: 0)
     }
     
     private class LoaderStub: FeedItemDataLoader {
