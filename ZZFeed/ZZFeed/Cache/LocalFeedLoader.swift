@@ -5,7 +5,7 @@
 import Foundation
 
 
-public final class LocalFeedLoader: FeedLoader {
+public final class LocalFeedLoader {
     private let store: FeedStore
     private let currentDate: ()->Date
 
@@ -17,7 +17,7 @@ public final class LocalFeedLoader: FeedLoader {
 
 // MARK: - Load
 
-extension LocalFeedLoader {
+extension LocalFeedLoader: FeedLoader {
     public typealias LoadResut  = FeedLoader.Result
 
     public func load(completion: @escaping (LoadResut) -> Void) {
@@ -44,8 +44,8 @@ private extension Array where Element == LocalFeedItem {
 
 // MARK: - Save
 
-extension LocalFeedLoader {
-    public typealias SaveResult = Result<Void, Error>
+extension LocalFeedLoader: FeedCache {
+    public typealias SaveResult = FeedCache.Result
 
     public func save(_ items: [FeedItem], completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedFeed { [weak self]  result in
