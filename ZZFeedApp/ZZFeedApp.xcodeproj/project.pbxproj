@@ -19,6 +19,7 @@
 		044E68BF29894C6D00CC16F1 /* ZZFeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04BBD62B29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD62A29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift */; };
 		04BBD62D29A3B17E00D17574 /* FeedItemDataLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD62C29A3B17D00D17574 /* FeedItemDataLoaderWithFallbackComposite.swift */; };
+		04BBD63B29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD63A29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift */; };
 		04C1D2B929A0C7CA0061CFEE /* FeedLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D2B829A0C7C90061CFEE /* FeedLoaderWithFallbackCompositeTests.swift */; };
 		04C1D2BC29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D2BB29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift */; };
 /* End PBXBuildFile section */
@@ -61,6 +62,7 @@
 		044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ZZFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04BBD62A29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemDataLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
 		04BBD62C29A3B17D00D17574 /* FeedItemDataLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemDataLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
+		04BBD63A29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderCacheDecoratorTests.swift; sourceTree = "<group>"; };
 		04C1D2AF29A0C7C10061CFEE /* ZZFeedAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZZFeedAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C1D2B829A0C7C90061CFEE /* FeedLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
 		04C1D2BB29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			children = (
 				04C1D2B829A0C7C90061CFEE /* FeedLoaderWithFallbackCompositeTests.swift */,
 				04BBD62A29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift */,
+				04BBD63A29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift */,
 			);
 			path = ZZFeedAppTests;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04BBD63B29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift in Sources */,
 				04C1D2B929A0C7CA0061CFEE /* FeedLoaderWithFallbackCompositeTests.swift in Sources */,
 				04BBD62B29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift in Sources */,
 			);
