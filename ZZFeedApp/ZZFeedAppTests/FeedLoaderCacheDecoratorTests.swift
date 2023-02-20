@@ -16,18 +16,18 @@ class FeedLoaderCacheDecorator: FeedLoader {
     }
 }
 
-class FeedLoaderCacheDecoratorTests: XCTestCase {
+class FeedLoaderCacheDecoratorTests: XCTestCase, FeedLoaderTestCase {
     
     func test_load_deliversFeedOnLoaderSuccess() {
         let feed = uniqueFeed()
-        let loader = LoaderStub(result: .success(feed))
+        let loader = FeedLoaderStub(result: .success(feed))
         let sut = makeSUT(decoratee: loader)
         
         expect(sut, toCompleteWith: .success(feed))
     }
     
     func test_load_deliversErrorOnLoaderFailure() {
-        let loader = LoaderStub(result: .failure(anyNSError()))
+        let loader = FeedLoaderStub(result: .failure(anyNSError()))
         let sut = makeSUT(decoratee: loader)
         
         expect(sut, toCompleteWith: .failure(anyNSError()))
@@ -39,50 +39,5 @@ class FeedLoaderCacheDecoratorTests: XCTestCase {
         let sut = FeedLoaderCacheDecorator(decoratee: decoratee)
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
-    }
-    
-    private func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
-        addTeardownBlock { [weak instance] in
-            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
-        }
-    }
-    
-    private func expect(_ sut: FeedLoader, toCompleteWith expectedResult: FeedLoader.Result, file: StaticString = #file, line: UInt = #line) {
-        let exp = expectation(description: "waiting for completion...")
-        sut.load() { result in
-            switch (result, expectedResult) {
-            case let (.success(data), .success(expectedData)):
-                XCTAssertEqual(data, expectedData, file: file, line: line)
-                
-            case let (.failure(error), .failure(expectedError)):
-                XCTAssertEqual(error as NSError, expectedError as NSError, file: file, line: line)
-                
-            default:
-                XCTFail("expected to get \(expectedResult) but got \(result)", file: file, line: line)
-            }
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1)
-    }
-    
-    private func uniqueFeed() -> [FeedItem] {
-        return [FeedItem(id: UUID(), description: "any", location: "any", imageURL: URL(string: "http://any-url.com")!)]
-    }
-    
-    private func anyNSError() -> NSError {
-        return NSError(domain: "any error", code: 0)
-    }
-
-    private class LoaderStub: FeedLoader {
-        private let result: FeedLoader.Result
-        
-        init(result: FeedLoader.Result) {
-            self.result = result
-        }
-
-        func load(completion: @escaping (FeedLoader.Result) -> Void) {
-            completion(result)
-        }
     }
 }

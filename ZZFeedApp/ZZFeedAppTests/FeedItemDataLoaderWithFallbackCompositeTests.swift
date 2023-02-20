@@ -41,12 +41,6 @@ class FeedItemDataLoaderWithFallbackCompositeTests: XCTestCase {
         return sut
     }
     
-    private func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
-        addTeardownBlock { [weak instance] in
-            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
-        }
-    }
-    
     private func expect(_ sut: FeedItemDataLoader, toCompleteWith expectedResult: FeedItemDataLoader.LoadResult, file: StaticString = #file, line: UInt = #line) {
         let exp = expectation(description: "waiting for completion...")
         _ = sut.loadImageData(from: anyURL()) { result in
@@ -64,22 +58,6 @@ class FeedItemDataLoaderWithFallbackCompositeTests: XCTestCase {
         }
         
         wait(for: [exp], timeout: 1)
-    }
-    
-    private func primaryData() -> Data {
-        return Data("primary data".utf8)
-    }
-    
-    private func fallbackData() -> Data {
-        return Data("primary data".utf8)
-    }
-    
-    private func anyURL() -> URL {
-        return URL(string: "https://u.rl")!
-    }
-    
-    private func anyNSError() -> NSError {
-        return NSError(domain: "any error", code: 0)
     }
     
     private class LoaderStub: FeedItemDataLoader {
