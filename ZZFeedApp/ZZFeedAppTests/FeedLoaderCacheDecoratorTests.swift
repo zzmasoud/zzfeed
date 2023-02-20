@@ -5,14 +5,27 @@
 import XCTest
 import ZZFeed
 
+protocol FeedCache {
+    typealias Result = Swift.Result<Void, Error>
+
+    func save(_ feed: [FeedItem], completion: @escaping (Result) -> Void)
+}
+
 class FeedLoaderCacheDecorator: FeedLoader {
     private let decoratee: FeedLoader
+    private let cache: FeedCache
     
-    init(decoratee: FeedLoader) {
+    init(decoratee: FeedLoader, cache: FeedCache) {
         self.decoratee = decoratee
+        self.cache = cache
     }
+    
     func load(completion: @escaping (FeedLoader.Result) -> Void) {
-        decoratee.load(completion: completion)
+        decoratee.load { [weak self] result in
+            let feed = (try? result.get()) ?? []
+            self?.cache.save(feed, completion: { _ in })
+            completion(result)
+        }
     }
 }
 
@@ -33,11 +46,35 @@ class FeedLoaderCacheDecoratorTests: XCTestCase, FeedLoaderTestCase {
         expect(sut, toCompleteWith: .failure(anyNSError()))
     }
     
+    func test_load_cachedLoadedFeedOnLoaderSuccess() {
+        let feed = uniqueFeed()
+        let cache = CacheSpy()
+        let loader = FeedLoaderStub(result: .success(feed))
+        let sut = makeSUT(decoratee: loader, cache: cache)
+
+        sut.load { _ in }
+        
+        XCTAssertEqual(cache.messages, [.save(feed)])
+    }
+    
     // MARK: - Helpers
     
-    private func makeSUT(decoratee: FeedLoader, file: StaticString = #file, line: UInt = #line) -> FeedLoader {
-        let sut = FeedLoaderCacheDecorator(decoratee: decoratee)
+    private func makeSUT(decoratee: FeedLoader, cache: FeedCache = CacheSpy(), file: StaticString = #file, line: UInt = #line) -> FeedLoader {
+        let sut = FeedLoaderCacheDecorator(decoratee: decoratee, cache: cache)
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
+    }
+    
+    private class CacheSpy: FeedCache {
+        enum Message: Equatable {
+            case save(_ feed: [FeedItem])
+        }
+        
+        private(set) var messages = [Message]()
+        
+        func save(_ feed: [FeedItem], completion: @escaping (FeedCache.Result) -> Void) {
+            messages.append(.save(feed))
+            completion(.success(()))
+        }
     }
 }
