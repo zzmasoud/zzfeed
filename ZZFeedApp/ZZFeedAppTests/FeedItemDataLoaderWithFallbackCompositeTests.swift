@@ -23,24 +23,11 @@ class FeedItemDataLoaderWithFallbackComposite: FeedItemDataLoader {
 class FeedItemDataLoaderWithFallbackCompositeTests: XCTestCase {
     
     func test_load_deliversPrimaryItemDataOnPrimaryLoaderSuccess() {
-        let anyURL = URL(string: "https://u.rl")!
-        let primaryData = Data("primary data".utf8)
-        let fallbackData = Data("fallback data".utf8)
+        let primaryData = primaryData()
+        let fallbackData = fallbackData()
         let sut = makeSUT(primaryResult: .success(primaryData), fallbackResult: .success(fallbackData))
         
-        let exp = expectation(description: "waiting for completion...")
-        _ = sut.loadImageData(from: anyURL) { result in
-            switch result {
-            case let .success(data):
-                XCTAssertEqual(data, primaryData)
-                
-            case let.failure(error):
-                XCTFail("expected to get success but got failure: \(error)")
-            }
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1)
+        expect(sut, toCompleteWith: .success(primaryData))
     }
     
     // MARK: - Helpers
@@ -61,6 +48,37 @@ class FeedItemDataLoaderWithFallbackCompositeTests: XCTestCase {
         }
     }
     
+    private func expect(_ sut: FeedItemDataLoader, toCompleteWith expectedResult: FeedItemDataLoader.LoadResult, file: StaticString = #file, line: UInt = #line) {
+        let exp = expectation(description: "waiting for completion...")
+        _ = sut.loadImageData(from: anyURL()) { result in
+            switch (result, expectedResult) {
+            case let (.success(data), .success(expectedData)):
+                XCTAssertEqual(data, expectedData, file: file, line: line)
+                
+            case let (.failure(error), .failure(expectedError)):
+                XCTAssertEqual(error as NSError, expectedError as NSError, file: file, line: line)
+                
+            default:
+                XCTFail("expected to get \(expectedResult) but got \(result)", file: file, line: line)
+            }
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 1)
+    }
+    
+    private func primaryData() -> Data {
+        return Data("primary data".utf8)
+    }
+    
+    private func fallbackData() -> Data {
+        return Data("primary data".utf8)
+    }
+    
+    private func anyURL() -> URL {
+        return URL(string: "https://u.rl")!
+    }
+    
     private class LoaderStub: FeedItemDataLoader {
         private struct Task: FeedItemDataLoaderTask {
             func cancel() {}
@@ -77,5 +95,4 @@ class FeedItemDataLoaderWithFallbackCompositeTests: XCTestCase {
             return Task()
         }
     }
-
 }
