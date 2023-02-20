@@ -26,6 +26,13 @@ class FeedLoaderCacheDecoratorTests: XCTestCase {
         expect(sut, toCompleteWith: .success(feed))
     }
     
+    func test_load_deliversErrorOnLoaderFailure() {
+        let loader = LoaderStub(result: .failure(anyNSError()))
+        let sut = makeSUT(decoratee: loader)
+        
+        expect(sut, toCompleteWith: .failure(anyNSError()))
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(decoratee: FeedLoader, file: StaticString = #file, line: UInt = #line) -> FeedLoader {
@@ -61,6 +68,10 @@ class FeedLoaderCacheDecoratorTests: XCTestCase {
     
     private func uniqueFeed() -> [FeedItem] {
         return [FeedItem(id: UUID(), description: "any", location: "any", imageURL: URL(string: "http://any-url.com")!)]
+    }
+    
+    private func anyNSError() -> NSError {
+        return NSError(domain: "any error", code: 0)
     }
 
     private class LoaderStub: FeedLoader {
