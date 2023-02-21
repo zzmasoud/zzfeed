@@ -4,25 +4,7 @@
 
 import XCTest
 import ZZFeed
-
-class FeedLoaderCacheDecorator: FeedLoader {
-    private let decoratee: FeedLoader
-    private let cache: FeedCache
-    
-    init(decoratee: FeedLoader, cache: FeedCache) {
-        self.decoratee = decoratee
-        self.cache = cache
-    }
-    
-    func load(completion: @escaping (FeedLoader.Result) -> Void) {
-        decoratee.load { [weak self] result in
-            completion(result.map { feed in
-                self?.cache.save(feed, completion: { _ in })
-                return feed
-            })
-        }
-    }
-}
+import ZZFeedApp
 
 class FeedLoaderCacheDecoratorTests: XCTestCase, FeedLoaderTestCase {
     

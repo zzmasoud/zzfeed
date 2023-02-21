@@ -17,6 +17,8 @@
 		044E68BD29894C6D00CC16F1 /* ZZFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BA29894C6D00CC16F1 /* ZZFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		044E68BE29894C6D00CC16F1 /* ZZFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */; };
 		044E68BF29894C6D00CC16F1 /* ZZFeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04A0648829A4988A007E09D4 /* FeedLoaderCacheDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A0648729A4988A007E09D4 /* FeedLoaderCacheDecorator.swift */; };
+		04A0648C29A4A04A007E09D4 /* FeedItemDataLoaderCacheDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A0648B29A4A04A007E09D4 /* FeedItemDataLoaderCacheDecorator.swift */; };
 		04BBD62B29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD62A29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift */; };
 		04BBD62D29A3B17E00D17574 /* FeedItemDataLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD62C29A3B17D00D17574 /* FeedItemDataLoaderWithFallbackComposite.swift */; };
 		04BBD63B29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD63A29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift */; };
@@ -64,6 +66,8 @@
 		0419652B29893C6000F21C50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		044E68BA29894C6D00CC16F1 /* ZZFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ZZFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ZZFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		04A0648729A4988A007E09D4 /* FeedLoaderCacheDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderCacheDecorator.swift; sourceTree = "<group>"; };
+		04A0648B29A4A04A007E09D4 /* FeedItemDataLoaderCacheDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemDataLoaderCacheDecorator.swift; sourceTree = "<group>"; };
 		04BBD62A29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemDataLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
 		04BBD62C29A3B17D00D17574 /* FeedItemDataLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemDataLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
 		04BBD63A29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderCacheDecoratorTests.swift; sourceTree = "<group>"; };
@@ -127,6 +131,8 @@
 				0419652B29893C6000F21C50 /* Info.plist */,
 				04C1D2BB29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift */,
 				04BBD62C29A3B17D00D17574 /* FeedItemDataLoaderWithFallbackComposite.swift */,
+				04A0648729A4988A007E09D4 /* FeedLoaderCacheDecorator.swift */,
+				04A0648B29A4A04A007E09D4 /* FeedItemDataLoaderCacheDecorator.swift */,
 			);
 			path = ZZFeedApp;
 			sourceTree = "<group>";
@@ -267,6 +273,8 @@
 				0419652229893C5F00F21C50 /* ViewController.swift in Sources */,
 				0419651E29893C5F00F21C50 /* AppDelegate.swift in Sources */,
 				04C1D2BC29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift in Sources */,
+				04A0648829A4988A007E09D4 /* FeedLoaderCacheDecorator.swift in Sources */,
+				04A0648C29A4A04A007E09D4 /* FeedItemDataLoaderCacheDecorator.swift in Sources */,
 				0419652029893C5F00F21C50 /* SceneDelegate.swift in Sources */,
 				04BBD62D29A3B17E00D17574 /* FeedItemDataLoaderWithFallbackComposite.swift in Sources */,
 			);

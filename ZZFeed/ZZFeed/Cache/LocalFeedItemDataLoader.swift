@@ -20,8 +20,8 @@ public final class LocalFeedItemDataLoader {
     }
 }
 
-extension LocalFeedItemDataLoader {
-    public typealias SaveResult = Result<Void, Error>
+extension LocalFeedItemDataLoader: FeedItemDataCache {
+    public typealias SaveResult = FeedItemDataCache.Result
     
     public enum SaveError: Swift.Error {
         case failed
