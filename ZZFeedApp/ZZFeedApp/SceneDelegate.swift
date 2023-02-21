@@ -21,6 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let localFeedLoader = LocalFeedLoader(store: feedStore, currentDate: Date.init)
         let localImageLoader = LocalFeedItemDataLoader(store: feedStore)
         
+        if CommandLine.arguments.contains("-reset") {
+            try? FileM-anager.default.removeItem(at: storeURL)
+        }
+        
         let url = URL(string: "https://ile-api.essentialdeveloper.com/essential-feed/v1/feed")!
         let client = makeRemoteClient()
         let remoteFeedLoader = RemoteFeedLoader(url: url, client: client)
