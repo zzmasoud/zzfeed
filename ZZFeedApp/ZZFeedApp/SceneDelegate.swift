@@ -19,19 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let remoteFeedLoader = RemoteFeedLoader(url: url, client: client)
         let remoteImageLoader = RemoteFeedItemDataLoader(client: client)
         
-        let feedStore = CodableFeedStore(storeURL: URL(string: "feedstore.code")!)
-        let localFeedLoader = LocalFeedLoader(
-            store: feedStore,
-            currentDate: Date.init
-        )
-        
-        let feedViewController = FeedUIComposer.feedComposedWith(
-            feedLoader: FeedLoaderWithFallbackComposite(
-                primary: remoteFeedLoader,
-                fallback: localFeedLoader),
-            imageLoader: FeedItemDataLoaderWithFallbackComposite(
-                primary: remoteImageLoader,
-                fallback: remoteImageLoader))
+        let feedViewController = FeedUIComposer
+            .feedComposedWith(
+                feedLoader: remoteFeedLoader,
+                imageLoader: remoteImageLoader
+            )
         
         window?.rootViewController = feedViewController
     }
