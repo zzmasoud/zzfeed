@@ -313,6 +313,8 @@ final public class FeedUIIntegrationTests: XCTestCase {
     }
     
     private func assert(_ sut: FeedViewController, isRendering feed: [FeedItem], file: StaticString = #file, line: UInt = #line) {
+        sut.tableView.layoutIfNeeded()
+        RunLoop.main.run(until: Date())
         guard sut.numberOfRenderedFeedItemViews == feed.count else {
             return XCTFail("expected \(feed.count) but got \(sut.numberOfRenderedFeedItemViews) .")
         }

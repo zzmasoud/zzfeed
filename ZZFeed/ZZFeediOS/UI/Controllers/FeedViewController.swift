@@ -15,10 +15,13 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
         delegate?.didRequestFeedRefresh()
     }
 
+    private var loadingControllers = [IndexPath: FeedItemCellController]()
+    
     var delegate: FeedViewControllerDelegate?
     
     var models: [FeedItemCellController] = [] {
         didSet {
+            loadingControllers = [:]
             tableView.reloadData()
         }
     }
@@ -61,11 +64,14 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
     }
     
     private func cellController(forRowAt indexPath: IndexPath) -> FeedItemCellController {
-         return models[indexPath.row]
+         let controller = models[indexPath.row]
+        loadingControllers[indexPath] = controller
+        return controller
      }
 
     
     private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {
-        cellController(forRowAt: indexPath).cancelLoad()
+        loadingControllers[indexPath]?.cancelLoad()
+        loadingControllers[indexPath] = nil
      }
 }

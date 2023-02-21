@@ -21,6 +21,7 @@
 		04A0648C29A4A04A007E09D4 /* FeedItemDataLoaderCacheDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A0648B29A4A04A007E09D4 /* FeedItemDataLoaderCacheDecorator.swift */; };
 		04A0649429A4A464007E09D4 /* ZZFeedAppUIAcceptanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A0649329A4A464007E09D4 /* ZZFeedAppUIAcceptanceTests.swift */; };
 		04A0649D29A4B50A007E09D4 /* DebuggingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A0649C29A4B50A007E09D4 /* DebuggingSceneDelegate.swift */; };
+		04A064A129A52454007E09D4 /* FeedLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A064A029A52454007E09D4 /* FeedLoaderWithFallbackCompositeTests.swift */; };
 		04BBD62B29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD62A29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift */; };
 		04BBD62D29A3B17E00D17574 /* FeedItemDataLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD62C29A3B17D00D17574 /* FeedItemDataLoaderWithFallbackComposite.swift */; };
 		04BBD63B29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD63A29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift */; };
@@ -28,7 +29,6 @@
 		04BBD64029A3F93300D17574 /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD63F29A3F93300D17574 /* TestHelpers.swift */; };
 		04BBD64229A3F9B400D17574 /* XCTestCase+FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD64129A3F9B400D17574 /* XCTestCase+FeedLoader.swift */; };
 		04BBD64429A3FA0400D17574 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD64329A3FA0400D17574 /* XCTestCase+MemoryLeakTracking.swift */; };
-		04C1D2B929A0C7CA0061CFEE /* FeedLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D2B829A0C7C90061CFEE /* FeedLoaderWithFallbackCompositeTests.swift */; };
 		04C1D2BC29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D2BB29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +80,7 @@
 		04A0649129A4A464007E09D4 /* ZZFeedAppUIAcceptanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZZFeedAppUIAcceptanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A0649329A4A464007E09D4 /* ZZFeedAppUIAcceptanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZFeedAppUIAcceptanceTests.swift; sourceTree = "<group>"; };
 		04A0649C29A4B50A007E09D4 /* DebuggingSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggingSceneDelegate.swift; sourceTree = "<group>"; };
+		04A064A029A52454007E09D4 /* FeedLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
 		04BBD62A29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemDataLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
 		04BBD62C29A3B17D00D17574 /* FeedItemDataLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemDataLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
 		04BBD63A29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderCacheDecoratorTests.swift; sourceTree = "<group>"; };
@@ -88,7 +89,6 @@
 		04BBD64129A3F9B400D17574 /* XCTestCase+FeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FeedLoader.swift"; sourceTree = "<group>"; };
 		04BBD64329A3FA0400D17574 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		04C1D2AF29A0C7C10061CFEE /* ZZFeedAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZZFeedAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		04C1D2B829A0C7C90061CFEE /* FeedLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
 		04C1D2BB29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -191,8 +191,8 @@
 			isa = PBXGroup;
 			children = (
 				04BBD63C29A3F89200D17574 /* Helpers */,
-				04C1D2B829A0C7C90061CFEE /* FeedLoaderWithFallbackCompositeTests.swift */,
 				04BBD62A29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift */,
+				04A064A029A52454007E09D4 /* FeedLoaderWithFallbackCompositeTests.swift */,
 				04BBD63A29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift */,
 			);
 			path = ZZFeedAppTests;
@@ -353,12 +353,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04A064A129A52454007E09D4 /* FeedLoaderWithFallbackCompositeTests.swift in Sources */,
 				04BBD63E29A3F89D00D17574 /* FeedLoaderStub.swift in Sources */,
 				04BBD64029A3F93300D17574 /* TestHelpers.swift in Sources */,
 				04BBD63B29A3F5EB00D17574 /* FeedLoaderCacheDecoratorTests.swift in Sources */,
 				04BBD64429A3FA0400D17574 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 				04BBD64229A3F9B400D17574 /* XCTestCase+FeedLoader.swift in Sources */,
-				04C1D2B929A0C7CA0061CFEE /* FeedLoaderWithFallbackCompositeTests.swift in Sources */,
 				04BBD62B29A3AAB900D17574 /* FeedItemDataLoaderWithFallbackCompositeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
