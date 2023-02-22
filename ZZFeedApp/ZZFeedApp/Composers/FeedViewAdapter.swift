@@ -17,7 +17,7 @@ final class FeedViewAdapter: FeedView {
     }
     
     func display(_ viewModel: FeedViewModel) {
-        controller?.models = viewModel.feed.map { item in
+        controller?.display(viewModel.feed.map { item in
             let adapter = FeedItemDataLoaderPresentationAdapter<WeakRefVirtualProxy<FeedItemCellController>, UIImage>(model: item) { url in
                 self.dataLoader(url)
             }
@@ -28,6 +28,6 @@ final class FeedViewAdapter: FeedView {
                 imageTransformer: UIImage.init)
             
             return view
-        }
+        })
     }
 }

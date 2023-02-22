@@ -19,7 +19,7 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
     
     public var delegate: FeedViewControllerDelegate?
     
-    public var models: [FeedItemCellController] = [] {
+    private var models: [FeedItemCellController] = [] {
         didSet {
             loadingControllers = [:]
             tableView.reloadData()
@@ -30,6 +30,10 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
         super.viewDidLoad()
         
         refresh()
+    }
+    
+    public func display(_ cellControllers: [FeedItemCellController]) {
+        models = cellControllers
     }
     
     public func display(_ viewModel: FeedLoadingViewModel) {
