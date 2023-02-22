@@ -49,4 +49,12 @@ extension InMemoryFeedStore {
     static var empty: InMemoryFeedStore {
         InMemoryFeedStore()
     }
+    
+    static var withExpiredFeedCache: InMemoryFeedStore {
+        InMemoryFeedStore(feedCache: .fetched(items: [], timestamp: Date.distantPast))
+    }
+    
+    static var withNonExpiredFeedCache: InMemoryFeedStore {
+        InMemoryFeedStore(feedCache: .fetched(items: [], timestamp: Date()))
+    }
 }

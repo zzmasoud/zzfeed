@@ -47,6 +47,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
     }
     
+    func sceneWillResignActive(_ scene: UIScene) {
+        localFeedLoader.validateCache(completion: { _ in })
+    }
+    
     func makeRemoteFeedLoaderWithLocalFallback() -> RemoteFeedLoader.Publisher {
         return remoteFeedLoader
             .loadPublisher()
