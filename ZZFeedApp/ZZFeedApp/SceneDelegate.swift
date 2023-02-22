@@ -49,8 +49,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let remoteFeedLoader = RemoteFeedLoader(url: url, client: client)
         return remoteFeedLoader
             .loadPublisher()
-//            .caching(to: localFeedLoader)
-//            .fallback(to: localFeedLoader.loadPublisher)
+            .caching(to: localFeedLoader)
+            .fallback(to: localFeedLoader.loadPublisher)
     }
 }
 
