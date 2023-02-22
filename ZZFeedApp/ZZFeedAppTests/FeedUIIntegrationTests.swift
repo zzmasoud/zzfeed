@@ -441,6 +441,8 @@ extension FeedViewController {
     }
     
     func feedItemView(at row: Int) -> UITableViewCell? {
+        guard numberOfRenderedFeedItemViews > 0 else { return nil }
+        
         let dataSource = tableView.dataSource
         let index = IndexPath(row: row, section: 0)
         return dataSource?.tableView(tableView, cellForRowAt: index)
