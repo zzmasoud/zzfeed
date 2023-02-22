@@ -150,8 +150,6 @@ private final class FeedLoaderPresentationAdapter: FeedViewControllerDelegate {
     }
 }
 
-import Combine
-
 private final class FeedItemDataLoaderPresentationAdapter<View: FeedItemView, Image>: FeedItemCellControllerDelegate where View.Image == Image {
     private let model: FeedItem
     private let imageLoader: (URL) -> FeedItemDataLoader.Publisher

@@ -28,6 +28,7 @@
 		04BBD64229A3F9B400D17574 /* XCTestCase+FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD64129A3F9B400D17574 /* XCTestCase+FeedLoader.swift */; };
 		04BBD64429A3FA0400D17574 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BBD64329A3FA0400D17574 /* XCTestCase+MemoryLeakTracking.swift */; };
 		04C1D2BC29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1D2BB29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift */; };
+		04D9C4F329A687900073ADBB /* CombineHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9C4F229A687900073ADBB /* CombineHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		04BBD64329A3FA0400D17574 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		04C1D2AF29A0C7C10061CFEE /* ZZFeedAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZZFeedAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C1D2BB29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
+		04D9C4F229A687900073ADBB /* CombineHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 				04A064A529A616EE007E09D4 /* Composers */,
 				0419651D29893C5F00F21C50 /* AppDelegate.swift */,
 				0419651F29893C5F00F21C50 /* SceneDelegate.swift */,
+				04D9C4F229A687900073ADBB /* CombineHelpers.swift */,
 				04A0649C29A4B50A007E09D4 /* DebuggingSceneDelegate.swift */,
 				0419652129893C5F00F21C50 /* ViewController.swift */,
 				0419652329893C5F00F21C50 /* Main.storyboard */,
@@ -334,6 +337,7 @@
 			files = (
 				0419652229893C5F00F21C50 /* ViewController.swift in Sources */,
 				0419651E29893C5F00F21C50 /* AppDelegate.swift in Sources */,
+				04D9C4F329A687900073ADBB /* CombineHelpers.swift in Sources */,
 				04C1D2BC29A0D2D80061CFEE /* FeedLoaderWithFallbackComposite.swift in Sources */,
 				04A0648829A4988A007E09D4 /* FeedLoaderCacheDecorator.swift in Sources */,
 				04A0649D29A4B50A007E09D4 /* DebuggingSceneDelegate.swift in Sources */,
