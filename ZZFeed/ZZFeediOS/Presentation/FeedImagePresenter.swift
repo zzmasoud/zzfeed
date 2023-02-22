@@ -5,24 +5,24 @@
 import ZZFeed
 import UIKit
 
-protocol FeedItemView {
+public protocol FeedItemView {
     associatedtype Image
     
     func display(_ item: FeedItemViewModel<Image>)
 }
 
-final class FeedItemPresenter<View: FeedItemView, Image> where View.Image == Image {
+public final class FeedItemPresenter<View: FeedItemView, Image> where View.Image == Image {
     private struct InvalidImageDataError: Error {}
 
     private let view: View
     private let imageTransformer: (Data) -> Image?
     
-    internal init(view: View, imageTransformer: @escaping (Data) -> Image?) {
+    public init(view: View, imageTransformer: @escaping (Data) -> Image?) {
         self.view = view
         self.imageTransformer = imageTransformer
     }
     
-    func didStartLoadingImageData(for model: FeedItem) {
+    public func didStartLoadingImageData(for model: FeedItem) {
         view.display(FeedItemViewModel(
             description: model.description,
             location: model.location,
@@ -31,7 +31,7 @@ final class FeedItemPresenter<View: FeedItemView, Image> where View.Image == Ima
             shouldRetry: false))
     }
     
-    func didFinishLoadingImageData(with data: Data, for model: FeedItem) {
+    public func didFinishLoadingImageData(with data: Data, for model: FeedItem) {
         guard let image = imageTransformer(data) else {
             return didFinishLoadingImageData(with: InvalidImageDataError(), for: model)
         }
@@ -44,7 +44,7 @@ final class FeedItemPresenter<View: FeedItemView, Image> where View.Image == Ima
             shouldRetry: false))
     }
     
-    func didFinishLoadingImageData(with error: Error, for model: FeedItem) {
+    public func didFinishLoadingImageData(with error: Error, for model: FeedItem) {
         view.display(FeedItemViewModel(
             description: model.description,
             location: model.location,

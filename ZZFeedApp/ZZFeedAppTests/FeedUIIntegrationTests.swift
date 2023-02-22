@@ -6,6 +6,7 @@ import XCTest
 import UIKit
 import ZZFeed
 import ZZFeediOS
+import ZZFeedApp
 
 final public class FeedUIIntegrationTests: XCTestCase {
     
@@ -44,7 +45,6 @@ final public class FeedUIIntegrationTests: XCTestCase {
         sut.simulateUserActionFeedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator)
 
-        sut.simulateUserActionFeedReload()
         loader.completeFeedLoading(at: 1)
         XCTAssertFalse(sut.isShowingLoadingIndicator)
     }
@@ -304,7 +304,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedViewController, loader: LoaderSpy) {
         let loader = LoaderSpy()
-        let sut = FeedUIComposer.feedComposedWith(feedLoader: loader, imageLoader: loader)
+        let sut = FeedUIComposer.feedComposedWith(feedLoader: loader.loadPublisher, imageLoader: loader)
         
         trackForMemoryLeaks(loader, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)

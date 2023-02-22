@@ -4,18 +4,18 @@
 
 import UIKit
 
-protocol FeedItemCellControllerDelegate {
+public protocol FeedItemCellControllerDelegate {
      func didRequestImage()
      func didCancelImageRequest()
  }
 
-final class FeedItemCellController: FeedItemView {
-    typealias Image = UIImage
+public final class FeedItemCellController: FeedItemView {
+    public typealias Image = UIImage
     
     private let delegate: FeedItemCellControllerDelegate
     private var cell: FeedItemCell?
     
-    init(delegate: FeedItemCellControllerDelegate) {
+    public init(delegate: FeedItemCellControllerDelegate) {
         self.delegate = delegate
     }
     
@@ -25,7 +25,7 @@ final class FeedItemCellController: FeedItemView {
         return cell!
     }
     
-    func display(_ viewModel: FeedItemViewModel<Image>) {
+    public func display(_ viewModel: FeedItemViewModel<Image>) {
         cell?.feedImageView.setImageAnimated(viewModel.image)
         cell?.container.isShimmering = viewModel.isLoading
         cell?.locationContainer.isHidden = !viewModel.hasLocation

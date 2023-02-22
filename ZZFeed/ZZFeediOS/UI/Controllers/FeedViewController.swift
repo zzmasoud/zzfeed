@@ -5,7 +5,7 @@
 import UIKit
 import ZZFeed
 
-protocol FeedViewControllerDelegate {
+public protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
 }
 
@@ -17,9 +17,9 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
 
     private var loadingControllers = [IndexPath: FeedItemCellController]()
     
-    var delegate: FeedViewControllerDelegate?
+    public var delegate: FeedViewControllerDelegate?
     
-    var models: [FeedItemCellController] = [] {
+    public var models: [FeedItemCellController] = [] {
         didSet {
             loadingControllers = [:]
             tableView.reloadData()
@@ -64,7 +64,7 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
     }
     
     private func cellController(forRowAt indexPath: IndexPath) -> FeedItemCellController {
-         let controller = models[indexPath.row]
+        let controller = models[indexPath.row]
         loadingControllers[indexPath] = controller
         return controller
      }

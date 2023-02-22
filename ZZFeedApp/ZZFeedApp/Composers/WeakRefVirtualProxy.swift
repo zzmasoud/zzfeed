@@ -3,6 +3,7 @@
 //  
 
 import ZZFeed
+import ZZFeediOS
 import UIKit
 
 final class WeakRefVirtualProxy<T: AnyObject> {

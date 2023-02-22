@@ -4,7 +4,7 @@
 import ZZFeed
 import UIKit
 
-struct FeedItemViewModel<Image> {
+public struct FeedItemViewModel<Image> {
     let description: String?
     let location: String?
     let image: Image?

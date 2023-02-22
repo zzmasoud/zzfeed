@@ -4,6 +4,8 @@
 
 import UIKit
 import ZZFeed
+import ZZFeediOS
+import Combine
 
 private class ErrorView: FeedErrorView {
     func display(_ viewModel: FeedErrorViewModel) {
@@ -11,12 +13,66 @@ private class ErrorView: FeedErrorView {
     }
 }
 
+extension Publisher {
+    func dispatchOnMainQueue() -> AnyPublisher<Output, Failure> {
+        return self.receive(on: DispatchQueue.immediateWhenOnMainQueueScheduler).eraseToAnyPublisher()
+    }
+}
+
+extension DispatchQueue {
+    static var immediateWhenOnMainQueueScheduler: ImmediateWhenOnMainQueueScheduler {
+        ImmediateWhenOnMainQueueScheduler.shared
+    }
+    
+    struct ImmediateWhenOnMainQueueScheduler: Scheduler {
+        typealias SchedulerTimeType = DispatchQueue.SchedulerTimeType
+        typealias SchedulerOptions = DispatchQueue.SchedulerOptions
+        
+        var now: SchedulerTimeType {
+            DispatchQueue.main.now
+        }
+        
+        var minimumTolerance: SchedulerTimeType.Stride {
+            DispatchQueue.main.minimumTolerance
+        }
+        
+        static let shared = Self()
+        
+        private static let key = DispatchSpecificKey<UInt8>()
+        private static let value = UInt8.max
+        
+        private init() {
+            DispatchQueue.main.setSpecific(key: Self.key, value: Self.value)
+        }
+        
+        private func isMainQueue() -> Bool {
+            DispatchQueue.getSpecific(key: Self.key) == Self.value
+        }
+        
+        func schedule(options: SchedulerOptions?, _ action: @escaping () -> Void) {
+            guard isMainQueue() else {
+                return DispatchQueue.main.schedule(options: options, action)
+            }
+            
+            action()
+        }
+        
+        func schedule(after date: SchedulerTimeType, tolerance: SchedulerTimeType.Stride, options: SchedulerOptions?, _ action: @escaping () -> Void) {
+            DispatchQueue.main.schedule(after: date, tolerance: tolerance, options: options, action)
+        }
+        
+        func schedule(after date: SchedulerTimeType, interval: SchedulerTimeType.Stride, tolerance: SchedulerTimeType.Stride, options: SchedulerOptions?, _ action: @escaping () -> Void) -> Cancellable {
+            DispatchQueue.main.schedule(after: date, interval: interval, tolerance: tolerance, options: options, action)
+        }
+    }
+}
+
 public final class FeedUIComposer {
     private init() {}
     
-    public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedItemDataLoader) -> FeedViewController {
-        let feedLoaderDispatch = MainQueueDispatchDecorator(decoratee: feedLoader)
-        let presentationAdapter = FeedLoaderPresentationAdapter(feedLoader: feedLoaderDispatch)
+    public static func feedComposedWith(feedLoader: @escaping () -> FeedLoader.Publisher, imageLoader: FeedItemDataLoader) -> FeedViewController {
+        let presentationAdapter = FeedLoaderPresentationAdapter(
+            feedLoader: { feedLoader().dispatchOnMainQueue() })
 
         let feedController = FeedViewController.makeWith(
             delegate: presentationAdapter,
@@ -73,24 +129,25 @@ private final class FeedViewAdapter: FeedView {
 }
 
 private final class FeedLoaderPresentationAdapter: FeedViewControllerDelegate {
-    private let feedLoader: FeedLoader
+    private let feedLoader: () -> FeedLoader.Publisher
+    private var cancellable: Cancellable?
     var presenter: FeedPresenter?
     
-    init(feedLoader: FeedLoader) {
+    init(feedLoader: @escaping () -> FeedLoader.Publisher) {
         self.feedLoader = feedLoader
     }
     
     func didRequestFeedRefresh() {
         presenter?.didStartLoadingFeed()
-        feedLoader.load { [weak self] result in
-            switch result {
-            case .success(let feed):
-                self?.presenter?.didFinishLoadingFeed(with: feed)
-
-            case .failure(let error):
+        
+        cancellable = feedLoader().sink { [weak self] completion in
+            if case let .failure(error) = completion {
                 self?.presenter?.didFinishLoadingFeed(with: error)
             }
+        } receiveValue: { [weak self] feed in
+            self?.presenter?.didFinishLoadingFeed(with: feed)
         }
+
     }
 }
 
