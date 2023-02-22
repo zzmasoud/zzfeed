@@ -23,13 +23,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let _ = (scene as? UIWindowScene) else { return }
-        
+        configureWindow()
+    }
+    
+    func configureWindow() {
         let feedViewController = FeedUIComposer
             .feedComposedWith(
                 feedLoader: makeRemoteFeedLoaderWithLocalFallback,
                 imageLoader: makeLocalItemDataLoaderWithRemoteFallback)
         
-        window?.rootViewController = feedViewController
+        window?.rootViewController = UINavigationController(rootViewController: feedViewController)
+        window?.makeKeyAndVisible()
     }
     
     func makeRemoteClient() -> HttpClient {
