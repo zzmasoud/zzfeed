@@ -399,7 +399,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
     }
 }
 
-private extension FeedViewController {
+extension FeedViewController {
     func simulateUserActionFeedReload() {
         refreshControl?.simulatePullToRefresh()
     }
@@ -444,6 +444,10 @@ private extension FeedViewController {
         let dataSource = tableView.dataSource
         let index = IndexPath(row: row, section: 0)
         return dataSource?.tableView(tableView, cellForRowAt: index)
+    }
+    
+    func renderedFeedImageData(at index: Int) -> Data? {
+        return simulateFeedItemViewVisible(at: index)?.renderedImage
     }
 }
 

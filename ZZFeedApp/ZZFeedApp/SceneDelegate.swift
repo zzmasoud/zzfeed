@@ -14,12 +14,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let storeURL = NSPersistentContainer
         .defaultDirectoryURL()
         .appendingPathComponent("feed.sqlite")
-    private lazy var feedStore = try! CoreDataFeedStore(storeURL: storeURL)
+    private lazy var feedStore: FeedStore & FeedItemDataStore = try! CoreDataFeedStore(storeURL: storeURL)
     private lazy var localFeedLoader = LocalFeedLoader(store: feedStore, currentDate: Date.init)
     
-    let  url = URL(string: "https://ile-api.essentialdeveloper.com/essential-feed/v1/feed")!
+    let url = URL(string: "https://ile-api.essentialdeveloper.com/essential-feed/v1/feed")!
     private lazy var httpClient = makeRemoteClient()
     private lazy var remoteFeedLoader = RemoteFeedLoader(url: url, client: httpClient)
+
+    convenience init(httpClient: HttpClient, store: FeedStore & FeedItemDataStore) {
+        self.init()
+        self.httpClient = httpClient
+        self.feedStore = store
+    }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let _ = (scene as? UIWindowScene) else { return }
