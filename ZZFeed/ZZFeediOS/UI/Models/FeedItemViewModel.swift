@@ -1,6 +1,7 @@
 //
 //  Copyright © zzmasoud (github.com/zzmasoud).
-//  
+//
+
 import ZZFeed
 import UIKit
 
