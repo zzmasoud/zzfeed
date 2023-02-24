@@ -44,6 +44,8 @@
 		04871C03289924C9006BCEB4 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04871C02289924C9006BCEB4 /* FeedItem.swift */; };
 		0489829429A8E016001AC4E5 /* FeedSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0489829329A8E016001AC4E5 /* FeedSnapshotTests.swift */; };
 		0489829A29A920F5001AC4E5 /* UIImage+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0489829929A920F5001AC4E5 /* UIImage+TestHelpers.swift */; };
+		0489829D29A93BE1001AC4E5 /* XCTestCase+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0489829C29A93BE1001AC4E5 /* XCTestCase+Snapshot.swift */; };
+		048982A129A93D2D001AC4E5 /* UIViewController+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048982A029A93D2D001AC4E5 /* UIViewController+Snapshot.swift */; };
 		048FCD2F295EFFD90093F747 /* ZZFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048FCD27295EFFD80093F747 /* ZZFeediOS.framework */; };
 		04A0648A29A49FCF007E09D4 /* FeedItemDataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A0648929A49FCF007E09D4 /* FeedItemDataCache.swift */; };
 		04A18AE128B7F96B00242DAA /* LoadFeedFromCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A18AE028B7F96B00242DAA /* LoadFeedFromCacheUseCaseTests.swift */; };
@@ -155,7 +157,9 @@
 		04871BF2289924B9006BCEB4 /* ZZFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZZFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04871C02289924C9006BCEB4 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		0489829329A8E016001AC4E5 /* FeedSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSnapshotTests.swift; sourceTree = "<group>"; };
-		0489829929A920F5001AC4E5 /* UIImage+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+TestHelpers.swift"; sourceTree = "<group>"; };
+		0489829929A920F5001AC4E5 /* UIImage+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIImage+TestHelpers.swift"; path = "../../../ZZFeedApp/ZZFeedAppTests/Helpers/UIImage+TestHelpers.swift"; sourceTree = "<group>"; };
+		0489829C29A93BE1001AC4E5 /* XCTestCase+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Snapshot.swift"; sourceTree = "<group>"; };
+		048982A029A93D2D001AC4E5 /* UIViewController+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Snapshot.swift"; sourceTree = "<group>"; };
 		048FCD27295EFFD80093F747 /* ZZFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZZFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		048FCD2E295EFFD90093F747 /* ZZFeediOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZZFeediOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A0648929A49FCF007E09D4 /* FeedItemDataCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemDataCache.swift; sourceTree = "<group>"; };
@@ -412,10 +416,20 @@
 		0489829229A8DFDF001AC4E5 /* ZZFeediOSTests */ = {
 			isa = PBXGroup;
 			children = (
+				0489829B29A93B6E001AC4E5 /* Helpers */,
 				0489829329A8E016001AC4E5 /* FeedSnapshotTests.swift */,
-				0489829929A920F5001AC4E5 /* UIImage+TestHelpers.swift */,
 			);
 			path = ZZFeediOSTests;
+			sourceTree = "<group>";
+		};
+		0489829B29A93B6E001AC4E5 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				0489829C29A93BE1001AC4E5 /* XCTestCase+Snapshot.swift */,
+				048982A029A93D2D001AC4E5 /* UIViewController+Snapshot.swift */,
+				0489829929A920F5001AC4E5 /* UIImage+TestHelpers.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		048FCD28295EFFD80093F747 /* ZZFeediOS */ = {
@@ -817,7 +831,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				047F4B0C2983F17200BD3C94 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
+				048982A129A93D2D001AC4E5 /* UIViewController+Snapshot.swift in Sources */,
 				0489829429A8E016001AC4E5 /* FeedSnapshotTests.swift in Sources */,
+				0489829D29A93BE1001AC4E5 /* XCTestCase+Snapshot.swift in Sources */,
 				0489829A29A920F5001AC4E5 /* UIImage+TestHelpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
