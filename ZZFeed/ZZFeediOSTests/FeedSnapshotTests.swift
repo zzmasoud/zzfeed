@@ -24,6 +24,14 @@ final class FeedSnapshotTests: XCTestCase {
         record(snapshot: sut.snapshot(), named: "FEED_WITH_CONTENT")
     }
     
+    func test_feedWithFailedImageLoading() {
+        let sut = makeSUT()
+
+        sut.display(feedWithFailedImageLoading())
+        
+        record(snapshot: sut.snapshot(), named: "FEED_WITH_FAILED_IMAGE_LOADING")
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> FeedViewController {
@@ -40,8 +48,31 @@ final class FeedSnapshotTests: XCTestCase {
     
     private func feedWithContent() -> [ItemStub] {
         return [
-            ItemStub(description: "Long text, Long textLong text Long text.\ntextLong textLongtextLong textLong.", location: "Location A", image: UIImage(color: .red)!),
-            ItemStub(description: "Long text", location: "Location B, Bbb", image: UIImage(color: .blue)!),
+            ItemStub(
+                description: "Long text, Long textLong text Long text.\ntextLong textLongtextLong textLong. ",
+                location: "Location A",
+                image: UIImage(color: .red)
+            ),
+            ItemStub(
+                description: "Long text",
+                location: nil,
+                image: UIImage(color: .blue)
+            ),
+        ]
+    }
+    
+    private func feedWithFailedImageLoading() -> [ItemStub] {
+        return [
+            ItemStub(
+                description: "Long text, Long textLong text Long text.\ntextLong textLongtextLong textLong. ",
+                location: "Location A",
+                image: nil
+            ),
+            ItemStub(
+                description: "Long text",
+                location: nil,
+                image: nil
+            ),
         ]
     }
     
