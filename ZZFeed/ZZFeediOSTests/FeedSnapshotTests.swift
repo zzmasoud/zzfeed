@@ -3,8 +3,8 @@
 //
 
 import XCTest
+@testable import ZZFeediOS
 import ZZFeed
-import ZZFeediOS
 
 final class FeedSnapshotTests: XCTestCase {
 
@@ -14,6 +14,14 @@ final class FeedSnapshotTests: XCTestCase {
         sut.display(emptyFeed())
         
         record(snapshot: sut.snapshot(), named: "EMPTY_FEED")
+    }
+    
+    func test_feedWithContent() {
+        let sut = makeSUT()
+        
+        sut.display(feedWithContent())
+        
+        record(snapshot: sut.snapshot(), named: "FEED_WITH_CONTENT")
     }
     
     // MARK: - Helpers
@@ -28,6 +36,13 @@ final class FeedSnapshotTests: XCTestCase {
     
     private func emptyFeed() -> [FeedItemCellController] {
         return []
+    }
+    
+    private func feedWithContent() -> [ItemStub] {
+        return [
+            ItemStub(description: "Long text, Long textLong text Long text.\ntextLong textLongtextLong textLong.", location: "Location A", image: UIImage(color: .red)!),
+            ItemStub(description: "Long text", location: "Location B, Bbb", image: UIImage(color: .blue)!),
+        ]
     }
     
     private func record(snapshot: UIImage, named: String, file: StaticString = #file, line: UInt = #line) {
@@ -60,4 +75,36 @@ extension UIViewController {
             view.layer.render(in: context.cgContext)
         }
     }
+}
+
+private extension FeedViewController {
+    func display(_ stubs: [ItemStub]) {
+        let cells: [FeedItemCellController] = stubs.map { stub in
+            let cellController = FeedItemCellController(delegate: stub)
+            stub.controller = cellController
+            return cellController
+        }
+        
+        display(cells)
+    }
+}
+
+private class ItemStub: FeedItemCellControllerDelegate {
+    let viewModel: FeedItemViewModel<UIImage>
+    weak var controller: FeedItemCellController?
+    
+    init(description: String?, location: String?, image: UIImage?) {
+        viewModel = FeedItemViewModel(
+            description: description,
+            location: location,
+            image: image,
+            isLoading: false,
+            shouldRetry: image == nil)
+    }
+    
+    func didRequestImage() {
+        controller?.display(viewModel)
+    }
+    
+    func didCancelImageRequest() {}
 }
