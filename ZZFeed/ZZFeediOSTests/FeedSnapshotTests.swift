@@ -13,7 +13,7 @@ final class FeedSnapshotTests: XCTestCase {
         
         sut.display(emptyFeed())
         
-        record(snapshot: sut.snapshot(), named: "EMPTY_FEED")
+        assert(snapshot: sut.snapshot(), named: "EMPTY_FEED")
     }
     
     func test_feedWithContent() {
@@ -21,7 +21,7 @@ final class FeedSnapshotTests: XCTestCase {
         
         sut.display(feedWithContent())
         
-        record(snapshot: sut.snapshot(), named: "FEED_WITH_CONTENT")
+        assert(snapshot: sut.snapshot(), named: "FEED_WITH_CONTENT")
     }
     
     func test_feedWithFailedImageLoading() {
@@ -29,7 +29,7 @@ final class FeedSnapshotTests: XCTestCase {
 
         sut.display(feedWithFailedImageLoading())
         
-        record(snapshot: sut.snapshot(), named: "FEED_WITH_FAILED_IMAGE_LOADING")
+        assert(snapshot: sut.snapshot(), named: "FEED_WITH_FAILED_IMAGE_LOADING")
     }
     
     // MARK: - Helpers
@@ -76,26 +76,53 @@ final class FeedSnapshotTests: XCTestCase {
         ]
     }
     
-    private func record(snapshot: UIImage, named: String, file: StaticString = #file, line: UInt = #line) {
-        guard let snapshotData = snapshot.pngData() else {
-            XCTFail("failed to generate PNG file from the snapshot UIImage", file: file, line: line)
+    private func assert(snapshot: UIImage, named: String, file: StaticString = #file, line: UInt = #line) {
+        let snapshotURL = makeSnapshotURL(named: named)
+        let snapshotData = makeSnapshotData(for: snapshot)
+
+        guard let storedSnapshotData = try? Data(contentsOf: snapshotURL) else {
+            XCTFail("No snapshot found at URL: \(snapshotURL). Use `record` method to store a snapshot before asserting.")
             return
         }
-        let snapshotURL = URL(fileURLWithPath: String(describing: file))
-            .deletingLastPathComponent()
-            .appendingPathComponent("snapshots")
-            .appendingPathComponent("\(named).png")
         
+        if snapshotData != storedSnapshotData {
+            let tempURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+                .appendingPathComponent(snapshotURL.lastPathComponent)
+            
+            try? snapshotData?.write(to: tempURL)
+            
+            XCTFail("New snapshot doesn't match stored snapshot. New snapshot URL: \(tempURL), Stored snapshot URL: \(snapshotURL)", file: file, line: line)
+        }
+    }
+    
+    private func record(snapshot: UIImage, named: String, file: StaticString = #file, line: UInt = #line) {
+        let snapshotURL = makeSnapshotURL(named: named)
+        let snapshotData = makeSnapshotData(for: snapshot)
+
         do {
             try FileManager.default.createDirectory(
                 at: snapshotURL.deletingLastPathComponent(),
                 withIntermediateDirectories: true
             )
-            
-            try snapshotData.write(to: snapshotURL)
+            try snapshotData?.write(to: snapshotURL)
         } catch {
             XCTFail("failed to save snapshot data with error: \(error)", file: file, line: line)
         }
+    }
+    
+    private func makeSnapshotData(for snapshot: UIImage, file: StaticString = #file, line: UInt = #line) -> Data? {
+        guard let snapshotData = snapshot.pngData() else {
+            XCTFail("failed to generate PNG file from the snapshot UIImage", file: file, line: line)
+            return nil
+        }
+        return snapshotData
+    }
+    
+    private func makeSnapshotURL(named name: String, file: StaticString = #file, line: UInt = #line) -> URL {
+        return URL(fileURLWithPath: String(describing: file))
+            .deletingLastPathComponent()
+            .appendingPathComponent("snapshots")
+            .appendingPathComponent("\(name).png")
     }
 }
 
