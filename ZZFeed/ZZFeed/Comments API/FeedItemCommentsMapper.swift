@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal final class FeedItemCommentsMapper {
+public final class FeedItemCommentsMapper {
     private struct Root: Decodable {
         private let items: [Item]
         
@@ -24,7 +24,7 @@ internal final class FeedItemCommentsMapper {
         }
     }
     
-    internal static func map(data: Data, from response: HTTPURLResponse) throws -> [FeedItemComment] {
+    public static func map(_ data: Data, from response: HTTPURLResponse) throws -> [FeedItemComment] {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         

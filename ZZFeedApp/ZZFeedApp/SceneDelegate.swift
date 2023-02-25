@@ -51,7 +51,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         localFeedLoader.validateCache(completion: { _ in })
     }
     
-    func makeRemoteFeedLoaderWithLocalFallback() -> RemoteFeedLoader.Publisher {
+    func makeRemoteFeedLoaderWithLocalFallback() -> FeedLoader.Publisher {
         return remoteFeedLoader
             .loadPublisher()
             .caching(to: localFeedLoader)
@@ -70,3 +70,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             })
     }
 }
+
+extension RemoteLoader: FeedLoader where Resource == [FeedItem] {}

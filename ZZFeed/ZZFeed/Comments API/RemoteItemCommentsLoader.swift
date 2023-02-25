@@ -4,7 +4,9 @@
 
 import Foundation
 
-public final class RemoteItemCommentsLoader: RemoteLoader<[FeedItemComment]> {
+public typealias RemoteItemCommentsLoader = RemoteLoader<[FeedItemComment]>
+
+extension RemoteItemCommentsLoader {
     convenience public init(url: URL, client: HTTPClient) {
         self.init(url: url, client: client, mapper: FeedItemCommentsMapper.map)
     }

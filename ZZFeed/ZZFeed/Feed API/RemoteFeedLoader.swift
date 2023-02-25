@@ -4,7 +4,9 @@
 
 import Foundation
 
-public final class RemoteFeedLoader: RemoteLoader<[FeedItem]> {
+public typealias RemoteFeedLoader = RemoteLoader<[FeedItem]>
+
+extension RemoteFeedLoader {
     convenience public init(url: URL, client: HTTPClient) {
         self.init(url: url, client: client, mapper: FeedItemsMapper.map)
     }
