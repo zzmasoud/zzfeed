@@ -153,12 +153,12 @@ final public class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(view0?.renderedImage, .none)
         XCTAssertEqual(view1?.renderedImage, .none)
         
-        let image0 = UIImage.init(color: .red)!.pngData()!
+        let image0 = UIImage.make(withColor: .red).pngData()!
         loader.completeImageLoading(with: image0, at: 0)
         XCTAssertEqual(view0?.renderedImage, image0)
         XCTAssertEqual(view1?.renderedImage, .none)
         
-        let image1 = UIImage.init(color: .blue)!.pngData()!
+        let image1 = UIImage.make(withColor: .blue).pngData()!
         loader.completeImageLoading(with: image1, at: 1)
         XCTAssertEqual(view0?.renderedImage, image0)
         XCTAssertEqual(view1?.renderedImage, image1)
@@ -177,7 +177,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(view0?.isShowingRetryAction, false)
         XCTAssertEqual(view1?.isShowingRetryAction, false)
         
-        let image0 = UIImage.init(color: .red)!.pngData()!
+        let image0 = UIImage.make(withColor: .red).pngData()!
         loader.completeImageLoading(with: image0, at: 0)
         XCTAssertEqual(view0?.isShowingRetryAction, false)
         XCTAssertEqual(view1?.isShowingRetryAction, false)
@@ -271,7 +271,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_loadImageDataCompletion_dispatchesfromBackgroundToMainThread() {
         let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
-        let imageData = UIImage.init(color: .blue)!.pngData()!
+        let imageData = UIImage.make(withColor: .blue).pngData()!
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
@@ -388,7 +388,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
             }
         }
 
-        func completeImageLoading(with imageData: Data = UIImage.init(color: .red)!.pngData()!, at index: Int = 0) {
+        func completeImageLoading(with imageData: Data = UIImage.make(withColor: .red).pngData()!, at index: Int = 0) {
             imageRequests[index].completion(.success(imageData))
         }
 

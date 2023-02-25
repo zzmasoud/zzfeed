@@ -57,12 +57,12 @@ final class FeedSnapshotTests: XCTestCase {
             ItemStub(
                 description: "Long text, Long textLong text Long text.\ntextLong textLongtextLong textLong. ",
                 location: "Location A",
-                image: UIImage(color: .red)
+                image: UIImage.make(withColor: .red)
             ),
             ItemStub(
                 description: "Long text",
                 location: nil,
-                image: UIImage(color: .blue)
+                image: UIImage.make(withColor: .blue)
             ),
         ]
     }
