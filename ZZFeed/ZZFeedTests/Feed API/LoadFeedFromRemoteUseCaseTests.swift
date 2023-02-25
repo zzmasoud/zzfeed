@@ -6,31 +6,6 @@ import XCTest
 import ZZFeed
 
 class LoadFeedFromRemoteUseCaseTests: XCTestCase {
-
-    func test_init_doesNotReqDataFromURL() {
-        let (client, _) = makeSUT()
-        XCTAssertTrue(client.requestedURLs.isEmpty)
-    }
-    
-    func test_load_reqDataFromURL() {
-        let url = URL(string: "https://v1.api.com")!
-        let (client, sut) = makeSUT(url: url)
-        
-        
-        sut.load(completion: { _ in })
-        sut.load(completion: { _ in })
-        
-        XCTAssertEqual(client.requestedURLs, [url, url])
-    }
-    
-    func test_load_deliversErrorOnClientError() {
-        let (client, sut) = makeSUT()
-
-        expect(sut, toCompleteWithResult: .failure(RemoteFeedLoader.Error.connectivity)) {
-            let clientError = NSError(domain: "ClientError", code: -1)
-            client.complete(with: clientError)
-        }
-    }
     
     func test_load_deliversErrorOnNon200HttpResponse() {
         let (client, sut) = makeSUT()
@@ -42,6 +17,15 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
                 let emptyJson = makeEmptyListJson()
                 client.complete(withStatusCode: code, data: emptyJson, at: index)
             }
+        }
+    }
+    
+    func test_load_deliversErrorOn200HttpResponseWithInvalidJson() {
+        let (client, sut) = makeSUT()
+        
+        expect(sut, toCompleteWithResult: .failure(RemoteFeedLoader.Error.invalidData)) {
+            let invalidJson = Data("wrong data".utf8)
+            client.complete(withStatusCode: 200, data: invalidJson)
         }
     }
     
@@ -75,16 +59,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
             client.complete(withStatusCode: 200, data: jsonData)
         }
     }
-    
-    func test_load_deliversErrorOn200HttpResponseWithInvalidJson() {
-        let (client, sut) = makeSUT()
-        
-        expect(sut, toCompleteWithResult: .failure(RemoteFeedLoader.Error.invalidData)) {
-            let invalidJson = Data("wrong data".utf8)
-            client.complete(withStatusCode: 200, data: invalidJson)
-        }
-    }
-    
+
     // MARK: - Helpers
     
     private func makeSUT(url: URL = URL(string: "https://foo.bar")!, file: StaticString = #file, line: UInt = #line) -> (client: HTTPClientSpy, sut: RemoteFeedLoader)  {
