@@ -402,6 +402,14 @@
 			path = "Comments Feature";
 			sourceTree = "<group>";
 		};
+		046D31A129AA59740030A243 /* Comments API */ = {
+			isa = PBXGroup;
+			children = (
+				046D318B29AA164D0030A243 /* LoadItemCommentsFromRemoteUseCaseTests.swift */,
+			);
+			path = "Comments API";
+			sourceTree = "<group>";
+		};
 		04715F6C296AB53A006EDF65 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -481,6 +489,7 @@
 				046D319A29AA42820030A243 /* Shared API Infta */,
 				041F4F1028ABC530008E5440 /* Feed Cache */,
 				04B94DC4289C9DF2002C18B3 /* Feed API */,
+				046D31A129AA59740030A243 /* Comments API */,
 				0420D38529A014F700FB9A4E /* Feed Presentation */,
 			);
 			path = ZZFeedTests;
@@ -571,7 +580,6 @@
 			isa = PBXGroup;
 			children = (
 				04789988289AB19B00A38697 /* LoadFeedFromRemoteUseCaseTests.swift */,
-				046D318B29AA164D0030A243 /* LoadItemCommentsFromRemoteUseCaseTests.swift */,
 				04AD07B52979C3DA0098E9E5 /* LoadFeedItemImageDataFromRemoteUseCaseTests.swift */,
 			);
 			path = "Feed API";
