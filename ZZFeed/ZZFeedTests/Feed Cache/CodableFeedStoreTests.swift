@@ -49,7 +49,7 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         let storeURL = storeURL()
         let sut = makeSUT(storeURL: storeURL)
         
-        try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
+        try? "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
         
         assertThatRetrieveDeliversFailureOnRetrievalError(on: sut)
     }
@@ -58,7 +58,7 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         let storeURL = storeURL()
         let sut = makeSUT(storeURL: storeURL)
         
-        try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
+        try? "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
         
         assertThatRetrieveHasNoSideEffectsOnFailure(on: sut)
     }

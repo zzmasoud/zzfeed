@@ -24,7 +24,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let session = URLSession(configuration: .ephemeral)
         return URLSessionHTTPClient(session: session)
     }()
-    private lazy var remoteFeedLoader = RemoteLoader(url: url, client: httpClient, mapper: FeedItemsMapper.map) 
     
     convenience init(httpClient: HTTPClient, store: FeedStore & FeedItemDataStore) {
         self.init()
