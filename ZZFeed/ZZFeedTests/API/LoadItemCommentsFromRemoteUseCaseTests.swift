@@ -95,7 +95,7 @@ class LoadItemCommentsFromRemoteUseCaseTests: XCTestCase {
     
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
         let url = URL(string: "http://any-url.com")!
-        let client = HttpClientSpy()
+        let client = HTTPClientSpy()
         var sut: RemoteItemCommentsLoader? = RemoteItemCommentsLoader(url: url, client: client)
         
         var capturedResults = [RemoteItemCommentsLoader.Result]()
@@ -109,8 +109,8 @@ class LoadItemCommentsFromRemoteUseCaseTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(url: URL = URL(string: "https://a-url.com")!, file: StaticString = #file, line: UInt = #line) -> (sut: RemoteItemCommentsLoader, client: HttpClientSpy) {
-        let client = HttpClientSpy()
+    private func makeSUT(url: URL = URL(string: "https://a-url.com")!, file: StaticString = #file, line: UInt = #line) -> (sut: RemoteItemCommentsLoader, client: HTTPClientSpy) {
+        let client = HTTPClientSpy()
         let sut = RemoteItemCommentsLoader(url: url, client: client)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(client, file: file, line: line)

@@ -5,7 +5,7 @@
 import Foundation
 import ZZFeed
 
-class HttpClientSpy: HTTPClient {
+class HTTPClientSpy: HTTPClient {
     private struct Task: HTTPClientTask {
         let callback: () -> Void
         
