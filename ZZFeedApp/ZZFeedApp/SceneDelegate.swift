@@ -52,8 +52,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func makeRemoteFeedLoaderWithLocalFallback() -> FeedLoader.Publisher {
-        return remoteFeedLoader
-            .loadPublisher()
+        return httpClient
+            .getPublisher(url: url)
+            .tryMap(FeedItemsMapper.map)
             .caching(to: localFeedLoader)
             .fallback(to: localFeedLoader.loadPublisher)
     }
@@ -70,21 +71,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             })
     }
 }
-
-//extension RemoteLoader: FeedLoader where Resource == [FeedItem] {}
-
-//public typealias RemoteFeedLoader = RemoteLoader<[FeedItem]>
-//
-//extension RemoteFeedLoader {
-//    convenience public init(url: URL, client: HTTPClient) {
-//        self.init(url: url, client: client, mapper: FeedItemsMapper.map)
-//    }
-//}
-//
-//public typealias RemoteItemCommentsLoader = RemoteLoader<[FeedItemComment]>
-//
-//extension RemoteItemCommentsLoader {
-//    convenience public init(url: URL, client: HTTPClient) {
-//        self.init(url: url, client: client, mapper: FeedItemCommentsMapper.map)
-//    }
-//}
