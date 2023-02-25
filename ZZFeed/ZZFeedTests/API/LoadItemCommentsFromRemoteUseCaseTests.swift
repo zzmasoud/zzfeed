@@ -82,13 +82,15 @@ class LoadItemCommentsFromRemoteUseCaseTests: XCTestCase {
     
     func test_load_deliversItemsOn2xxHTTPResponseWithJSONItems() {
         let item1 = makeItem(
-            id: UUID(),
-            imageURL: URL(string: "http://a-url.com")!)
+            message: "a message!",
+            createdAt: (Date(timeIntervalSince1970: 1598627222), "2020-08-28T15:07:02+00:00"),
+            username: "John")
+        
         let item2 = makeItem(
-            id: UUID(),
-            description: "a description",
-            location: "a location",
-            imageURL: URL(string: "http://another-url.com")!)
+            message: "a new message!",
+            createdAt: (Date(timeIntervalSince1970: 1577881882), "2020-01-01T12:31:22+00:00"),
+            username: "Johny")
+        
         let items = [item1.model, item2.model]
         let json = makeItemsJSON([item1.json, item2.json])
         let (sut, client) = makeSUT()
@@ -130,14 +132,15 @@ class LoadItemCommentsFromRemoteUseCaseTests: XCTestCase {
         return .failure(error)
     }
     
-    private func makeItem(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedItem, json: [String: Any]) {
-        let item = FeedItem(id: id, description: description, location: location, imageURL: imageURL)
-        
+    private func makeItem(id: UUID = UUID(), message: String, createdAt: (date: Date, isoString: String), username: String) -> (model: FeedItemComment, json: [String: Any]) {
+        let item = FeedItemComment(id: id, message: message, createdAt: createdAt.date, username: username)
         let json = [
             "id": id.uuidString,
-            "description": description,
-            "location": location,
-            "image": imageURL.absoluteString
+            "message": message,
+            "created_at": createdAt.isoString,
+            "author": [
+                "username": username
+            ]
         ].compactMapValues { $0 }
         
         return (item, json)
@@ -156,7 +159,7 @@ class LoadItemCommentsFromRemoteUseCaseTests: XCTestCase {
             case let (.success(receivedItems), .success(expectedItems)):
                 XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
                 
-            case let (.failure(receivedError as RemoteItemCommentsLoader.Error), .failure(expectedError as RemoteItemCommentsLoader.Error)):
+            case let (.failure(receivedError), .failure(expectedError)):
                 XCTAssertEqual(receivedError, expectedError, file: file, line: line)
                 
             default:
