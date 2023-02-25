@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let session = URLSession(configuration: .ephemeral)
         return URLSessionHTTPClient(session: session)
     }()
-    private lazy var remoteFeedLoader = RemoteFeedLoader(url: url, client: httpClient)
+    private lazy var remoteFeedLoader = RemoteLoader(url: url, client: httpClient, mapper: FeedItemsMapper.map) 
     
     convenience init(httpClient: HTTPClient, store: FeedStore & FeedItemDataStore) {
         self.init()
@@ -71,4 +71,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 }
 
-extension RemoteLoader: FeedLoader where Resource == [FeedItem] {}
+//extension RemoteLoader: FeedLoader where Resource == [FeedItem] {}
+
+//public typealias RemoteFeedLoader = RemoteLoader<[FeedItem]>
+//
+//extension RemoteFeedLoader {
+//    convenience public init(url: URL, client: HTTPClient) {
+//        self.init(url: url, client: client, mapper: FeedItemsMapper.map)
+//    }
+//}
+//
+//public typealias RemoteItemCommentsLoader = RemoteLoader<[FeedItemComment]>
+//
+//extension RemoteItemCommentsLoader {
+//    convenience public init(url: URL, client: HTTPClient) {
+//        self.init(url: url, client: client, mapper: FeedItemCommentsMapper.map)
+//    }
+//}
