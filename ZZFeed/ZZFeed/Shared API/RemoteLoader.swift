@@ -4,7 +4,7 @@
 
 import Foundation
 
-public class RemoteFeedLoader: FeedLoader {
+public class RemoteLoader: FeedLoader {
     private let url: URL
     private let client: HTTPClient
     
@@ -39,7 +39,7 @@ public class RemoteFeedLoader: FeedLoader {
             let feedItems = try FeedItemsMapper.map(data: data, from: response)
             return .success(feedItems)
         } catch {
-            return .failure(error as! RemoteFeedLoader.Error)
+            return .failure(Error.invalidData)
         }
     }
 }
