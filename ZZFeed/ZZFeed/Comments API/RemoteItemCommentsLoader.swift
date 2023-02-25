@@ -36,16 +36,10 @@ public class RemoteItemCommentsLoader {
     
     private static func map(_ data: Data, from response: HTTPURLResponse) -> Result {
         do {
-            let items = try FeedItemCommentsMapper.map(data: data, from: response)
-            return .success(items.toModels())
+            let comments = try FeedItemCommentsMapper.map(data: data, from: response)
+            return .success(comments)
         } catch {
             return .failure(error as! RemoteItemCommentsLoader.Error)
         }
-    }
-}
-
-private extension Array where Element == FeedItemComment {
-    func toModels() -> [FeedItemComment] {
-        return map { FeedItemComment(id: $0.id, message: $0.message, createdAt: $0.createdAt, username: $0.username) }
     }
 }
