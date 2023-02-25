@@ -20,13 +20,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private lazy var localFeedLoader = LocalFeedLoader(store: feedStore, currentDate: Date.init)
     
     let url = URL(string: "https://ile-api.essentialdeveloper.com/essential-feed/v1/feed")!
-    private lazy var httpClient: HttpClient = {
+    private lazy var httpClient: HTTPClient = {
         let session = URLSession(configuration: .ephemeral)
         return URLSessionHTTPClient(session: session)
     }()
     private lazy var remoteFeedLoader = RemoteFeedLoader(url: url, client: httpClient)
     
-    convenience init(httpClient: HttpClient, store: FeedStore & FeedItemDataStore) {
+    convenience init(httpClient: HTTPClient, store: FeedStore & FeedItemDataStore) {
         self.init()
         self.httpClient = httpClient
         self.feedStore = store

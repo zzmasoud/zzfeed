@@ -5,14 +5,14 @@
 import Foundation
 
 public final class RemoteFeedItemDataLoader: FeedItemDataLoader {
-    private let client: HttpClient
+    private let client: HTTPClient
     
     public enum Error: Swift.Error {
         case invalidData
         case connectivity
     }
     
-    public init(client: HttpClient) {
+    public init(client: HTTPClient) {
         self.client = client
     }
     
@@ -36,7 +36,7 @@ public final class RemoteFeedItemDataLoader: FeedItemDataLoader {
     
     private final class HttpClientTaskWrapper: FeedItemDataLoaderTask {
         private var completion: ((FeedItemDataLoader.LoadResult) -> Void)?
-        var wrapped: HttpClientTask?
+        var wrapped: HTTPClientTask?
         
         init(_ completion: @escaping (FeedItemDataLoader.LoadResult) -> Void) {
             self.completion = completion
