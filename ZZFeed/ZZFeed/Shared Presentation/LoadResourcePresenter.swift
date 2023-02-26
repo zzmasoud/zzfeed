@@ -1,43 +1,10 @@
 //
 //  Copyright © zzmasoud (github.com/zzmasoud).
-//  
+//
 
 import Foundation
 
-public struct FeedViewModel {
-    public let feed: [FeedItem]
-}
-
-public protocol FeedView {
-    func display(_ viewModel: FeedViewModel)
-}
-
-public struct FeedLoadingViewModel {
-    public let isLoading: Bool
-}
-
-public protocol FeedLoadingView: AnyObject {
-    func display(_ viewModel: FeedLoadingViewModel)
-}
- 
-
-public struct FeedErrorViewModel {
-    public let message: String?
-    
-    static var noError: FeedErrorViewModel {
-        FeedErrorViewModel(message: .none)
-    }
-    
-    static func error(message: String) -> FeedErrorViewModel {
-        FeedErrorViewModel(message: message)
-    }
-}
-
-public protocol FeedErrorView {
-    func display(_ viewModel: FeedErrorViewModel)
-}
-
-public final class FeedPresenter {
+public final class LoadResourcePresenter {
     private let feedView: FeedView
     private let loadingView: FeedLoadingView
     private let errorView: FeedErrorView
