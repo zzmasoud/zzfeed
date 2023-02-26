@@ -15,21 +15,14 @@ public final class LoadResourcePresenter {
                                  bundle: Bundle(for: FeedPresenter.self),
                                  comment: "Error message displayed on connection problems.")
     }
-    
-    public static var title: String {
-        return NSLocalizedString("FEED_VIEW_TITLE",
-                                 tableName: "Feed",
-                                 bundle: Bundle(for: FeedPresenter.self),
-                                 comment: "Title for the feed view")
-    }
-    
+        
     public init(feedView: FeedView, loadingView: FeedLoadingView, errorView: FeedErrorView) {
         self.feedView = feedView
         self.loadingView = loadingView
         self.errorView = errorView
     }
     
-    public func didStartLoadingFeed() {
+    public func didStartLoading() {
         errorView.display(.noError)
         loadingView.display(FeedLoadingViewModel(isLoading: true))
     }
