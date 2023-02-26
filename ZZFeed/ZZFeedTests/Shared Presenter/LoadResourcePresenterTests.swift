@@ -30,7 +30,7 @@ class LoadResourcePresenterTests: XCTestCase {
             resource + "view model"
         })
         
-        sut.didFinishLoadingFeed(with: resource)
+        sut.didFinishLoading(with: resource)
         
         XCTAssertEqual(view.messages, [
             .display(resourceViewModel: resource + "view model"),
