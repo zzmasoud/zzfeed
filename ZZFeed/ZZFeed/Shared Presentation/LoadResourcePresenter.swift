@@ -5,14 +5,15 @@
 import Foundation
 
 public protocol ResourceView {
-//    associatedtype ResourceViewModel
-    func display(_ resourceViewModel: String)
+    associatedtype ResourceViewModel
+    
+    func display(_ viewModel: ResourceViewModel)
 }
 
-public final class LoadResourcePresenter<Resource, ResourceViewModel> {
-    public typealias Mapper = (Resource) -> (ResourceViewModel)
+public final class LoadResourcePresenter<Resource, View: ResourceView> {
+    public typealias Mapper = (Resource) -> (View.ResourceViewModel)
     
-    private let resourceView: ResourceView
+    private let resourceView: View
     private let loadingView: FeedLoadingView
     private let errorView: FeedErrorView
     private let mapper: Mapper
@@ -24,7 +25,7 @@ public final class LoadResourcePresenter<Resource, ResourceViewModel> {
                                  comment: "Error message displayed on connection problems.")
     }
         
-    public init(resourceView: ResourceView, loadingView: FeedLoadingView, errorView: FeedErrorView, mapper: @escaping Mapper) {
+    public init(resourceView: View, loadingView: FeedLoadingView, errorView: FeedErrorView, mapper: @escaping Mapper) {
         self.resourceView = resourceView
         self.loadingView = loadingView
         self.errorView = errorView
@@ -38,7 +39,7 @@ public final class LoadResourcePresenter<Resource, ResourceViewModel> {
     
     public func didFinishLoadingFeed(with resource: Resource) {
         loadingView.display(FeedLoadingViewModel(isLoading: false))
-        resourceView.display(mapper(resource) as! String)
+        resourceView.display(mapper(resource))
     }
     
     public func didFinishLoadingFeed(with error: Error) {
