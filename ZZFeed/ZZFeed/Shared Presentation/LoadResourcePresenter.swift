@@ -4,10 +4,18 @@
 
 import Foundation
 
-public final class LoadResourcePresenter {
-    private let feedView: FeedView
+public protocol ResourceView {
+//    associatedtype ResourceViewModel
+    func display(_ resourceViewModel: String)
+}
+
+public final class LoadResourcePresenter<Resource, ResourceViewModel> {
+    public typealias Mapper = (Resource) -> (ResourceViewModel)
+    
+    private let resourceView: ResourceView
     private let loadingView: FeedLoadingView
     private let errorView: FeedErrorView
+    private let mapper: Mapper
     
     private var feedLoadError: String {
         return NSLocalizedString("FEED_VIEW_CONNECTION_ERROR",
@@ -16,10 +24,11 @@ public final class LoadResourcePresenter {
                                  comment: "Error message displayed on connection problems.")
     }
         
-    public init(feedView: FeedView, loadingView: FeedLoadingView, errorView: FeedErrorView) {
-        self.feedView = feedView
+    public init(resourceView: ResourceView, loadingView: FeedLoadingView, errorView: FeedErrorView, mapper: @escaping Mapper) {
+        self.resourceView = resourceView
         self.loadingView = loadingView
         self.errorView = errorView
+        self.mapper = mapper
     }
     
     public func didStartLoading() {
@@ -27,9 +36,9 @@ public final class LoadResourcePresenter {
         loadingView.display(FeedLoadingViewModel(isLoading: true))
     }
     
-    public func didFinishLoadingFeed(with feed: [FeedItem]) {
+    public func didFinishLoadingFeed(with resource: Resource) {
         loadingView.display(FeedLoadingViewModel(isLoading: false))
-        feedView.display(FeedViewModel(feed: feed))
+        resourceView.display(mapper(resource) as! String)
     }
     
     public func didFinishLoadingFeed(with error: Error) {
