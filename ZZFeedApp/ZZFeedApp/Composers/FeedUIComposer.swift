@@ -6,8 +6,8 @@ import UIKit
 import ZZFeed
 import ZZFeediOS
 
-private class ErrorView: FeedErrorView {
-    func display(_ viewModel: FeedErrorViewModel) {}
+private class ErrorView: ResourceErrorView {
+    func display(_ viewModel: ResourceErrorViewModel) {}
 }
 
 public final class FeedUIComposer {

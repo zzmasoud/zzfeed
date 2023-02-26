@@ -9,7 +9,7 @@ public protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
 }
 
-public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedLoadingView {
+public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView {
     
     @IBAction private func refresh() {
         delegate?.didRequestFeedRefresh()
@@ -36,7 +36,7 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
         models = cellControllers
     }
     
-    public func display(_ viewModel: FeedLoadingViewModel) {
+    public func display(_ viewModel: ResourceLoadingViewModel) {
         viewModel.isLoading ? refreshControl?.beginRefreshing() : refreshControl?.endRefreshing()
     }
     
