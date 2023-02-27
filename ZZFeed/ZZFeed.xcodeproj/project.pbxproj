@@ -397,28 +397,28 @@
 			path = "Shared API Infta";
 			sourceTree = "<group>";
 		};
-		046D319B29AA43020030A243 /* Comments API */ = {
+		046D319B29AA43020030A243 /* API */ = {
 			isa = PBXGroup;
 			children = (
 				046D318F29AA17BD0030A243 /* FeedItemCommentsMapper.swift */,
 			);
-			path = "Comments API";
+			path = API;
 			sourceTree = "<group>";
 		};
-		046D319C29AA4CE10030A243 /* Comments Feature */ = {
+		046D319C29AA4CE10030A243 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
 				046D319329AA2CC20030A243 /* FeedItemComment.swift */,
 			);
-			path = "Comments Feature";
+			path = Feature;
 			sourceTree = "<group>";
 		};
-		046D31A429AA8E740030A243 /* Comments API */ = {
+		046D31A429AA8E740030A243 /* API */ = {
 			isa = PBXGroup;
 			children = (
 				046D31A529AA8EBA0030A243 /* ImageCommentsMapperTests.swift */,
 			);
-			path = "Comments API";
+			path = API;
 			sourceTree = "<group>";
 		};
 		04715F6C296AB53A006EDF65 /* Models */ = {
@@ -482,8 +482,7 @@
 				04239FB529AB3F4300B39928 /* Shared Presentation */,
 				046D319529AA41DD0030A243 /* Shared API */,
 				046D319629AA420D0030A243 /* Shared API Infra */,
-				046D319C29AA4CE10030A243 /* Comments Feature */,
-				046D319B29AA43020030A243 /* Comments API */,
+				04C130F629AD49F000C2458A /* Comments */,
 				04C130F429AD49B700C2458A /* Feed */,
 			);
 			path = ZZFeed;
@@ -496,7 +495,7 @@
 				04239FB229AB3EBA00B39928 /* Shared Presenter */,
 				046D319A29AA42820030A243 /* Shared API Infta */,
 				04C130F329AD498A00C2458A /* Feed */,
-				046D31A429AA8E740030A243 /* Comments API */,
+				04C130F729AD4A0A00C2458A /* Comments */,
 			);
 			path = ZZFeedTests;
 			sourceTree = "<group>";
@@ -631,6 +630,23 @@
 				04C1D2A529A0BA480061CFEE /* Presentation */,
 			);
 			path = Feed;
+			sourceTree = "<group>";
+		};
+		04C130F629AD49F000C2458A /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				046D319C29AA4CE10030A243 /* Feature */,
+				046D319B29AA43020030A243 /* API */,
+			);
+			path = Comments;
+			sourceTree = "<group>";
+		};
+		04C130F729AD4A0A00C2458A /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				046D31A429AA8E740030A243 /* API */,
+			);
+			path = Comments;
 			sourceTree = "<group>";
 		};
 		04C1D2A529A0BA480061CFEE /* Presentation */ = {
