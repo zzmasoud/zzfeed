@@ -50,7 +50,6 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     }
 
     func test_load_deliversNoItemsOnCacheExpiration() {
-        let items = uniqueItems()
         let now = Date()
         let sevenDays: Date = now.minusFeedCacheMaxAge()
         let (sut, store) = makeSUT(currentDate: { now })
@@ -61,7 +60,6 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     }
     
     func test_load_deliversNoItemsOnExpiredCache() {
-        let items = uniqueItems()
         let now = Date()
         let sevenDays: Date = now.minusFeedCacheMaxAge() 
         let (sut, store) = makeSUT(currentDate: { now })
