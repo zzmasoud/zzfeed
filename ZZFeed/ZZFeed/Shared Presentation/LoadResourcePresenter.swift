@@ -5,7 +5,7 @@
 import Foundation
 
 public final class LoadResourcePresenter<Resource, View: ResourceView> {
-    public typealias Mapper = (Resource) -> (View.ResourceViewModel)
+    public typealias Mapper = (Resource) throws -> (View.ResourceViewModel)
     
     private let resourceView: View
     private let loadingView: ResourceLoadingView
@@ -13,7 +13,7 @@ public final class LoadResourcePresenter<Resource, View: ResourceView> {
     private let mapper: Mapper
     
     private var feedLoadError: String {
-        return NSLocalizedString("FEED_VIEW_CONNECTION_ERROR",
+        return NSLocalizedString("GENERIC_CONNECTION_ERROR",
                                  tableName: "Feed",
                                  bundle: Bundle(for: FeedPresenter.self),
                                  comment: "Error message displayed on connection problems.")
@@ -33,7 +33,12 @@ public final class LoadResourcePresenter<Resource, View: ResourceView> {
     
     public func didFinishLoading(with resource: Resource) {
         loadingView.display(ResourceLoadingViewModel(isLoading: false))
-        resourceView.display(mapper(resource))
+        do {
+            resourceView.display(try mapper(resource))
+            loadingView.display(ResourceLoadingViewModel(isLoading: false))
+        } catch {
+            didFinishLoading(with: error)
+        }
     }
     
     public func didFinishLoading(with error: Error) {
