@@ -37,18 +37,18 @@ final class FeedSnapshotTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> FeedViewController {
-        let  bundle = Bundle(for: FeedViewController.self)
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> ListViewController {
+        let  bundle = Bundle(for: ListViewController.self)
         let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
-        let feedViewController = storyboard.instantiateInitialViewController() as! FeedViewController
-        feedViewController.loadViewIfNeeded()
-        feedViewController.tableView.showsVerticalScrollIndicator = false
-        feedViewController.tableView.showsHorizontalScrollIndicator = false
+        let ListViewController = storyboard.instantiateInitialViewController() as! ListViewController
+        ListViewController.loadViewIfNeeded()
+        ListViewController.tableView.showsVerticalScrollIndicator = false
+        ListViewController.tableView.showsHorizontalScrollIndicator = false
         
-        return feedViewController
+        return ListViewController
     }
     
-    private func emptyFeed() -> [FeedImageCellController] {
+    private func emptyFeed() -> [ItemStub] {
         return []
     }
     
@@ -83,12 +83,12 @@ final class FeedSnapshotTests: XCTestCase {
     }
 } 
 
-private extension FeedViewController {
+private extension ListViewController {
     func display(_ stubs: [ItemStub]) {
-        let cells: [FeedImageCellController] = stubs.map { stub in
+        let cells = stubs.map { stub in
             let cellController = FeedImageCellController(viewModel: stub.viewModel, delegate: stub)
             stub.controller = cellController
-            return cellController
+            return CellController(id: UUID(), dataSource: cellController)
         }
         display(cells)
     }
