@@ -10,7 +10,7 @@ class FeedItemPresenterTests: XCTestCase {
     func test_map_createsViewModel() {
         let feedItem = uniqueFeedItem()
         
-        let viewModel = FeedItemPresenter.map(feedItem)
+        let viewModel = FeedImagePresenter.map(feedItem)
         
         XCTAssertEqual(viewModel.description, feedItem.description)
         XCTAssertEqual(viewModel.location, feedItem.location)

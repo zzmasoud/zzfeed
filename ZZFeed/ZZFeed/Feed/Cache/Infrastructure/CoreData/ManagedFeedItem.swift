@@ -15,7 +15,7 @@ class ManagedFeedItem: NSManagedObject {
 }
 
 extension ManagedFeedItem {
-    static func items(feed: [LocalFeedItem], in context: NSManagedObjectContext) -> NSOrderedSet {
+    static func items(feed: [LocalFeedImage], in context: NSManagedObjectContext) -> NSOrderedSet {
         let images = NSOrderedSet(array: feed.map({ local in
             let managed = ManagedFeedItem(context: context)
             managed.id = local.id
@@ -29,8 +29,8 @@ extension ManagedFeedItem {
         return images
     }
     
-    var local: LocalFeedItem {
-        return LocalFeedItem(id: id, description: imageDescription, location: location, imageURL: imageURL)
+    var local: LocalFeedImage {
+        return LocalFeedImage(id: id, description: imageDescription, location: location, imageURL: imageURL)
     }
     
     static func data(with url: URL, in context: NSManagedObjectContext) throws -> Data? {

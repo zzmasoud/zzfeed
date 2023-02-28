@@ -8,7 +8,7 @@ import ZZFeed
 class FeedStoreSpy: FeedStore {
     enum ReceivedMessage: Equatable {
         case deleteCachedFeed
-        case insert([LocalFeedItem], Date)
+        case insert([LocalFeedImage], Date)
         case retrieve
     }
     
@@ -30,7 +30,7 @@ class FeedStoreSpy: FeedStore {
         deletionCompletions.first?(.success(()))
     }
     
-    func insert(_ items: [LocalFeedItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+    func insert(_ items: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
         insertionCompletions.append(completion)
         receivedMessages.append(.insert(items, timestamp))
     }
@@ -56,7 +56,7 @@ class FeedStoreSpy: FeedStore {
         retrievalCompletions.first?(.success(.empty))
     }
     
-    func completeRetrieval(with items: [LocalFeedItem], timestamp: Date) {
+    func completeRetrieval(with items: [LocalFeedImage], timestamp: Date) {
         retrievalCompletions.first?(.success(.fetched(items: items, timestamp: timestamp)))
         
     }

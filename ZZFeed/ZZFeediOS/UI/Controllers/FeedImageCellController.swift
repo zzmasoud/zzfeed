@@ -5,19 +5,19 @@
 import UIKit
 import ZZFeed
 
-public protocol FeedItemCellControllerDelegate {
+public protocol FeedImageCellControllerDelegate {
      func didRequestImage()
      func didCancelImageRequest()
  }
 
-public final class FeedItemCellController: ResourceView, ResourceLoadingView, ResourceErrorView {
+public final class FeedImageCellController: ResourceView, ResourceLoadingView, ResourceErrorView {
     public typealias ResourceViewModel = UIImage
     
-    private let viewModel: FeedItemViewModel
-    private let delegate: FeedItemCellControllerDelegate
-    private var cell: FeedItemCell?
+    private let viewModel: FeedImageViewModel
+    private let delegate: FeedImageCellControllerDelegate
+    private var cell: FeedImageCell?
 
-    public init(viewModel: FeedItemViewModel, delegate: FeedItemCellControllerDelegate) {
+    public init(viewModel: FeedImageViewModel, delegate: FeedImageCellControllerDelegate) {
         self.viewModel = viewModel
         self.delegate = delegate
     }

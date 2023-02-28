@@ -2,7 +2,7 @@
 //  Copyright © zzmasoud (github.com/zzmasoud).
 //
 
-public struct FeedItemViewModel {
+public struct FeedImageViewModel {
     public let description: String?
     public let location: String?
     

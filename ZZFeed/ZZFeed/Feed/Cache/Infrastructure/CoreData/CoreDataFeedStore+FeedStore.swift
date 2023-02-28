@@ -19,7 +19,7 @@ extension CoreDataFeedStore: FeedStore {
         }
     }
     
-    public func insert(_ feed: [ZZFeed.LocalFeedItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+    public func insert(_ feed: [ZZFeed.LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
         perform { context in
             do {
                 let managedCache = try ManagedCache.newUniqueInstance(in: context)

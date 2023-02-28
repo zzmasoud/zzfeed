@@ -9,11 +9,11 @@ import ZZFeediOS
 
 final class FeedViewAdapter: ResourceView {
     private weak var controller: FeedViewController?
-    private let dataLoader: (URL) -> FeedItemDataLoader.Publisher
+    private let dataLoader: (URL) -> FeedImageDataLoader.Publisher
     
-    private typealias ItemDataPresentationAdapter = LoadResourcePresentationAdapter<Data, WeakRefVirtualProxy<FeedItemCellController>>
+    private typealias ItemDataPresentationAdapter = LoadResourcePresentationAdapter<Data, WeakRefVirtualProxy<FeedImageCellController>>
     
-    internal init(controller: FeedViewController, dataLoader: @escaping (URL) -> FeedItemDataLoader.Publisher) {
+    internal init(controller: FeedViewController, dataLoader: @escaping (URL) -> FeedImageDataLoader.Publisher) {
         self.controller = controller
         self.dataLoader = dataLoader
     }
@@ -24,8 +24,8 @@ final class FeedViewAdapter: ResourceView {
                 dataLoader(model.imageURL)
             })
 
-            let view = FeedItemCellController(
-                viewModel: FeedItemPresenter.map(model),
+            let view = FeedImageCellController(
+                viewModel: FeedImagePresenter.map(model),
                 delegate: adapter)
             
             adapter.presenter = LoadResourcePresenter(

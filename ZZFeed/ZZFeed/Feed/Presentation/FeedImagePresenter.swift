@@ -4,9 +4,9 @@
 
 import Foundation
 
-public final class FeedItemPresenter {
-    public static func map(_ item: FeedImage) -> FeedItemViewModel {
-        FeedItemViewModel(
+public final class FeedImagePresenter {
+    public static func map(_ item: FeedImage) -> FeedImageViewModel {
+        FeedImageViewModel(
             description: item.description,
             location: item.location)
     }

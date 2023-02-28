@@ -11,7 +11,7 @@ import Combine
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    private lazy var feedStore: FeedStore & FeedItemDataStore = {
+    private lazy var feedStore: FeedStore & FeedImageDataStore = {
         return try! CoreDataFeedStore(
             storeURL: NSPersistentContainer
                 .defaultDirectoryURL()
@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return URLSessionHTTPClient(session: session)
     }()
     
-    convenience init(httpClient: HTTPClient, store: FeedStore & FeedItemDataStore) {
+    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore) {
         self.init()
         self.httpClient = httpClient
         self.feedStore = store
@@ -58,14 +58,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .fallback(to: localFeedLoader.loadPublisher)
     }
     
-    func makeLocalItemDataLoaderWithRemoteFallback(url: URL) -> FeedItemDataLoader.Publisher {
-        let localItemDataLoader = LocalFeedItemDataLoader(store: feedStore)
+    func makeLocalItemDataLoaderWithRemoteFallback(url: URL) -> FeedImageDataLoader.Publisher {
+        let localItemDataLoader = LocalFeedImageDataLoader(store: feedStore)
         return localItemDataLoader
             .loadImageDataPublisher(from: url)
             .fallback(to: { [httpClient] in
                 httpClient
                     .getPublisher(url: url)
-                    .tryMap(FeedItemDataMapper.map)
+                    .tryMap(FeedImageDataMapper.map)
                     .caching(to: localItemDataLoader, using: url)
             })
     }

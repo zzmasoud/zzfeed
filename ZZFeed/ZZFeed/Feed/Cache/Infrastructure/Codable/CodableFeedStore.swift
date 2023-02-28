@@ -9,7 +9,7 @@ public class CodableFeedStore: FeedStore {
         let feed: [CodableFeedItem]
         let timestamp: Date
         
-        var localFeed: [LocalFeedItem] {
+        var localFeed: [LocalFeedImage] {
             return feed.map { $0.local }
         }
     }
@@ -20,15 +20,15 @@ public class CodableFeedStore: FeedStore {
         public let description: String?
         public let location: String?
         
-        init(_ item: LocalFeedItem) {
+        init(_ item: LocalFeedImage) {
             id = item.id
             imageURL = item.imageURL
             description = item.description
             location = item.location
         }
         
-        var local: LocalFeedItem {
-            return LocalFeedItem(id: id, description: description, location: location, imageURL: imageURL)
+        var local: LocalFeedImage {
+            return LocalFeedImage(id: id, description: description, location: location, imageURL: imageURL)
         }
     }
     
@@ -56,7 +56,7 @@ public class CodableFeedStore: FeedStore {
         }
     }
     
-    public func insert(_ feed: [LocalFeedItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+    public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
         let storeURL = self.storeURL
         queue.async(flags: .barrier) {
             do {

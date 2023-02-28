@@ -38,6 +38,7 @@ class LoadResourcePresenterTests: XCTestCase {
         ])
     }
     
+    
     func test_didFinishLoadingWithMapperError_displaysLocalizedErrorMessageAndStopsLoading() {
         let (sut, view) = makeSUT(mapper: { resource in
             throw anyNSError()
@@ -49,7 +50,18 @@ class LoadResourcePresenterTests: XCTestCase {
             .display(errorMessage: localized("GENERIC_CONNECTION_ERROR")),
             .display(isLoading: false)
         ])
-    } 
+    }
+
+    func test_didFinishLoadingWithError_displaysLocalizedErrorMessageAndStopsLoading() {
+        let (sut, view) = makeSUT()
+
+        sut.didFinishLoading(with: anyNSError())
+
+        XCTAssertEqual(view.messages, [
+            .display(errorMessage: localized("GENERIC_CONNECTION_ERROR")),
+            .display(isLoading: false)
+        ])
+    }
     
     // MARK: - Helpers
     
@@ -71,7 +83,7 @@ class LoadResourcePresenterTests: XCTestCase {
     
     private func localized(_ key: String, file: StaticString = #file, line: UInt = #line) -> String {
         let table = "Shared"
-        let bundle = Bundle(for: SUT .self)
+        let bundle = Bundle(for: SUT.self)
         let value = bundle.localizedString(forKey: key, value: nil, table: table)
         if value == key {
             XCTFail("Missing string in the table \(table) for key \(key)", file: file, line: line)

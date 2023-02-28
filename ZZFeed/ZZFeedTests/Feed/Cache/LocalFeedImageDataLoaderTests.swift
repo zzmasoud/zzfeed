@@ -53,7 +53,7 @@ class LoadFeedItemDataFromCacheUseCaseTests: XCTestCase {
         let (sut, store) = makeSUT()
         let data = Data()
         
-        var capturedResults = [FeedItemDataLoader.LoadResult]()
+        var capturedResults = [FeedImageDataLoader.LoadResult]()
         let task = sut.loadImageData(from: anyURL(), completion: { capturedResults.append($0)} )
         task.cancel()
         
@@ -66,9 +66,9 @@ class LoadFeedItemDataFromCacheUseCaseTests: XCTestCase {
     
     func test_loadImageDataFromURL_doesNotDeliverResultAfterInstanceIsDeallocated() {
         let store = FeedItemDataStoreSpy()
-        var sut: LocalFeedItemDataLoader? = LocalFeedItemDataLoader(store: store)
+        var sut: LocalFeedImageDataLoader? = LocalFeedImageDataLoader(store: store)
         
-        var capturedResults = [FeedItemDataLoader.LoadResult]()
+        var capturedResults = [FeedImageDataLoader.LoadResult]()
         _ = sut?.loadImageData(from: anyURL(), completion: { capturedResults.append($0)} )
         
         sut = nil
@@ -80,9 +80,9 @@ class LoadFeedItemDataFromCacheUseCaseTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedItemDataLoader, store: FeedItemDataStoreSpy) {
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedImageDataLoader, store: FeedItemDataStoreSpy) {
         let store = FeedItemDataStoreSpy()
-        let sut = LocalFeedItemDataLoader(store: store)
+        let sut = LocalFeedImageDataLoader(store: store)
 
         trackForMemoryLeaks(store, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
@@ -90,24 +90,24 @@ class LoadFeedItemDataFromCacheUseCaseTests: XCTestCase {
         return (sut, store)
     }
     
-    private func failed() -> FeedItemDataLoader.LoadResult {
-        return .failure(LocalFeedItemDataLoader.LoadError.failed)
+    private func failed() -> FeedImageDataLoader.LoadResult {
+        return .failure(LocalFeedImageDataLoader.LoadError.failed)
     }
     
-    private func notFound() -> FeedItemDataLoader.LoadResult {
-        return .failure(LocalFeedItemDataLoader.LoadError.notFound)
+    private func notFound() -> FeedImageDataLoader.LoadResult {
+        return .failure(LocalFeedImageDataLoader.LoadError.notFound)
     }
     
-    private func found(_ data: Data) -> FeedItemDataLoader.LoadResult {
+    private func found(_ data: Data) -> FeedImageDataLoader.LoadResult {
         return .success(data)
     }
     
-    private func expect(_ sut: LocalFeedItemDataLoader, toCompleteWith expectedResult: LocalFeedItemDataLoader.LoadResult, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
+    private func expect(_ sut: LocalFeedImageDataLoader, toCompleteWith expectedResult: LocalFeedImageDataLoader.LoadResult, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
         let exp = expectation(description: "waiting for completion...")
         _ = sut.loadImageData(from: anyURL(), completion: { result in
             switch (result, expectedResult) {
             case let (.failure(error), .failure(expectedError)):
-                XCTAssertEqual(error as! LocalFeedItemDataLoader.LoadError , expectedError as! LocalFeedItemDataLoader.LoadError, file: file, line: line)
+                XCTAssertEqual(error as! LocalFeedImageDataLoader.LoadError , expectedError as! LocalFeedImageDataLoader.LoadError, file: file, line: line)
                 
             case let (.success(data), .success(expectedData)):
                 XCTAssertEqual(data, expectedData)

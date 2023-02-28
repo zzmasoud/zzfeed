@@ -36,7 +36,7 @@ extension LocalFeedLoader: FeedLoader {
     }
 }
 
-private extension Array where Element == LocalFeedItem {
+private extension Array where Element == LocalFeedImage {
     func toModels() -> [FeedImage] {
         return map { FeedImage(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL) }
     }
@@ -71,8 +71,8 @@ extension LocalFeedLoader: FeedCache {
 }
 
 private extension Array where Element == FeedImage {
-    func toLocal() -> [LocalFeedItem] {
-        return map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL) }
+    func toLocal() -> [LocalFeedImage] {
+        return map { LocalFeedImage(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL) }
     }
     
     static var empty = [FeedImage]()

@@ -26,7 +26,7 @@ class CacheFeedItemDataUseCaseTests: XCTestCase {
     func test_saveImageDataForURL_failsOnInsertionError() {
         let (sut, store) = makeSUT()
         
-        expect(sut, toCompleteWith: .failure(LocalFeedItemDataLoader.SaveError.failed)) {
+        expect(sut, toCompleteWith: .failure(LocalFeedImageDataLoader.SaveError.failed)) {
             store.completeInsertion(with: anyNSError())
         }
     }
@@ -41,9 +41,9 @@ class CacheFeedItemDataUseCaseTests: XCTestCase {
     
     func test_saveImageDataForURL_doesNotDeliverResultAfterInstanceIsDeallocate() {
         let store = FeedItemDataStoreSpy()
-        var sut: LocalFeedItemDataLoader? = LocalFeedItemDataLoader(store: store)
+        var sut: LocalFeedImageDataLoader? = LocalFeedImageDataLoader(store: store)
         
-        var capturedResults = [LocalFeedItemDataLoader.SaveResult]()
+        var capturedResults = [LocalFeedImageDataLoader.SaveResult]()
         sut?.save(data: Data(), for: anyURL(), completion: { capturedResults.append($0)
         })
         
@@ -57,9 +57,9 @@ class CacheFeedItemDataUseCaseTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedItemDataLoader, store: FeedItemDataStoreSpy) {
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedImageDataLoader, store: FeedItemDataStoreSpy) {
         let store = FeedItemDataStoreSpy()
-        let sut = LocalFeedItemDataLoader(store: store)
+        let sut = LocalFeedImageDataLoader(store: store)
 
         trackForMemoryLeaks(store, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
@@ -67,12 +67,12 @@ class CacheFeedItemDataUseCaseTests: XCTestCase {
         return (sut, store)
     }
     
-    private func expect(_ sut: LocalFeedItemDataLoader, toCompleteWith expectedResult: LocalFeedItemDataLoader.SaveResult, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
+    private func expect(_ sut: LocalFeedImageDataLoader, toCompleteWith expectedResult: LocalFeedImageDataLoader.SaveResult, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
         let exp = expectation(description: "waiting for completion...")
         sut.save(data: Data(), for: anyURL(), completion: { result in
             switch (result, expectedResult) {
             case let (.failure(error), .failure(expectedError)):
-                XCTAssertEqual(error as! LocalFeedItemDataLoader.SaveError , expectedError as! LocalFeedItemDataLoader.SaveError, file: file, line: line)
+                XCTAssertEqual(error as! LocalFeedImageDataLoader.SaveError , expectedError as! LocalFeedImageDataLoader.SaveError, file: file, line: line)
                 
             case (.success, .success):
                 break

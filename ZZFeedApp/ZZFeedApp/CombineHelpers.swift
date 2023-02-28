@@ -24,13 +24,13 @@ public extension HTTPClient {
     }
 }
 
-// MARK: - FeedItemDataLoader
+// MARK: - FeedImageDataLoader
 
-public extension FeedItemDataLoader {
+public extension FeedImageDataLoader {
     typealias Publisher = AnyPublisher<Data, Error>
     
     func loadImageDataPublisher(from url: URL) -> Publisher {
-        var task: FeedItemDataLoaderTask?
+        var task: FeedImageDataLoaderTask?
         
         return Deferred {
             Future { completion in
@@ -43,14 +43,14 @@ public extension FeedItemDataLoader {
 }
 
 public extension Publisher where Output == Data {
-    func caching(to cache: FeedItemDataCache, using url: URL) -> AnyPublisher<Output, Failure> {
+    func caching(to cache: FeedImageDataCache, using url: URL) -> AnyPublisher<Output, Failure> {
         handleEvents(receiveOutput: { data in
             cache.saveIgnoringResult(data, for: url)
         }).eraseToAnyPublisher()
     }
 }
 
-extension FeedItemDataCache {
+extension FeedImageDataCache {
     func saveIgnoringResult(_ data: Data, for url: URL) {
         self.save(data: data, for: url, completion: { _ in })
     }

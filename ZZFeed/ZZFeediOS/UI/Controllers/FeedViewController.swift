@@ -15,11 +15,11 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
         delegate?.didRequestFeedRefresh()
     }
 
-    private var loadingControllers = [IndexPath: FeedItemCellController]()
+    private var loadingControllers = [IndexPath: FeedImageCellController]()
     
     public var delegate: FeedViewControllerDelegate?
     
-    private var models: [FeedItemCellController] = [] {
+    private var models: [FeedImageCellController] = [] {
         didSet {
             loadingControllers = [:]
             tableView.reloadData()
@@ -32,7 +32,7 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
         refresh()
     }
     
-    public func display(_ cellControllers: [FeedItemCellController]) {
+    public func display(_ cellControllers: [FeedImageCellController]) {
         models = cellControllers
     }
     
@@ -67,7 +67,7 @@ public class FeedViewController: UITableViewController, UITableViewDataSourcePre
 
     }
     
-    private func cellController(forRowAt indexPath: IndexPath) -> FeedItemCellController {
+    private func cellController(forRowAt indexPath: IndexPath) -> FeedImageCellController {
         let controller = models[indexPath.row]
         loadingControllers[indexPath] = controller
         return controller

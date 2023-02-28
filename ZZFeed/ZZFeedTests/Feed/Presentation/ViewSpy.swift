@@ -4,11 +4,10 @@
 
 import ZZFeed
 
-class ViewSpy: FeedView, ResourceLoadingView, ResourceErrorView {
+class ViewSpy: ResourceLoadingView, ResourceErrorView {
     enum Message: Hashable {
         case display(errorMessage: String?)
         case display(isLoading: Bool)
-        case display(feed: [FeedImage])
     }
     
     private(set) var messages: Set<Message> = []
@@ -19,9 +18,5 @@ class ViewSpy: FeedView, ResourceLoadingView, ResourceErrorView {
     
     func display(_ viewModel: ResourceLoadingViewModel) {
         messages.insert(.display(isLoading: viewModel.isLoading))
-    }
-    
-    func display(_ viewModel: FeedViewModel) {
-        messages.insert(.display(feed: viewModel.feed))
     }
 }

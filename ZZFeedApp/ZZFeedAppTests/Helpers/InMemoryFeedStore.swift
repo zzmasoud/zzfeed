@@ -7,7 +7,7 @@ import ZZFeed
 
 class InMemoryFeedStore {
     private(set) var feedCache: CachedFeed?
-    private var feedImageDataCache: [URL: Data] = [:]
+    private var FeedImageDataLoader: [URL: Data] = [:]
     
     private init(feedCache: CachedFeed? = nil) {
         self.feedCache = feedCache
@@ -28,19 +28,19 @@ extension InMemoryFeedStore: FeedStore {
         }
     }
 
-    func insert(_ items: [LocalFeedItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+    func insert(_ items: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
         feedCache = CachedFeed.fetched(items: items, timestamp: timestamp)
         completion(.success(()))
     }
 }
 
-extension InMemoryFeedStore: FeedItemDataStore {
-    func retrieve(dataForURL url: URL, completion: @escaping (FeedItemDataStore.RetrievalResult) -> Void) {
-        completion(.success(feedImageDataCache[url]))
+extension InMemoryFeedStore: FeedImageDataStore {
+    func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.RetrievalResult) -> Void) {
+        completion(.success(FeedImageDataLoader[url]))
     }
     
-    func insert(data: Data, for url: URL, completion: @escaping (FeedItemDataStore.InsertionResult) -> Void) {
-        feedImageDataCache[url] = data
+    func insert(data: Data, for url: URL, completion: @escaping (FeedImageDataStore.InsertionResult) -> Void) {
+        FeedImageDataLoader[url] = data
         completion(.success(()))
     }
 }

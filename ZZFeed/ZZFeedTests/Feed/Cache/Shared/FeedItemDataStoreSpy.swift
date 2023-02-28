@@ -5,17 +5,17 @@
 import Foundation
 import ZZFeed
 
-class FeedItemDataStoreSpy: FeedItemDataStore {
+class FeedItemDataStoreSpy: FeedImageDataStore {
     enum Message: Equatable {
         case retrieve(dataForURL: URL)
         case insert(data: Data, for: URL)
     }
     
-    private var completions = [(FeedItemDataStore.RetrievalResult) -> Void]()
-    private var insertionCompletions = [(FeedItemDataStore.InsertionResult) -> Void]()
+    private var completions = [(FeedImageDataStore.RetrievalResult) -> Void]()
+    private var insertionCompletions = [(FeedImageDataStore.InsertionResult) -> Void]()
     private(set) var receivedMessages = [Message]()
     
-    func retrieve(dataForURL url: URL, completion: @escaping (FeedItemDataStore.RetrievalResult) -> Void) {
+    func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.RetrievalResult) -> Void) {
         receivedMessages.append(.retrieve(dataForURL: url))
         completions.append(completion)
     }

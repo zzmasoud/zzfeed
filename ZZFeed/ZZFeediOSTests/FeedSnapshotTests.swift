@@ -48,7 +48,7 @@ final class FeedSnapshotTests: XCTestCase {
         return feedViewController
     }
     
-    private func emptyFeed() -> [FeedItemCellController] {
+    private func emptyFeed() -> [FeedImageCellController] {
         return []
     }
     
@@ -85,8 +85,8 @@ final class FeedSnapshotTests: XCTestCase {
 
 private extension FeedViewController {
     func display(_ stubs: [ItemStub]) {
-        let cells: [FeedItemCellController] = stubs.map { stub in
-            let cellController = FeedItemCellController(viewModel: stub.viewModel, delegate: stub)
+        let cells: [FeedImageCellController] = stubs.map { stub in
+            let cellController = FeedImageCellController(viewModel: stub.viewModel, delegate: stub)
             stub.controller = cellController
             return cellController
         }
@@ -94,13 +94,13 @@ private extension FeedViewController {
     }
 }
 
-private class ItemStub: FeedItemCellControllerDelegate {
-    let viewModel: FeedItemViewModel
+private class ItemStub: FeedImageCellControllerDelegate {
+    let viewModel: FeedImageViewModel
     let image: UIImage?
-    weak var controller: FeedItemCellController?
+    weak var controller: FeedImageCellController?
     
     init(description: String?, location: String?, image: UIImage?) {
-        viewModel = FeedItemViewModel(
+        viewModel = FeedImageViewModel(
             description: description,
             location: location)
         self.image = image

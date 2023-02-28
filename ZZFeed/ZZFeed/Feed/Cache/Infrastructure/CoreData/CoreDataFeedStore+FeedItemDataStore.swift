@@ -4,8 +4,8 @@
 
 import CoreData
 
-extension CoreDataFeedStore: FeedItemDataStore {
-    public func retrieve(dataForURL url: URL, completion: @escaping (FeedItemDataStore.RetrievalResult) -> Void) {
+extension CoreDataFeedStore: FeedImageDataStore {
+    public func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.RetrievalResult) -> Void) {
         perform { context in
             do {
                let data = try ManagedFeedItem.data(with: url, in: context)
@@ -16,7 +16,7 @@ extension CoreDataFeedStore: FeedItemDataStore {
         }
     }
     
-    public func insert(data: Data, for url: URL, completion: @escaping (FeedItemDataStore.InsertionResult) -> Void) {
+    public func insert(data: Data, for url: URL, completion: @escaping (FeedImageDataStore.InsertionResult) -> Void) {
         perform { context in
             do {
                 try ManagedFeedItem.first(with: url, in: context)

@@ -7,7 +7,7 @@ import Foundation
     
 public enum CachedFeed {
     case empty
-    case fetched(items: [LocalFeedItem], timestamp: Date)
+    case fetched(items: [LocalFeedImage], timestamp: Date)
 }
 
 public protocol FeedStore {
@@ -26,7 +26,7 @@ public protocol FeedStore {
     
     /// The completion handler can be invoked in any thread.
     /// Clients are responsible to dispatch to appropriate threads, if needed.
-    func insert(_ items: [LocalFeedItem], timestamp: Date, completion: @escaping InsertionCompletion)
+    func insert(_ items: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion)
     
     /// The completion handler can be invoked in any thread.
     /// Clients are responsible to dispatch to appropriate threads, if needed.
