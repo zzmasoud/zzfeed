@@ -12,7 +12,7 @@ public final class FeedPresenter {
                                  comment: "Title for the feed view")
     }
     
-    public static func map(_ models: [FeedItem]) -> FeedViewModel {
+    public static func map(_ models: [FeedImage]) -> FeedViewModel {
         FeedViewModel(feed: models)
     }
 }

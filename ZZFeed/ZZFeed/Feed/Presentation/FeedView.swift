@@ -5,7 +5,7 @@
 import Foundation
 
 public struct FeedViewModel {
-    public let feed: [FeedItem]
+    public let feed: [FeedImage]
 }
 
 public protocol FeedView {

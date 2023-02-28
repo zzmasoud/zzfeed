@@ -8,7 +8,7 @@ class ViewSpy: FeedView, ResourceLoadingView, ResourceErrorView {
     enum Message: Hashable {
         case display(errorMessage: String?)
         case display(isLoading: Bool)
-        case display(feed: [FeedItem])
+        case display(feed: [FeedImage])
     }
     
     private(set) var messages: Set<Message> = []

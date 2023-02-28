@@ -5,8 +5,8 @@
 import Foundation
 import ZZFeed
 
-func uniqueFeed() -> [FeedItem] {
-    return [FeedItem(id: UUID(), description: "any", location: "any", imageURL: URL(string: "http://any-url.com")!)]
+func uniqueFeed() -> [FeedImage] {
+    return [FeedImage(id: UUID(), description: "any", location: "any", imageURL: URL(string: "http://any-url.com")!)]
 }
 
 func primaryData() -> Data {

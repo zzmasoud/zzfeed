@@ -60,7 +60,7 @@ extension FeedItemDataCache {
 // MARK: - FeedLoader
 
 public extension FeedLoader {
-    typealias Publisher = AnyPublisher<[FeedItem], Error>
+    typealias Publisher = AnyPublisher<[FeedImage], Error>
     
     func loadPublisher() -> Publisher {
         return Deferred {
@@ -70,7 +70,7 @@ public extension FeedLoader {
     }
 }
 
-extension Publisher where Output == [FeedItem] {
+extension Publisher where Output == [FeedImage] {
     func caching(to cache: FeedCache) -> AnyPublisher<Output, Failure> {
         handleEvents(receiveOutput: cache.saveIgnoringResult)
         .eraseToAnyPublisher()

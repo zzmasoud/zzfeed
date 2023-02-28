@@ -51,10 +51,10 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_loadFeedCompletion_renderSuccessfullyLoadedFeed() {
         let (sut, loader) = makeSUT()
-        let item0 = FeedItem(description: "abcd", location: nil, imageURL: URL(string: "https://url.com")!)
-        let item1 = FeedItem(description: "---", location: nil, imageURL: URL(string: "https://url1.com")!)
-        let item2 = FeedItem(description: "no way", location: "locationA", imageURL: URL(string: "https://url.valid.com")!)
-        let item3 = FeedItem(description: nil, location: "locationB", imageURL: URL(string: "https://url.vaaaali.com")!)
+        let item0 = FeedImage(description: "abcd", location: nil, imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedImage(description: "---", location: nil, imageURL: URL(string: "https://url1.com")!)
+        let item2 = FeedImage(description: "no way", location: "locationA", imageURL: URL(string: "https://url.valid.com")!)
+        let item3 = FeedImage(description: nil, location: "locationB", imageURL: URL(string: "https://url.vaaaali.com")!)
 
         sut.loadViewIfNeeded()
         XCTAssertEqual(0, sut.numberOfRenderedFeedItemViews)
@@ -73,7 +73,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_loadFeedCompletion_doesNotChangeCurrentRenderedStateOnError() {
         let (sut, loader) = makeSUT()
-        let item0 = FeedItem(description: "abcd", location: nil, imageURL: URL(string: "https://url.com")!)
+        let item0 = FeedImage(description: "abcd", location: nil, imageURL: URL(string: "https://url.com")!)
 
         sut.loadViewIfNeeded()
         XCTAssertEqual(0, sut.numberOfRenderedFeedItemViews)
@@ -88,8 +88,8 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedItemView_loadsImageURLWhenVisible() {
         let (sut, loader) = makeSUT()
-        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
-        let item1 = FeedItem(imageURL: URL(string: "https://url-2nd.com")!)
+        let item0 = FeedImage(imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedImage(imageURL: URL(string: "https://url-2nd.com")!)
 
         sut.loadViewIfNeeded()
         loader.completeFeedLoading(at: 0, with: [item0, item1])
@@ -104,8 +104,8 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedItemView_CancelsImageURLWhenNotVisibleAnymore() {
         let (sut, loader) = makeSUT()
-        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
-        let item1 = FeedItem(imageURL: URL(string: "https://url-2nd.com")!)
+        let item0 = FeedImage(imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedImage(imageURL: URL(string: "https://url-2nd.com")!)
 
         sut.loadViewIfNeeded()
         loader.completeFeedLoading(at: 0, with: [item0, item1])
@@ -120,8 +120,8 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedItemViewLoadingIndicator_isVisibleWhileLoading() {
         let (sut, loader) = makeSUT()
-        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
-        let item1 = FeedItem(imageURL: URL(string: "https://url-2nd.com")!)
+        let item0 = FeedImage(imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedImage(imageURL: URL(string: "https://url-2nd.com")!)
 
         sut.loadViewIfNeeded()
         loader.completeFeedLoading(at: 0, with: [item0, item1])
@@ -142,8 +142,8 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedItemView_rendersImageLoadedFromURL() {
         let (sut, loader) = makeSUT()
-        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
-        let item1 = FeedItem(imageURL: URL(string: "https://url-2nd.com")!)
+        let item0 = FeedImage(imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedImage(imageURL: URL(string: "https://url-2nd.com")!)
 
         sut.loadViewIfNeeded()
         loader.completeFeedLoading(at: 0, with: [item0, item1])
@@ -166,8 +166,8 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedItemViewRetryButton_isVisibleOnImageURLLoadError() {
         let (sut, loader) = makeSUT()
-        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
-        let item1 = FeedItem(imageURL: URL(string: "https://url-2nd.com")!)
+        let item0 = FeedImage(imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedImage(imageURL: URL(string: "https://url-2nd.com")!)
 
         sut.loadViewIfNeeded()
         loader.completeFeedLoading(at: 0, with: [item0, item1])
@@ -189,7 +189,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedItemViewRetryButton_isVisibleOnInvalidImageData() {
         let (sut, loader) = makeSUT()
-        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
+        let item0 = FeedImage(imageURL: URL(string: "https://url.com")!)
 
         sut.loadViewIfNeeded()
         loader.completeFeedLoading(at: 0, with: [item0])
@@ -203,8 +203,8 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedItemViewRetryAction_retriesImageLoad() {
         let (sut, loader) = makeSUT()
-        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
-        let item1 = FeedItem(imageURL: URL(string: "https://url-2nd.com")!)
+        let item0 = FeedImage(imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedImage(imageURL: URL(string: "https://url-2nd.com")!)
 
         sut.loadViewIfNeeded()
         loader.completeFeedLoading(at: 0, with: [item0, item1])
@@ -226,8 +226,8 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedItemView_preloadsImageURLWhenNearVisible() {
         let (sut, loader) = makeSUT()
-        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
-        let item1 = FeedItem(imageURL: URL(string: "https://url-2nd.com")!)
+        let item0 = FeedImage(imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedImage(imageURL: URL(string: "https://url-2nd.com")!)
 
         sut.loadViewIfNeeded()
         loader.completeFeedLoading(at: 0, with: [item0, item1])
@@ -242,8 +242,8 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedItemView_cancelsImageURLPreloadingWhenNotNearVisibleAnymore() {
         let (sut, loader) = makeSUT()
-        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
-        let item1 = FeedItem(imageURL: URL(string: "https://url-2nd.com")!)
+        let item0 = FeedImage(imageURL: URL(string: "https://url.com")!)
+        let item1 = FeedImage(imageURL: URL(string: "https://url-2nd.com")!)
 
         sut.loadViewIfNeeded()
         loader.completeFeedLoading(at: 0, with: [item0, item1])
@@ -270,7 +270,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
     }
     
     func test_loadImageDataCompletion_dispatchesfromBackgroundToMainThread() {
-        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
+        let item0 = FeedImage(imageURL: URL(string: "https://url.com")!)
         let imageData = UIImage.make(withColor: .blue).pngData()!
         let (sut, loader) = makeSUT()
         
@@ -289,7 +289,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
     
     func test_testFeedItemView_doesNotRenderLoadedImageWhenNotVisible() {
         let (sut, loader) = makeSUT()
-        let item0 = FeedItem(imageURL: URL(string: "https://url.com")!)
+        let item0 = FeedImage(imageURL: URL(string: "https://url.com")!)
         sut.loadViewIfNeeded()
         loader.completeFeedLoading(at: 0, with: [item0])
 
@@ -312,7 +312,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
         return (sut, loader)
     }
     
-    private func assert(_ sut: FeedViewController, isRendering feed: [FeedItem], file: StaticString = #file, line: UInt = #line) {
+    private func assert(_ sut: FeedViewController, isRendering feed: [FeedImage], file: StaticString = #file, line: UInt = #line) {
         sut.tableView.layoutIfNeeded()
         RunLoop.main.run(until: Date())
         guard sut.numberOfRenderedFeedItemViews == feed.count else {
@@ -324,7 +324,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
         }
     }
     
-    private func assert(_ sut: FeedViewController, hasConfiguaredViewFor feedItem: FeedItem, at index: Int, file: StaticString = #file, line: UInt = #line) {
+    private func assert(_ sut: FeedViewController, hasConfiguaredViewFor feedItem: FeedImage, at index: Int, file: StaticString = #file, line: UInt = #line) {
         let view = sut.feedItemView(at: index)
         
         guard let view = view as? FeedItemCell else {
@@ -358,7 +358,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
             feedRequests.append(completion)
         }
         
-        func completeFeedLoading(at index: Int, with feed: [FeedItem] = []) {
+        func completeFeedLoading(at index: Int, with feed: [FeedImage] = []) {
             feedRequests[index](.success(feed))
         }
         
