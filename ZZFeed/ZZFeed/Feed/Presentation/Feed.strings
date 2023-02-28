@@ -1,9 +1,2 @@
-//
-//  Copyright © zzmasoud (github.com/zzmasoud).
-//
-
-//"FEED_VIEW_CONNECTION_ERROR" = "couldn't connect to the server!";
 
 "FEED_VIEW_TITLE" = "My Feed";
-
-"GENERIC_CONNECTION_ERROR" = "couldn't connect to the server!";
