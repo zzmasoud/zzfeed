@@ -30,5 +30,14 @@ var feedTitle: String {
 }
 
 var commentsTitle: String {
-    "ImageCommentsPresenter.title"
+    ImageCommentsPresenter.title
 }
+
+private class DummyView: ResourceView {
+    func display(_ viewModel: Any) {}
+}
+
+var loadError: String {
+    LoadResourcePresenter<Any, DummyView>.loadError
+}
+

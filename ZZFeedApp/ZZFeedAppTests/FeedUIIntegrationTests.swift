@@ -27,10 +27,10 @@ final public class FeedUIIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
         XCTAssertEqual(loader.loadFeedCallCount, 1)
     
-        sut.simulateUserActionFeedReload()
+        sut.simulateUserInitiatedReload()
         XCTAssertEqual(loader.loadFeedCallCount, 2)
         
-        sut.simulateUserActionFeedReload()
+        sut.simulateUserInitiatedReload()
         XCTAssertEqual(loader.loadFeedCallCount, 3)
     }
     
@@ -43,7 +43,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
         loader.completeFeedLoading(at: 0)
         XCTAssertFalse(sut.isShowingLoadingIndicator)
 
-        sut.simulateUserActionFeedReload()
+        sut.simulateUserInitiatedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator)
 
         loader.completeFeedLoading(at: 1)
@@ -63,11 +63,11 @@ final public class FeedUIIntegrationTests: XCTestCase {
         loader.completeFeedLoading(at: 0, with: [item0])
         assertThat(sut, isRendering: [item0])
 
-        sut.simulateUserActionFeedReload()
+        sut.simulateUserInitiatedReload()
         loader.completeFeedLoading(at: 1, with: [item0, item1, item2, item3])
         assertThat(sut, isRendering: [item0, item1, item2, item3])
 
-        sut.simulateUserActionFeedReload()
+        sut.simulateUserInitiatedReload()
         loader.completeFeedLoading(at: 2, with: [])
         assertThat(sut, isRendering: [])
     }
@@ -80,7 +80,7 @@ final public class FeedUIIntegrationTests: XCTestCase {
         loader.completeFeedLoading(at: 0, with: [item0])
         assertThat(sut, isRendering: [item0])
         
-        sut.simulateUserActionFeedReload()
+        sut.simulateUserInitiatedReload()
         loader.completeFeedLoadingWithError(at: 1)
         assertThat(sut, isRendering: [item0])
     }
