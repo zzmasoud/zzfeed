@@ -12,12 +12,12 @@
         <scene sceneID="0Hj-0o-uge">
             <objects>
                 <tableViewController id="L0b-fO-cy1" customClass="ListViewController" customModule="ZZFeediOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="3iZ-pw-ngd">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="3iZ-pw-ngd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="576" id="XJx-k7-8ng" customClass="FeedImageCell" customModule="ZZFeediOS" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="576" id="XJx-k7-8ng" customClass="FeedImageCell" customModule="ZZFeediOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="50" width="414" height="576"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XJx-k7-8ng" id="9HU-OH-JYJ">
@@ -34,8 +34,7 @@
                                                             <rect key="frame" x="0.0" y="0.5" width="20" height="19"/>
                                                             <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" secondItem="uoy-GY-YY5" secondAttribute="height" multiplier="1:1" id="cSh-vQ-u76"/>
-                                                                <constraint firstAttribute="height" constant="20" id="xtn-nL-yvY"/>
+                                                                <constraint firstAttribute="width" constant="20" id="xtn-nL-yvY"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="location location location location locationlocation location location location" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-h9-qKk">
@@ -45,9 +44,6 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="uoy-GY-YY5" firstAttribute="top" secondItem="XMZ-uh-Cef" secondAttribute="top" id="h6V-12-Tqp"/>
-                                                    </constraints>
                                                 </stackView>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i3k-2C-nwN" customClass="CustomLoadableView" customModule="ZZFeediOS" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="59" width="382" height="382"/>
@@ -76,9 +72,7 @@
                                                         <constraint firstItem="MMS-bi-obd" firstAttribute="centerX" secondItem="i3k-2C-nwN" secondAttribute="centerX" id="50j-Jc-fH5"/>
                                                         <constraint firstItem="srz-6e-nRY" firstAttribute="centerY" secondItem="i3k-2C-nwN" secondAttribute="centerY" id="5i4-0w-OQt"/>
                                                         <constraint firstItem="MMS-bi-obd" firstAttribute="top" secondItem="i3k-2C-nwN" secondAttribute="top" id="5v8-z0-48v"/>
-                                                        <constraint firstItem="MMS-bi-obd" firstAttribute="centerY" secondItem="i3k-2C-nwN" secondAttribute="centerY" id="CSR-P4-Jh9"/>
                                                         <constraint firstItem="srz-6e-nRY" firstAttribute="top" secondItem="i3k-2C-nwN" secondAttribute="top" id="GqU-Uo-ue5"/>
-                                                        <constraint firstItem="MMS-bi-obd" firstAttribute="centerX" secondItem="i3k-2C-nwN" secondAttribute="centerX" id="KRD-y0-RzP"/>
                                                         <constraint firstAttribute="width" secondItem="i3k-2C-nwN" secondAttribute="height" multiplier="1:1" id="Poy-EG-Q6P"/>
                                                         <constraint firstItem="srz-6e-nRY" firstAttribute="centerX" secondItem="i3k-2C-nwN" secondAttribute="centerX" id="Vox-hO-w4B"/>
                                                         <constraint firstItem="MMS-bi-obd" firstAttribute="centerY" secondItem="i3k-2C-nwN" secondAttribute="centerY" id="ccI-PW-ek9"/>

@@ -10,12 +10,14 @@ import ZZFeediOS
 final class FeedViewAdapter: ResourceView {
     private weak var controller: ListViewController?
     private let dataLoader: (URL) -> FeedImageDataLoader.Publisher
+    private let selection: (FeedImage) -> Void
     
     private typealias ItemDataPresentationAdapter = LoadResourcePresentationAdapter<Data, WeakRefVirtualProxy<FeedImageCellController>>
     
-    internal init(controller: ListViewController, dataLoader: @escaping (URL) -> FeedImageDataLoader.Publisher) {
+    internal init(controller: ListViewController, dataLoader: @escaping (URL) -> FeedImageDataLoader.Publisher, selection: @escaping (FeedImage) -> Void) {
         self.controller = controller
         self.dataLoader = dataLoader
+        self.selection = selection
     }
     
     func display(_ viewModel: FeedViewModel) {
@@ -26,7 +28,9 @@ final class FeedViewAdapter: ResourceView {
 
             let view = FeedImageCellController(
                 viewModel: FeedImagePresenter.map(model),
-                delegate: adapter)
+                delegate: adapter, selection: { [selection] in
+                    selection(model)
+                })
             
             adapter.presenter = LoadResourcePresenter(
                 resourceView: WeakRefVirtualProxy(view),
