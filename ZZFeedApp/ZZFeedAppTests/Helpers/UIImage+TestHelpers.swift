@@ -5,15 +5,13 @@
 import UIKit
 
 extension UIImage {
-    convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) {
-        let rect = CGRect(origin: .zero, size: size)
-        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
-        color.setFill()
-        UIRectFill(rect)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        guard let cgImage = image?.cgImage else { return nil }
-        self.init(cgImage: cgImage)
+    static func make(withColor color: UIColor) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        return UIGraphicsImageRenderer(size: rect.size, format: format).image { rendererContext in
+            color.setFill()
+            rendererContext.fill(rect)
+        }
     }
 }

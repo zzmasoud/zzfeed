@@ -12,7 +12,7 @@ class FeedAcceptanceTests: XCTestCase {
     func test_onLaunch_displaysRemoteFeedWhenCustomerHasConnectivity() {
         let feed = launch(httpClient: .online(makeSuccessfullResponse), store: .empty)
         
-        XCTAssertEqual(feed.numberOfRenderedFeedItemViews, 2)
+        XCTAssertEqual(feed.numberOfRenderedFeedImageViews(), 2)
         XCTAssertEqual(feed.renderedFeedImageData(at: 0), makeImageData())
         XCTAssertEqual(feed.renderedFeedImageData(at: 1), makeImageData())
     }
@@ -25,7 +25,7 @@ class FeedAcceptanceTests: XCTestCase {
         
         let offlineFeed = launch(store: sharedStore)
         
-        XCTAssertEqual(offlineFeed.numberOfRenderedFeedItemViews, 2)
+        XCTAssertEqual(offlineFeed.numberOfRenderedFeedImageViews(), 2)
         XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 0), makeImageData())
         XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 1), makeImageData())
     }
@@ -33,7 +33,7 @@ class FeedAcceptanceTests: XCTestCase {
     func test_onLaunch_displaysEmptyFeedWhenCustomerHasNoConnectivityAndNoCache() {
         let feed = launch()
         
-        XCTAssertEqual(feed.numberOfRenderedFeedItemViews, 0)
+        XCTAssertEqual(feed.numberOfRenderedFeedImageViews(), 0)
     }
     
     func test_onEnteringBackground_deletesExpiredFeedCache() {
@@ -57,13 +57,13 @@ class FeedAcceptanceTests: XCTestCase {
     private func launch(
         httpClient: HTTPClientStub = .offline,
         store: InMemoryFeedStore = .empty
-    ) -> FeedViewController {
+    ) -> ListViewController {
         let sut = SceneDelegate(httpClient: httpClient, store: store)
         sut.window = UIWindow(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
         sut.configureWindow()
         
         let nav = sut.window?.rootViewController as? UINavigationController
-        return nav?.topViewController as! FeedViewController
+        return nav?.topViewController as! ListViewController
     }
     
     private func enterBackground(with store: InMemoryFeedStore) {

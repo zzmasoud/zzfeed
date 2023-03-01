@@ -5,18 +5,18 @@
 import Foundation
 import ZZFeed
 
-class HTTPClientStub: HttpClient {
-    private class Task: HttpClientTask {
+class HTTPClientStub: HTTPClient {
+    private class Task: HTTPClientTask {
         func cancel() {}
     }
     
-    private let stub: (URL) -> HttpClient.Result
+    private let stub: (URL) -> HTTPClient.Result
     
-    init(stub: @escaping (URL) -> HttpClient.Result) {
+    init(stub: @escaping (URL) -> HTTPClient.Result) {
         self.stub = stub
     }
     
-    func get(from url: URL, completion: @escaping (HttpClient.Result) -> Void) -> HttpClientTask {
+    func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
         completion(stub(url))
         return Task()
     }

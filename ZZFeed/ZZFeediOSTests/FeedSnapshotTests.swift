@@ -37,18 +37,18 @@ final class FeedSnapshotTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> FeedViewController {
-        let  bundle = Bundle(for: FeedViewController.self)
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> ListViewController {
+        let  bundle = Bundle(for: ListViewController.self)
         let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
-        let feedViewController = storyboard.instantiateInitialViewController() as! FeedViewController
-        feedViewController.loadViewIfNeeded()
-        feedViewController.tableView.showsVerticalScrollIndicator = false
-        feedViewController.tableView.showsHorizontalScrollIndicator = false
+        let ListViewController = storyboard.instantiateInitialViewController() as! ListViewController
+        ListViewController.loadViewIfNeeded()
+        ListViewController.tableView.showsVerticalScrollIndicator = false
+        ListViewController.tableView.showsHorizontalScrollIndicator = false
         
-        return feedViewController
+        return ListViewController
     }
     
-    private func emptyFeed() -> [FeedItemCellController] {
+    private func emptyFeed() -> [ItemStub] {
         return []
     }
     
@@ -57,12 +57,12 @@ final class FeedSnapshotTests: XCTestCase {
             ItemStub(
                 description: "Long text, Long textLong text Long text.\ntextLong textLongtextLong textLong. ",
                 location: "Location A",
-                image: UIImage(color: .red)
+                image: UIImage.make(withColor: .red)
             ),
             ItemStub(
                 description: "Long text",
                 location: nil,
-                image: UIImage(color: .blue)
+                image: UIImage.make(withColor: .blue)
             ),
         ]
     }
@@ -83,32 +83,37 @@ final class FeedSnapshotTests: XCTestCase {
     }
 } 
 
-private extension FeedViewController {
+private extension ListViewController {
     func display(_ stubs: [ItemStub]) {
-        let cells: [FeedItemCellController] = stubs.map { stub in
-            let cellController = FeedItemCellController(delegate: stub)
+        let cells = stubs.map { stub in
+            let cellController = FeedImageCellController(viewModel: stub.viewModel, delegate: stub, selection: {})
             stub.controller = cellController
-            return cellController
+            return CellController(id: UUID(), dataSource: cellController)
         }
         display(cells)
     }
 }
 
-private class ItemStub: FeedItemCellControllerDelegate {
-    let viewModel: FeedItemViewModel<UIImage>
-    weak var controller: FeedItemCellController?
+private class ItemStub: FeedImageCellControllerDelegate {
+    let viewModel: FeedImageViewModel
+    let image: UIImage?
+    weak var controller: FeedImageCellController?
     
     init(description: String?, location: String?, image: UIImage?) {
-        viewModel = FeedItemViewModel(
+        viewModel = FeedImageViewModel(
             description: description,
-            location: location,
-            image: image,
-            isLoading: false,
-            shouldRetry: image == nil)
+            location: location)
+        self.image = image
     }
     
     func didRequestImage() {
-        controller?.display(viewModel)
+        controller?.display(ResourceLoadingViewModel(isLoading: false))
+        if let image = image {
+            controller?.display(image)
+            controller?.display(ResourceErrorViewModel.noError)
+        } else {
+            controller?.display(ResourceErrorViewModel.error(message: "Error!"))
+        }
     }
     
     func didCancelImageRequest() {}
