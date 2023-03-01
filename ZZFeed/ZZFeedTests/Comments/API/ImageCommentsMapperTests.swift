@@ -13,7 +13,7 @@ class ImageCommentsMapperTests: XCTestCase {
         
         try samples.forEach { code in
             XCTAssertThrowsError(
-                try FeedItemCommentsMapper.map(json, from: HTTPURLResponse(statusCode: code))
+                try ImageCommentsMapper.map(json, from: HTTPURLResponse(statusCode: code))
             )
         }
     }
@@ -24,7 +24,7 @@ class ImageCommentsMapperTests: XCTestCase {
 
         try samples.forEach { code in
             XCTAssertThrowsError(
-                try FeedItemCommentsMapper.map(invalidJSON, from: HTTPURLResponse(statusCode: code))
+                try ImageCommentsMapper.map(invalidJSON, from: HTTPURLResponse(statusCode: code))
             )
         }
     }
@@ -34,7 +34,7 @@ class ImageCommentsMapperTests: XCTestCase {
         let samples = [200, 201, 250, 280, 299]
 
         try samples.forEach { code in
-            let result = try FeedItemCommentsMapper.map(emptyListJSON, from: HTTPURLResponse(statusCode: code))
+            let result = try ImageCommentsMapper.map(emptyListJSON, from: HTTPURLResponse(statusCode: code))
             
             XCTAssertEqual(result, [])
         }
@@ -57,7 +57,7 @@ class ImageCommentsMapperTests: XCTestCase {
         let samples = [200, 201, 250, 280, 299]
 
         try samples.forEach { code in
-            let result = try FeedItemCommentsMapper.map(json, from: HTTPURLResponse(statusCode: code))
+            let result = try ImageCommentsMapper.map(json, from: HTTPURLResponse(statusCode: code))
             
             XCTAssertEqual(result, [item1.model, item2.model])
         }
@@ -65,8 +65,8 @@ class ImageCommentsMapperTests: XCTestCase {
         
     // MARK: - Helpers
     
-    private func makeItem(id: UUID, message: String, createdAt: (date: Date, iso8601String: String), username: String) -> (model: FeedItemComment, json: [String: Any]) {
-        let item = FeedItemComment(id: id, message: message, createdAt: createdAt.date, username: username)
+    private func makeItem(id: UUID, message: String, createdAt: (date: Date, iso8601String: String), username: String) -> (model: ImageComment, json: [String: Any]) {
+        let item = ImageComment(id: id, message: message, createdAt: createdAt.date, username: username)
         
         let json: [String: Any] = [
             "id": id.uuidString,

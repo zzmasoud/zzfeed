@@ -24,3 +24,11 @@ func anyURL() -> URL {
 func anyNSError() -> NSError {
     return NSError(domain: "any error", code: 0)
 }
+
+var feedTitle: String {
+    FeedPresenter.title
+}
+
+var commentsTitle: String {
+    "ImageCommentsPresenter.title"
+}
