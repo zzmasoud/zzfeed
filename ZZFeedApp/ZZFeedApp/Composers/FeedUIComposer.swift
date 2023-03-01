@@ -3,6 +3,7 @@
 //  
 
 import UIKit
+import Combine
 import ZZFeed
 import ZZFeediOS
 
@@ -15,31 +16,32 @@ public final class FeedUIComposer {
     
     private typealias FeedPresentationAdapter = LoadResourcePresentationAdapter<[FeedImage], FeedViewAdapter>
     
-    public static func feedComposedWith(feedLoader: @escaping () -> FeedLoader.Publisher, imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher) -> FeedViewController {
+    public static func feedComposedWith(
+        feedLoader: @escaping () -> AnyPublisher<[FeedImage], Error>,
+        imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher
+    ) -> ListViewController {
         let presentationAdapter = FeedPresentationAdapter(loader: feedLoader)
         
-        let feedController = FeedViewController.makeWith(
-            delegate: presentationAdapter,
-            title: FeedPresenter.title)
+        let feedController = ListViewController.makeWith(title: FeedPresenter.title)
+        feedController.onRefresh = presentationAdapter.loadResource
         
         presentationAdapter.presenter = LoadResourcePresenter(
             resourceView: FeedViewAdapter(
                 controller: feedController,
                 dataLoader: imageLoader),
             loadingView: WeakRefVirtualProxy(feedController),
-            errorView: WeakRefVirtualProxy(ErrorView()),
+            errorView: WeakRefVirtualProxy(feedController),
             mapper: FeedPresenter.map)
         
         return feedController
     }
 }
 
-private extension FeedViewController {
-    static func makeWith(delegate: FeedViewControllerDelegate, title: String) -> FeedViewController {
-        let bundle = Bundle(for: FeedViewController.self)
+private extension ListViewController {
+    static func makeWith(title: String) -> ListViewController {
+        let bundle = Bundle(for: ListViewController.self)
         let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
-        let feedController = storyboard.instantiateInitialViewController() as! FeedViewController
-        feedController.delegate = delegate
+        let feedController = storyboard.instantiateInitialViewController() as! ListViewController
         feedController.title = FeedPresenter.title
         return feedController
     }

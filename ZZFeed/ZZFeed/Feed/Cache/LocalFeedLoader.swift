@@ -17,8 +17,8 @@ public final class LocalFeedLoader {
 
 // MARK: - Load
 
-extension LocalFeedLoader: FeedLoader {
-    public typealias LoadResut  = FeedLoader.Result
+extension LocalFeedLoader {
+    public typealias LoadResut = Swift.Result<[FeedImage], Error>
 
     public func load(completion: @escaping (LoadResut) -> Void) {
         store.retrieve { [unowned self] result in
