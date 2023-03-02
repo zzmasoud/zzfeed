@@ -18,6 +18,7 @@
 		0419652029893C5F00F21C50 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419651F29893C5F00F21C50 /* SceneDelegate.swift */; };
 		0419652729893C6000F21C50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0419652629893C6000F21C50 /* Assets.xcassets */; };
 		0419652A29893C6000F21C50 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0419652829893C6000F21C50 /* LaunchScreen.storyboard */; };
+		042F931429B1364A001D0475 /* FeedUIIntegrationTests+LoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F931329B1364A001D0475 /* FeedUIIntegrationTests+LoaderSpy.swift */; };
 		044E68BC29894C6D00CC16F1 /* ZZFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BA29894C6D00CC16F1 /* ZZFeed.framework */; };
 		044E68BD29894C6D00CC16F1 /* ZZFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BA29894C6D00CC16F1 /* ZZFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		044E68BE29894C6D00CC16F1 /* ZZFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */; };
@@ -75,6 +76,7 @@
 		0419652629893C6000F21C50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0419652929893C6000F21C50 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0419652B29893C6000F21C50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		042F931329B1364A001D0475 /* FeedUIIntegrationTests+LoaderSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedUIIntegrationTests+LoaderSpy.swift"; sourceTree = "<group>"; };
 		044E68BA29894C6D00CC16F1 /* ZZFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ZZFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		044E68BB29894C6D00CC16F1 /* ZZFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ZZFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A064A229A616EE007E09D4 /* FeedUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUIComposer.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				04BBD64329A3FA0400D17574 /* XCTestCase+MemoryLeakTracking.swift */,
 				040B41D029AFB6B5006E2D84 /* ListViewController+TestHelpers.swift */,
 				040B41C829AFB49B006E2D84 /* FeedUIIntegrationTests+TestHelpers.swift */,
+				042F931329B1364A001D0475 /* FeedUIIntegrationTests+LoaderSpy.swift */,
 				040B41FC29AFC703006E2D84 /* CommentsUIIntegrationTests+Assertions.swift */,
 				040B41CE29AFB5D7006E2D84 /* FeedImageCell+TestHelpers.swift */,
 				04D9C4FE29A6A4250073ADBB /* HTTPClientStub.swift */,
@@ -326,6 +329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				042F931429B1364A001D0475 /* FeedUIIntegrationTests+LoaderSpy.swift in Sources */,
 				040B41D129AFB6B5006E2D84 /* ListViewController+TestHelpers.swift in Sources */,
 				04BBD64029A3F93300D17574 /* Shared.swift in Sources */,
 				04BBD64429A3FA0400D17574 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
