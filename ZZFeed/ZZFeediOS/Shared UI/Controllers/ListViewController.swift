@@ -5,14 +5,9 @@
 import UIKit
 import ZZFeed
 
-public protocol ListViewControllerDelegate {
-    func didRequestFeedRefresh()
-}
-
 public class ListViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView, ResourceErrorView {
 
     private(set) public var errorView = ErrorView()
-    public var delegate: ListViewControllerDelegate?
     private lazy var dataSource: UITableViewDiffableDataSource<Int, CellController> = {
         .init(tableView: tableView) { (tableView, index, controller) in
             controller.dataSource.tableView(tableView, cellForRowAt: index)
