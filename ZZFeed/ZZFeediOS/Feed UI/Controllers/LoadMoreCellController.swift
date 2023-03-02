@@ -9,7 +9,7 @@ public class LoadMoreCellController: NSObject, UITableViewDataSource, UITableVie
     private let cell = LoadMoreCell()
     private let callback: () -> Void
     private var offsetObserver: NSKeyValueObservation?
-    
+
     public init(callback: @escaping () -> Void) {
         self.callback = callback
     }
