@@ -50,6 +50,21 @@ final public class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.loadFeedCallCount, 3)
     }
     
+    func test_loadMoreActions_requestMoreFromLoader() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(at: 0)
+        
+        XCTAssertEqual(loader.loadMoreCallCount, 0)
+
+        sut.simulateLoadMoreFeedAction()
+        XCTAssertEqual(loader.loadMoreCallCount, 1)
+        
+        sut.simulateLoadMoreFeedAction()
+        XCTAssertEqual(loader.loadMoreCallCount, 1)
+    }
+
+    
     func test_loadingFeedIndicator_isVisibleWhileLoadingFeed() {
         let (sut, loader) = makeSUT()
         
@@ -353,6 +368,8 @@ final public class FeedUIIntegrationTests: XCTestCase {
         
         var loadFeedCallCount: Int { feedRequests.count }
         
+        private(set) var loadMoreCallCount = 0
+        
         func loadPublisher() -> AnyPublisher<Paginated<FeedImage>, Error> {
             let publisher = PassthroughSubject<Paginated<FeedImage>, Error>()
             feedRequests.append(publisher)
@@ -360,7 +377,9 @@ final public class FeedUIIntegrationTests: XCTestCase {
         }
 
         func completeFeedLoading(at index: Int, with feed: [FeedImage] = []) {
-            feedRequests[index].send(Paginated(items: feed))
+            feedRequests[index].send(Paginated(items: feed, loadMore: { [weak self] _ in
+                self?.loadMoreCallCount += 1
+            }))
         }
         
         func completeFeedLoadingWithError(at index: Int) {
