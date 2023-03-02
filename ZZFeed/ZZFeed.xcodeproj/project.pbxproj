@@ -46,6 +46,8 @@
 		0424C45728A28BA900675D4F /* ZZFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04871BE8289924B9006BCEB4 /* ZZFeed.framework */; };
 		0424C45D28A28D8F00675D4F /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC600B28A277DB00EC60C3 /* XCTestCase+MemoryLeakTracking.swift */; };
 		042704EC28BD41E5004599A7 /* LocalFeedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042704EB28BD41E5004599A7 /* LocalFeedImage.swift */; };
+		042F930C29B0FD0C001D0475 /* LoadMoreCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F930B29B0FD0C001D0475 /* LoadMoreCellController.swift */; };
+		042F930E29B0FD42001D0475 /* LoadMoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F930D29B0FD42001D0475 /* LoadMoreCell.swift */; };
 		0438C50329497B4F001FD9BB /* XCTestCase+FeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0438C50229497B4F001FD9BB /* XCTestCase+FeedStoreSpecs.swift */; };
 		0445DFD529AA96DB00F259CE /* FeedItemDataMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445DFD429AA96DB00F259CE /* FeedItemDataMapperTests.swift */; };
 		045EB2492960517E00483203 /* ZZFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04871BE8289924B9006BCEB4 /* ZZFeed.framework */; };
@@ -191,6 +193,8 @@
 		0424C45328A28BA900675D4F /* ZZFeedAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZZFeedAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0424C45528A28BA900675D4F /* ZZFeedAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZFeedAPIEndToEndTests.swift; sourceTree = "<group>"; };
 		042704EB28BD41E5004599A7 /* LocalFeedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedImage.swift; sourceTree = "<group>"; };
+		042F930B29B0FD0C001D0475 /* LoadMoreCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreCellController.swift; sourceTree = "<group>"; };
+		042F930D29B0FD42001D0475 /* LoadMoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreCell.swift; sourceTree = "<group>"; };
 		0438C50229497B4F001FD9BB /* XCTestCase+FeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FeedStoreSpecs.swift"; sourceTree = "<group>"; };
 		0445DFD429AA96DB00F259CE /* FeedItemDataMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemDataMapperTests.swift; sourceTree = "<group>"; };
 		04634FEA28C25C0200AC05AB /* ValidateFeedCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateFeedCacheUseCaseTests.swift; sourceTree = "<group>"; };
@@ -308,6 +312,7 @@
 			children = (
 				04CA424F2961B9B0005BC7F8 /* FeedImageCell.swift */,
 				048626A9299D31BF005B74E7 /* Feed.storyboard */,
+				042F930D29B0FD42001D0475 /* LoadMoreCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -542,6 +547,7 @@
 			isa = PBXGroup;
 			children = (
 				040A8C3029659E260093F6E6 /* FeedImageCellController.swift */,
+				042F930B29B0FD0C001D0475 /* LoadMoreCellController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1081,11 +1087,13 @@
 				048626AC299D3F2C005B74E7 /* UITableView+dequeue.swift in Sources */,
 				04CA42502961B9B1005BC7F8 /* FeedImageCell.swift in Sources */,
 				0484D08C29AE1B6F00EA4C11 /* ListViewController.swift in Sources */,
+				042F930C29B0FD0C001D0475 /* LoadMoreCellController.swift in Sources */,
 				0484D09429AE284D00EA4C11 /* ErrorView.swift in Sources */,
 				048626AE299D417E005B74E7 /* UIImageView+animations.swift in Sources */,
 				040B41F029AFC2A1006E2D84 /* ImageCommentCellController.swift in Sources */,
 				040A8C3129659E260093F6E6 /* FeedImageCellController.swift in Sources */,
 				040B41F229AFC2BA006E2D84 /* ImageCommentCell.swift in Sources */,
+				042F930E29B0FD42001D0475 /* LoadMoreCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
