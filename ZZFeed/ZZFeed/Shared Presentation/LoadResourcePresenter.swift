@@ -5,7 +5,7 @@
 import Foundation
 
 public final class LoadResourcePresenter<Resource, View: ResourceView> {
-    public typealias Mapper = (Resource) throws -> (View.ResourceViewModel)
+    public typealias Mapper = (Resource) throws -> View.ResourceViewModel
     
     private let resourceView: View
     private let loadingView: ResourceLoadingView
@@ -13,12 +13,12 @@ public final class LoadResourcePresenter<Resource, View: ResourceView> {
     private let mapper: Mapper
     
     public static var loadError: String {
-        return NSLocalizedString("GENERIC_CONNECTION_ERROR",
-                                 tableName: "Shared",
-                                 bundle: Bundle(for: Self.self),
-                                 comment: "Error message displayed on connection problems.")
+        NSLocalizedString("GENERIC_CONNECTION_ERROR",
+                          tableName: "Shared",
+                          bundle: Bundle(for: Self.self),
+                          comment: "Error message displayed when we can't load the resource from the server")
     }
-        
+    
     public init(resourceView: View, loadingView: ResourceLoadingView, errorView: ResourceErrorView, mapper: @escaping Mapper) {
         self.resourceView = resourceView
         self.loadingView = loadingView
@@ -39,7 +39,6 @@ public final class LoadResourcePresenter<Resource, View: ResourceView> {
     }
     
     public func didFinishLoading(with resource: Resource) {
-        loadingView.display(ResourceLoadingViewModel(isLoading: false))
         do {
             resourceView.display(try mapper(resource))
             loadingView.display(ResourceLoadingViewModel(isLoading: false))
