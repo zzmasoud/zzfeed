@@ -72,18 +72,18 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     func test_load_hasNoSideEffectsOnRetrievalError() {
         let (sut, store) = makeSUT()
         let retrievalError = anyNSError()
+        store.completeRetrieval(with: retrievalError)
 
         sut.load {_ in }
-        store.completeRetrieval(with: retrievalError)
   
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
     func test_load_hasNoSideEffectOnEmptyCache() {
         let (sut, store) = makeSUT()
+        store.completeRetrievalWithEmptyCache()
 
         sut.load {_ in }
-        store.completeRetrievalWithEmptyCache()
   
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
@@ -93,9 +93,9 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         let now = Date()
         let lessThanSevenDays: Date = now.minusFeedCacheMaxAge().addingTimeInterval(1)
         let (sut, store) = makeSUT(currentDate: { now })
+        store.completeRetrieval(with: items.local, timestamp: lessThanSevenDays)
         
         sut.load { _ in }
-        store.completeRetrieval(with: items.local, timestamp: lessThanSevenDays)
 
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
@@ -105,9 +105,9 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         let now = Date()
         let sevenDays: Date = now.minusFeedCacheMaxAge()
         let (sut, store) = makeSUT(currentDate: { now })
+        store.completeRetrieval(with: items.local, timestamp: sevenDays)
         
         sut.load { _ in }
-        store.completeRetrieval(with: items.local, timestamp: sevenDays)
 
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
@@ -117,9 +117,9 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         let now = Date()
         let moreThanSevenDays: Date = now.minusFeedCacheMaxAge().addingTimeInterval(-1)
         let (sut, store) = makeSUT(currentDate: { now })
+        store.completeRetrieval(with: items.local, timestamp: moreThanSevenDays)
         
         sut.load { _ in }
-        store.completeRetrieval(with: items.local, timestamp: moreThanSevenDays)
 
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
@@ -137,7 +137,9 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         return (sut, store)
     }
     
-    private func expect(_ sut: LocalFeedLoader, toCompleteWith expectedResult: LocalFeedLoader.LoadResut, when action: ()->Void, file: StaticString = #file, line: UInt = #line) {
+    private func expect(_ sut: LocalFeedLoader, toCompleteWith expectedResult: LocalFeedLoader.LoadResult, when action: ()->Void, file: StaticString = #file, line: UInt = #line) {
+        action()
+        
         let exp = expectation(description: "wait for completion...")
 
         sut.load { receivedResult in
@@ -154,7 +156,6 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
             exp.fulfill()
         }
         
-        action()
         wait(for: [exp], timeout: 1)
     }
 }

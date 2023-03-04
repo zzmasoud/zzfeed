@@ -18,21 +18,17 @@ public final class LocalFeedLoader {
 // MARK: - Load
 
 extension LocalFeedLoader {
-    public typealias LoadResut = Swift.Result<[FeedImage], Error>
+    public typealias LoadResult = Swift.Result<[FeedImage], Error>
 
-    public func load(completion: @escaping (LoadResut) -> Void) {
-        store.retrieve { [unowned self] result in
-            switch result {
-            case let .failure(error):
-                completion(.failure(error))
-                
-            case let .success(.fetched(items, timestamp)) where FeedCachePolicy.validate(timestamp, against: currentDate()):
-                completion(.success(items.toModels()))
-                
-            case .success:
-                completion(.success(.empty))
+    public func load(completion: @escaping (LoadResult) -> Void) {
+        completion(LoadResult {
+            if let cachedFeed = try store.retrieve(),
+               case let .fetched(feed, timestamp) = cachedFeed,
+               FeedCachePolicy.validate(timestamp, against: currentDate()) {
+                return feed.toModels()
             }
-        }
+            return []
+        })
     }
 }
 
@@ -45,28 +41,9 @@ private extension Array where Element == LocalFeedImage {
 // MARK: - Save
 
 extension LocalFeedLoader: FeedCache {
-    public typealias SaveResult = FeedCache.Result
-
-    public func save(_ items: [FeedImage], completion: @escaping (SaveResult) -> Void) {
-        store.deleteCachedFeed { [weak self]  result in
-            guard let self = self else { return }
-            
-            switch result {
-            case let .failure(error):
-                completion(.failure(error))
-
-            case .success:
-                self.cache(items, with: completion)
-
-            }
-        }
-    }
-            
-    private func cache(_ items: [FeedImage], with completion: @escaping (SaveResult) -> Void) {
-        store.insert(items.toLocal(), timestamp: self.currentDate()) { [weak self] result in
-            guard let _ = self else { return }
-            completion(result)
-        }
+    public func save(_ feed: [FeedImage]) throws {
+        try store.deleteCachedFeed()
+        try store.insert(feed.toLocal(), timestamp: currentDate())
     }
 }
 

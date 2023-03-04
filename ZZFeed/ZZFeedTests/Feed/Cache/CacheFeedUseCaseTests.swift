@@ -13,134 +13,72 @@ class CacheFeedUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [])
     }
     
-    func test_save_requestsCacheDeletion() {
+    func test_save_doesNotRequestCacheInsertionOnDeletionError() {
         let (sut, store) = makeSUT()
+        let deletionError = anyNSError()
+        store.completeDeletion(with: deletionError)
         
-        sut.save(uniqueItems().models) { _ in }
-        
-        XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed])
-    }
-    
-    func test_save_doesNotRequireCacheInsertionOnDeletionError() {
-        let error = anyNSError()
-        let (sut, store) = makeSUT()
-        
-        sut.save(uniqueItems().models) { _ in }
-        store.completeDeletion(with: error)
+        try? sut.save(uniqueItems().models)
         
         XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed])
     }
     
     func test_save_requestsNewCacheInsertionWithTimestampOnSuccessfulDeletion() {
         let timestamp = Date()
-        let items = uniqueItems()
+        let feed = uniqueItems()
         let (sut, store) = makeSUT(currentDate: { timestamp })
-        
-        sut.save(items.models) { _ in }
         store.completeDeletionSuccessfully()
         
-        XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed, .insert(items.local, timestamp)])
+        try? sut.save(feed.models)
+        
+        XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed, .insert(feed.local, timestamp)])
     }
     
     func test_save_failsOnDeletionError() {
-        let deletionError = anyNSError()
         let (sut, store) = makeSUT()
+        let deletionError = anyNSError()
         
-        var receivedError: Error?
-        let exp = expectation(description: "waiting for completion...")
-        sut.save(uniqueItems().models) { insertionResult in
-            if case let .failure(insertionError) = insertionResult {
-                receivedError = insertionError
-            }
-            exp.fulfill()
-        }
-        
-        store.completeDeletion(with: deletionError)
-        wait(for: [exp], timeout: 1)
-        
-        XCTAssertEqual(receivedError as NSError?, deletionError)
+        expect(sut, toCompleteWithError: deletionError, when: {
+            store.completeDeletion(with: deletionError)
+        })
     }
     
     func test_save_failsOnInsertionError() {
-        let insertionError = anyNSError()
         let (sut, store) = makeSUT()
+        let insertionError = anyNSError()
         
-        var receivedError: Error?
-        let exp = expectation(description: "waiting for completion...")
-        sut.save(uniqueItems().models) { insertionResult in
-            if case let .failure(insertionError) = insertionResult {
-                receivedError = insertionError
-            }
-            exp.fulfill()
-        }
-        
-        store.completeDeletionSuccessfully()
-        store.completeInsertion(with: insertionError)
-        wait(for: [exp], timeout: 1)
-        
-        XCTAssertEqual(receivedError as NSError?, insertionError)
+        expect(sut, toCompleteWithError: insertionError, when: {
+            store.completeDeletionSuccessfully()
+            store.completeInsertion(with: insertionError)
+        })
     }
     
     func test_save_succeedsOnSuccessfulCacheInsertion() {
-        let items = [uniqueFeedItem(), uniqueFeedItem()]
         let (sut, store) = makeSUT()
         
-        var receivedError: Error?
-        let exp = expectation(description: "waiting for completion...")
-        sut.save(items) { insertionResult in
-            if case let .failure(insertionError) = insertionResult {
-                receivedError = insertionError
-            }
-            exp.fulfill()
-        }
-        
-        store.completeDeletionSuccessfully()
-        store.completeInsertionSuccessfully()
-        wait(for: [exp], timeout: 1)
-        
-        XCTAssertNil(receivedError)
-    }
-    
-    func test_save_doesNotDeliverDeletionErrorAfterSUTHasbeenDeallocated() {
-        let store = FeedStoreSpy()
-        var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
-        
-        var receivedErrors = [LocalFeedLoader.SaveResult]()
-        sut?.save([uniqueFeedItem()], completion: { error in
-            receivedErrors.append(error)
+        expect(sut, toCompleteWithError: nil, when: {
+            store.completeDeletionSuccessfully()
+            store.completeInsertionSuccessfully()
         })
-        
-        sut = nil
-        store.completeDeletion(with: anyNSError())
-        
-        XCTAssertTrue(receivedErrors.isEmpty)
     }
     
-    func test_save_doesNotDeliverInsertionErrorAfterSUTHasbeenDeallocated() {
-        let store = FeedStoreSpy()
-        var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
-        
-        var receivedErrors = [LocalFeedLoader.SaveResult]()
-        sut?.save([uniqueFeedItem()], completion: { error in
-            receivedErrors.append(error)
-        })
-        
-        store.completeDeletionSuccessfully()
-        sut = nil
-        store.completeInsertion(with: anyNSError())
-        
-        XCTAssertTrue(receivedErrors.isEmpty)
-    }
+    // MARK: - Helpers
     
-    // - MARK: Helpers
-    
-    private func makeSUT(currentDate: @escaping ()->Date = Date.init, file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStoreSpy) {
+    private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStoreSpy) {
         let store = FeedStoreSpy()
         let sut = LocalFeedLoader(store: store, currentDate: currentDate)
-        
         trackForMemoryLeaks(store, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
-        
         return (sut, store)
+    }
+    
+    private func expect(_ sut: LocalFeedLoader, toCompleteWithError expectedError: NSError?, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+        action()
+        
+        do {
+            try sut.save(uniqueItems().models)
+        } catch {
+            XCTAssertEqual(error as NSError?, expectedError, file: file, line: line)
+        }
     }
 }
