@@ -5,24 +5,24 @@
 import Foundation
 import ZZFeed
 
-final class NullStore: FeedStore, FeedImageDataStore {
+class NullStore {}
+
+extension NullStore: FeedStore {
     func deleteCachedFeed(completion: @escaping DeletionCompletion) {
         completion(.success(()))
     }
     
-    func insert(_ items: [ZZFeed.LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
+    func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
         completion(.success(()))
     }
     
     func retrieve(completion: @escaping RetrievalCompletion) {
         completion(.success(.empty))
     }
+}
+
+extension NullStore: FeedImageDataStore {
+    func insert(_ data: Data, for url: URL) throws {}
     
-    func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.RetrievalResult) -> Void) {
-        completion(.success(.none))
-    }
-    
-    func insert(data: Data, for url: URL, completion: @escaping (InsertionResult) -> Void) {
-        completion(.success(()))
-    }
+    func retrieve(dataForURL url: URL) throws -> Data? { .none }
 }
