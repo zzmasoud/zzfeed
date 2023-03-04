@@ -28,7 +28,7 @@ class FeedImageDataStoreSpy: FeedImageDataStore {
         retrievalResult = .success(data)
     }
     
-    func insert(data: Data, for url: URL) throws {
+    func insert(_ data: Data, for url: URL) throws {
         receivedMessages.append(.insert(data: data, for: url))
         try insertionResult?.get()
     }
