@@ -5,7 +5,7 @@
 import Foundation
 import ZZFeed
 
-class FeedItemDataStoreSpy: FeedImageDataStore {
+class FeedImageDataStoreSpy: FeedImageDataStore {
     enum Message: Equatable {
         case retrieve(dataForURL: URL)
         case insert(data: Data, for: URL)
