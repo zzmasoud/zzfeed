@@ -43,11 +43,14 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func getFeedResult(file: StaticString = #file, line: UInt = #line) -> FeedLoader.Result? {
+    private typealias FeedLoaderResult = Result<[FeedImage], Error>
+    private typealias FeedImageDataLoaderLoadResult = Result<Data, Error>
+    
+    private func getFeedResult(file: StaticString = #file, line: UInt = #line) -> FeedLoaderResult? {
         let client = makeEphemeralClient()
         let exp = expectation(description: "Wait for load completion")
         
-        var receivedResult: FeedLoader.Result?
+        var receivedResult: FeedLoaderResult?
         client.get(from: feedTestServerURL) { result in
             receivedResult = result.flatMap { (data, response) in
                 do {
@@ -63,12 +66,12 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
         return receivedResult
     }
     
-    private func getFeedItemImageDataResult(file: StaticString = #file, line: UInt = #line) -> FeedImageDataLoader.LoadResult? {
+    private func getFeedItemImageDataResult(file: StaticString = #file, line: UInt = #line) -> FeedImageDataLoaderLoadResult? {
         let client = makeEphemeralClient()
         let testServerURL = feedTestServerURL.appendingPathComponent("73A7F70C-75DA-4C2E-B5A3-EED40DC53AA6/image")
         let exp = expectation(description: "Wait for load completion")
         
-        var receivedResult: FeedImageDataLoader.LoadResult?
+        var receivedResult: FeedImageDataLoaderLoadResult?
         
         client.get(from: testServerURL) { result in
             receivedResult = result.flatMap { (data, response) in

@@ -59,7 +59,7 @@ extension LocalFeedImageDataLoader: FeedImageDataCache {
     public enum SaveError: Swift.Error {
         case failed
     }
-
+    
     public func save(data: Data, for url: URL) throws {
         do {
             try store.insert(data: data, for: url)
@@ -73,38 +73,16 @@ extension LocalFeedImageDataLoader: FeedImageDataLoader {
     public enum LoadError: Swift.Error {
         case failed, notFound
     }
-
-    public func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.LoadResult) -> Void) -> FeedImageDataLoaderTask {
-        let task = LoadItemDataTask(completion: completion)
-        task.complete(
-            with: Swift.Result {
-                try store.retrieve(dataForURL: url)
-            }
-            .mapError { _ in LoadError.failed }
-            .flatMap { data in
-                data.map { .success($0) } ?? .failure(LoadError.notFound)
-            })
-
-        return task
-    }
     
-    private final class LoadItemDataTask: FeedImageDataLoaderTask {
-        private var completion: ((FeedImageDataLoader.LoadResult) -> Void)?
-        
-        init(completion: @escaping (FeedImageDataLoader.LoadResult) -> Void) {
-            self.completion = completion
+    public func loadImageData(from url: URL) throws -> Data {
+        do {
+            if let data = try store.retrieve(dataForURL: url) {
+                return data
+            }
+        } catch {
+            throw LoadError.failed
         }
         
-        func complete(with result: FeedImageDataLoader.LoadResult) {
-            completion?(result)
-        }
-        
-        func cancel() {
-            preventFurtherCompletions()
-        }
-        
-        private func preventFurtherCompletions() {
-            completion = nil
-        }
-    }
+        throw LoadError.notFound
+    }    
 }
