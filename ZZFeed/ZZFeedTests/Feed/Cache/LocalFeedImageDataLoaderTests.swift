@@ -48,36 +48,7 @@ class LoadFeedItemDataFromCacheUseCaseTests: XCTestCase {
             store.complete(with: data)
         }
     }
-    
-    func test_loadImageDataFromURL_doesNotDeliverResultAfterCancellingTask() {
-        let (sut, store) = makeSUT()
-        let data = Data()
         
-        var capturedResults = [FeedImageDataLoader.LoadResult]()
-        let task = sut.loadImageData(from: anyURL(), completion: { capturedResults.append($0)} )
-        task.cancel()
-        
-        store.complete(with: .none)
-        store.complete(with: anyNSError())
-        store.complete(with: data)
-
-        XCTAssertTrue(capturedResults.isEmpty)
-    }
-    
-    func test_loadImageDataFromURL_doesNotDeliverResultAfterInstanceIsDeallocated() {
-        let store = FeedItemDataStoreSpy()
-        var sut: LocalFeedImageDataLoader? = LocalFeedImageDataLoader(store: store)
-        
-        var capturedResults = [FeedImageDataLoader.LoadResult]()
-        _ = sut?.loadImageData(from: anyURL(), completion: { capturedResults.append($0)} )
-        
-        sut = nil
-        
-        store.complete(with: .none)
-
-        XCTAssertTrue(capturedResults.isEmpty)
-    }
-    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedImageDataLoader, store: FeedItemDataStoreSpy) {
@@ -104,6 +75,9 @@ class LoadFeedItemDataFromCacheUseCaseTests: XCTestCase {
     
     private func expect(_ sut: LocalFeedImageDataLoader, toCompleteWith expectedResult: LocalFeedImageDataLoader.LoadResult, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
         let exp = expectation(description: "waiting for completion...")
+        
+        action()
+
         _ = sut.loadImageData(from: anyURL(), completion: { result in
             switch (result, expectedResult) {
             case let (.failure(error), .failure(expectedError)):
@@ -118,9 +92,7 @@ class LoadFeedItemDataFromCacheUseCaseTests: XCTestCase {
             
             exp.fulfill()
         })
-        
-        action()
-        
+                
         wait(for: [exp], timeout: 1)
     }
 }
