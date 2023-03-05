@@ -7,14 +7,15 @@ import ZZFeediOS
 @testable import ZZFeed
 
 class ImageCommentsSnapshotTests: XCTestCase {
-    func test_feedWithContent() {
+    
+    func test_listWithComments() {
         let sut = makeSUT()
-
+        
         sut.display(comments())
-
-        assert(snapshot: sut.snapshot(for: .iPhone13(style: .light)), named: "IMAGE_COMMENT_WITH_CONTENT_light")
-        assert(snapshot: sut.snapshot(for: .iPhone13(style: .dark)), named: "IMAGE_COMMENT_WITH_CONTENT_dark")
-        assert(snapshot: sut.snapshot(for: .iPhone13(style: .light, contentSize: .extraExtraExtraLarge)), named: "IMAGE_COMMENT_WITH_CONTENT_light_extraExtraExtraLarge")
+        
+        assert(snapshot: sut.snapshot(for: .iPhone13(style: .light)), named: "IMAGE_COMMENTS_light")
+        assert(snapshot: sut.snapshot(for: .iPhone13(style: .dark)), named: "IMAGE_COMMENTS_dark")
+        assert(snapshot: sut.snapshot(for: .iPhone13(style: .light, contentSize: .extraExtraExtraLarge)), named: "IMAGE_COMMENTS_light_extraExtraExtraLarge")
     }
 
     // MARK: - Helpers
