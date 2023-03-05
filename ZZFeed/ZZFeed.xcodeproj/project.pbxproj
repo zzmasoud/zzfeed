@@ -106,6 +106,7 @@
 		04DB432E29ADE68300F8F11F /* FeedImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB432D29ADE68300F8F11F /* FeedImagePresenter.swift */; };
 		04DB433029ADE75400F8F11F /* FeedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB432F29ADE75400F8F11F /* FeedImageViewModel.swift */; };
 		04E9414C29B5123C00976B7A /* CustomLoadableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9414B29B5123C00976B7A /* CustomLoadableView.swift */; };
+		04E9414E29B5188400976B7A /* ListSnapshotsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9414D29B5188400976B7A /* ListSnapshotsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +252,7 @@
 		04DB432D29ADE68300F8F11F /* FeedImagePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedImagePresenter.swift; sourceTree = "<group>"; };
 		04DB432F29ADE75400F8F11F /* FeedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewModel.swift; sourceTree = "<group>"; };
 		04E9414B29B5123C00976B7A /* CustomLoadableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoadableView.swift; sourceTree = "<group>"; };
+		04E9414D29B5188400976B7A /* ListSnapshotsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSnapshotsTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -622,6 +624,7 @@
 			isa = PBXGroup;
 			children = (
 				0489829B29A93B6E001AC4E5 /* Helpers */,
+				04E9414D29B5188400976B7A /* ListSnapshotsTests.swift */,
 				0489829329A8E016001AC4E5 /* FeedSnapshotTests.swift */,
 				040B41F629AFC358006E2D84 /* ImageCommentsSnapshotTests.swift */,
 			);
@@ -1093,6 +1096,7 @@
 				048982A129A93D2D001AC4E5 /* UIViewController+Snapshot.swift in Sources */,
 				0489829429A8E016001AC4E5 /* FeedSnapshotTests.swift in Sources */,
 				0489829D29A93BE1001AC4E5 /* XCTestCase+Snapshot.swift in Sources */,
+				04E9414E29B5188400976B7A /* ListSnapshotsTests.swift in Sources */,
 				040B41F729AFC358006E2D84 /* ImageCommentsSnapshotTests.swift in Sources */,
 				0489829A29A920F5001AC4E5 /* UIImage+TestHelpers.swift in Sources */,
 			);
