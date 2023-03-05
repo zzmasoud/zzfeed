@@ -22,6 +22,10 @@ extension ManagedCache {
         return ManagedCache(context: context)
     }
     
+    static func deleteCache(in context: NSManagedObjectContext) throws {
+        try find(in: context).map(context.delete).map(context.save)
+    }
+    
     var localFeed: [LocalFeedImage] {
         return feed.compactMap { ($0 as? ManagedFeedItem)?.local }
     }

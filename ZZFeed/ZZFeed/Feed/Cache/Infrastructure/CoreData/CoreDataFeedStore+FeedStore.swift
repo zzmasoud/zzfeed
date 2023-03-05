@@ -4,50 +4,36 @@
 
 import CoreData
 
+import CoreData
+
 extension CoreDataFeedStore: FeedStore {
-    public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-        performAsync { context in
-            do {
-                try ManagedCache
-                    .find(in: context)
-                    .map(context.delete)
-                    .map(context.save)
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
+    public func retrieve() throws -> CachedFeed? {
+        try performSync { context in
+            Result {
+                try ManagedCache.find(in: context).map {
+                    CachedFeed.fetched(items: $0.localFeed, timestamp: $0.timestamp)
+                }
             }
         }
     }
     
-    public func insert(_ feed: [ZZFeed.LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
-        performAsync { context in
-            do {
+    public func insert(_ feed: [LocalFeedImage], timestamp: Date) throws {
+        try performSync { context in
+            Result {
                 let managedCache = try ManagedCache.newUniqueInstance(in: context)
                 managedCache.timestamp = timestamp
                 managedCache.feed = ManagedFeedItem.items(feed: feed, in: context)
-                
                 try context.save()
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
             }
         }
     }
     
-    public func retrieve(completion: @escaping RetrievalCompletion) {
-        performAsync { context in
-            do {
-                let request = NSFetchRequest<ManagedCache>(entityName: ManagedCache.entity().name!)
-                request.returnsObjectsAsFaults = false
-                if let cache = try context.fetch(request).first {
-                    completion(.success(CachedFeed.fetched(items: cache.localFeed, timestamp: cache.timestamp)))
-                } else {
-                    completion(.success(.empty))
-                }
-            } catch {
-                completion(.failure(error))
+    public func deleteCachedFeed() throws {
+        try performSync { context in
+            Result {
+                try ManagedCache.deleteCache(in: context)
             }
         }
     }
-
+    
 }
