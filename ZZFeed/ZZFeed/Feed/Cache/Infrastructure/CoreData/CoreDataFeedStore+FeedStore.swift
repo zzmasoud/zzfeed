@@ -11,7 +11,7 @@ extension CoreDataFeedStore: FeedStore {
         try performSync { context in
             Result {
                 try ManagedCache.find(in: context).map {
-                    CachedFeed.fetched(items: $0.localFeed, timestamp: $0.timestamp)
+                    CachedFeed(feed: $0.localFeed, timestamp: $0.timestamp)
                 }
             }
         }

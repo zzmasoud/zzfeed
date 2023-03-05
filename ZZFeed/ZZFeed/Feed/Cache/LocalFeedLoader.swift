@@ -28,9 +28,8 @@ extension LocalFeedLoader: FeedCache {
 extension LocalFeedLoader {
     public func load() throws -> [FeedImage] {
         if let cache = try store.retrieve(),
-           case let .fetched(feed, timestamp) = cache,
-           FeedCachePolicy.validate(timestamp, against: currentDate()) {
-            return feed.toModels()
+           FeedCachePolicy.validate(cache.timestamp, against: currentDate()) {
+            return cache.feed.toModels()
         }
         return []
     }
@@ -44,8 +43,7 @@ extension LocalFeedLoader {
     public func validateCache() throws {
         do {
             if let cache = try store.retrieve(),
-               case let .fetched(_, timestamp) = cache,
-               !FeedCachePolicy.validate(timestamp, against: currentDate()) {
+               !FeedCachePolicy.validate(cache.timestamp, against: currentDate()) {
                 throw InvalidCache()
             }
         } catch {
