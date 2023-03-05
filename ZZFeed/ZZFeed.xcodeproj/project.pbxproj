@@ -105,6 +105,7 @@
 		04D12EE428C67FE400887712 /* HelperMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D12EE328C67FE400887712 /* HelperMethods.swift */; };
 		04DB432E29ADE68300F8F11F /* FeedImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB432D29ADE68300F8F11F /* FeedImagePresenter.swift */; };
 		04DB433029ADE75400F8F11F /* FeedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DB432F29ADE75400F8F11F /* FeedImageViewModel.swift */; };
+		04E9414C29B5123C00976B7A /* CustomLoadableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9414B29B5123C00976B7A /* CustomLoadableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -249,6 +250,7 @@
 		04D12EE328C67FE400887712 /* HelperMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperMethods.swift; sourceTree = "<group>"; };
 		04DB432D29ADE68300F8F11F /* FeedImagePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedImagePresenter.swift; sourceTree = "<group>"; };
 		04DB432F29ADE75400F8F11F /* FeedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewModel.swift; sourceTree = "<group>"; };
+		04E9414B29B5123C00976B7A /* CustomLoadableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoadableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,6 +311,7 @@
 				04CA424F2961B9B0005BC7F8 /* FeedImageCell.swift */,
 				048626A9299D31BF005B74E7 /* Feed.storyboard */,
 				042F930D29B0FD42001D0475 /* LoadMoreCell.swift */,
+				04E9414B29B5123C00976B7A /* CustomLoadableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1074,6 +1077,7 @@
 				042F930C29B0FD0C001D0475 /* LoadMoreCellController.swift in Sources */,
 				0484D09429AE284D00EA4C11 /* ErrorView.swift in Sources */,
 				048626AE299D417E005B74E7 /* UIImageView+animations.swift in Sources */,
+				04E9414C29B5123C00976B7A /* CustomLoadableView.swift in Sources */,
 				040B41F029AFC2A1006E2D84 /* ImageCommentCellController.swift in Sources */,
 				040A8C3129659E260093F6E6 /* FeedImageCellController.swift in Sources */,
 				040B41F229AFC2BA006E2D84 /* ImageCommentCell.swift in Sources */,
